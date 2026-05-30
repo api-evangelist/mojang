@@ -1,0 +1,47 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "mojang": "https://api.mojang.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "NameChange": "mojang:NameChange",
+    "Profile": "mojang:Profile",
+    "SaleStatistics": "mojang:SaleStatistics",
+    "SaleStatisticsRequest": "mojang:SaleStatisticsRequest",
+    "changedToAt": {
+      "@id": "mojang:changedToAt",
+      "@type": "xsd:integer"
+    },
+    "demo": {
+      "@id": "mojang:demo",
+      "@type": "xsd:boolean"
+    },
+    "id": {
+      "@id": "mojang:id",
+      "@type": "xsd:string"
+    },
+    "last24h": {
+      "@id": "mojang:last24h",
+      "@type": "xsd:integer"
+    },
+    "legacy": {
+      "@id": "mojang:legacy",
+      "@type": "xsd:boolean"
+    },
+    "metricKeys": {
+      "@id": "mojang:metricKeys",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "name": "schema:name",
+    "saleVelocityPerSeconds": {
+      "@id": "mojang:saleVelocityPerSeconds",
+      "@type": "xsd:float"
+    },
+    "total": {
+      "@id": "mojang:total",
+      "@type": "xsd:integer"
+    }
+  }
+}

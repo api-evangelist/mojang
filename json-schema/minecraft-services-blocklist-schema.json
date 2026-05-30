@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-blocklist-schema.json",
+  "title": "Blocklist",
+  "description": "Player privacy blocklist.",
+  "type": "object",
+  "properties": {
+    "blockedProfiles": {
+      "type": "array",
+      "description": "UUIDs of blocked players.",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "853c80ef3c3749fdaa49938b674adae6"
+      ]
+    }
+  }
+}

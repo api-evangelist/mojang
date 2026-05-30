@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/public-api-sale-statistics-request-structure.json",
+  "name": "SaleStatisticsRequest",
+  "description": "Filter for the /orders/statistics request.",
+  "type": "object",
+  "properties": {
+    "metricKeys": {
+      "type": "array",
+      "description": "SKUs to aggregate.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "item_sold_minecraft",
+          "prepaid_card_redeemed_minecraft",
+          "item_sold_cobalt",
+          "item_sold_scrolls",
+          "item_sold_dungeons"
+        ]
+      },
+      "example": [
+        "item_sold_minecraft",
+        "prepaid_card_redeemed_minecraft"
+      ]
+    }
+  },
+  "required": [
+    "metricKeys"
+  ]
+}

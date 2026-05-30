@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: "Mojang Session Server \u2014 Textures"
+  description: "Mojang Session Server \u2014 Textures. 1 operations. Lead operation: Get Session Profile (Skin and Cape). Self-contained Naftiko capability covering one Mojang business surface."
+  tags:
+  - Mojang
+  - Minecraft
+  - Textures
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  keys:
+    MOJANG_ACCESS_TOKEN: MOJANG_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: mojang-session-server-textures
+    baseUri: https://sessionserver.mojang.com
+    description: "Mojang Session Server \u2014 textures. Self-contained, no shared references."
+    resources:
+    - name: session-minecraft-profile-uuid
+      path: /session/minecraft/profile/{uuid}
+      operations:
+      - name: getSessionProfile
+        method: GET
+        description: Get Session Profile (Skin and Cape)
+        inputParameters:
+        - name: uuid
+          in: path
+          type: string
+          required: true
+          description: Player UUID (hyphenated or unhyphenated).
+        - name: unsigned
+          in: query
+          type: boolean
+          required: false
+          description: Set to false to include the Mojang signature on each property. When omitted, properties are returned without signature.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: mojang-session-server-textures-rest
+    port: 8080
+    description: "REST adapter for Mojang Session Server \u2014 textures. One Spectral-compliant resource per consumed operation, prefixed with /v1."
+    resources:
+    - path: /v1/session/minecraft/profile/{uuid}
+      name: session-minecraft-profile-uuid
+      description: REST surface for /session/minecraft/profile/{uuid}.
+      operations:
+      - method: GET
+        name: getSessionProfile
+        description: Get Session Profile (Skin and Cape)
+        call: mojang-session-server-textures.getSessionProfile
+        with:
+          uuid: rest.uuid
+          unsigned: rest.unsigned
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: mojang-session-server-textures-mcp
+    port: 9090
+    transport: http
+    description: "MCP adapter for Mojang Session Server \u2014 textures. One tool per consumed operation, routed inline through this capability's consumes block."
+    tools:
+    - name: get-session-profile
+      description: Get Session Profile (Skin and Cape)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: mojang-session-server-textures.getSessionProfile
+      with:
+        uuid: tools.uuid
+        unsigned: tools.unsigned
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,68 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: "Minecraft Services API \u2014 Entitlements"
+  description: "Minecraft Services API \u2014 Entitlements. 1 operations. Lead operation: Get Minecraft Entitlements. Self-contained Naftiko capability covering one Mojang business surface."
+  tags:
+  - Mojang
+  - Minecraft
+  - Entitlements
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  keys:
+    MINECRAFT_ACCESS_TOKEN: MINECRAFT_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: mojang-minecraft-services-entitlements
+    baseUri: https://api.minecraftservices.com
+    description: "Minecraft Services API \u2014 entitlements. Self-contained, no shared references."
+    authentication:
+      type: bearer
+      token: '{{env.MINECRAFT_ACCESS_TOKEN}}'
+    resources:
+    - name: entitlements-mcstore
+      path: /entitlements/mcstore
+      operations:
+      - name: getMinecraftEntitlements
+        method: GET
+        description: Get Minecraft Entitlements
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: mojang-minecraft-services-entitlements-rest
+    port: 8080
+    description: "REST adapter for Minecraft Services API \u2014 entitlements. One Spectral-compliant resource per consumed operation, prefixed with /v1."
+    resources:
+    - path: /v1/entitlements/mcstore
+      name: entitlements-mcstore
+      description: REST surface for /entitlements/mcstore.
+      operations:
+      - method: GET
+        name: getMinecraftEntitlements
+        description: Get Minecraft Entitlements
+        call: mojang-minecraft-services-entitlements.getMinecraftEntitlements
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: mojang-minecraft-services-entitlements-mcp
+    port: 9090
+    transport: http
+    description: "MCP adapter for Minecraft Services API \u2014 entitlements. One tool per consumed operation, routed inline through this capability's consumes block."
+    tools:
+    - name: get-minecraft-entitlements
+      description: Get Minecraft Entitlements
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: mojang-minecraft-services-entitlements.getMinecraftEntitlements
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-friend-update-request-schema.json",
+  "title": "FriendUpdateRequest",
+  "description": "Body for PUT /friends.",
+  "type": "object",
+  "properties": {
+    "profileName": {
+      "type": "string",
+      "description": "Friend's username (mutually exclusive with profileId).",
+      "example": "Dinnerbone"
+    },
+    "profileId": {
+      "type": "string",
+      "description": "Friend's UUID (mutually exclusive with profileName).",
+      "example": "853c80ef3c3749fdaa49938b674adae6"
+    },
+    "updateType": {
+      "type": "string",
+      "enum": [
+        "ADD",
+        "REMOVE"
+      ],
+      "example": "ADD"
+    }
+  },
+  "required": [
+    "updateType"
+  ]
+}

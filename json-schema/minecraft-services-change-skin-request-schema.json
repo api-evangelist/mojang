@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-change-skin-request-schema.json",
+  "title": "ChangeSkinRequest",
+  "description": "JSON body for the URL-based skin-change call.",
+  "type": "object",
+  "properties": {
+    "variant": {
+      "type": "string",
+      "enum": [
+        "classic",
+        "slim"
+      ],
+      "example": "classic"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Public URL of the PNG skin image.",
+      "example": "https://example.com/skins/my-skin.png"
+    }
+  },
+  "required": [
+    "variant",
+    "url"
+  ]
+}

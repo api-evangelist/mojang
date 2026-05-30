@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/public-api-name-change-structure.json",
+  "name": "NameChange",
+  "description": "A historical name-change entry (deprecated endpoint).",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Player username at the time of the change.",
+      "example": "jeb_"
+    },
+    "changedToAt": {
+      "type": "int64",
+      "description": "Unix epoch milliseconds at which the player changed to this name. Absent for the original account name.",
+      "example": 1417597263000
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

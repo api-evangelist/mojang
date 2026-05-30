@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-profile-schema.json",
+  "title": "Profile",
+  "description": "A Minecraft player profile (id / name pair).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Player UUID without hyphens.",
+      "example": "853c80ef3c3749fdaa49938b674adae6"
+    },
+    "name": {
+      "type": "string",
+      "description": "Current player username.",
+      "example": "jeb_"
+    }
+  },
+  "required": [
+    "id",
+    "name"
+  ]
+}

@@ -1,0 +1,78 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: "Minecraft Services API \u2014 Authentication"
+  description: "Minecraft Services API \u2014 Authentication. 1 operations. Lead operation: Login With Xbox. Self-contained Naftiko capability covering one Mojang business surface."
+  tags:
+  - Mojang
+  - Minecraft
+  - Authentication
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  keys:
+    MINECRAFT_ACCESS_TOKEN: MINECRAFT_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: mojang-minecraft-services-authentication
+    baseUri: https://api.minecraftservices.com
+    description: "Minecraft Services API \u2014 authentication. Self-contained, no shared references."
+    authentication:
+      type: bearer
+      token: '{{env.MINECRAFT_ACCESS_TOKEN}}'
+    resources:
+    - name: authentication-login-with-xbox
+      path: /authentication/login_with_xbox
+      operations:
+      - name: loginWithXbox
+        method: POST
+        description: Login With Xbox
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: XSTS identity token wrapped in Mojang's expected envelope.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: mojang-minecraft-services-authentication-rest
+    port: 8080
+    description: "REST adapter for Minecraft Services API \u2014 authentication. One Spectral-compliant resource per consumed operation, prefixed with /v1."
+    resources:
+    - path: /v1/authentication/login-with-xbox
+      name: authentication-login-with-xbox
+      description: REST surface for /authentication/login_with_xbox.
+      operations:
+      - method: POST
+        name: loginWithXbox
+        description: Login With Xbox
+        call: mojang-minecraft-services-authentication.loginWithXbox
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: mojang-minecraft-services-authentication-mcp
+    port: 9090
+    transport: http
+    description: "MCP adapter for Minecraft Services API \u2014 authentication. One tool per consumed operation, routed inline through this capability's consumes block."
+    tools:
+    - name: login-xbox
+      description: Login With Xbox
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: mojang-minecraft-services-authentication.loginWithXbox
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

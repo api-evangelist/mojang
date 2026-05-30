@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-public-key-entry-schema.json",
+  "title": "PublicKeyEntry",
+  "description": "A single Base64-encoded DER public key entry.",
+  "type": "object",
+  "properties": {
+    "publicKey": {
+      "type": "string",
+      "description": "Base64-encoded DER public key.",
+      "example": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC..."
+    }
+  },
+  "required": [
+    "publicKey"
+  ]
+}

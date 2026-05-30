@@ -1,0 +1,110 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: "Minecraft Services API \u2014 Skins"
+  description: "Minecraft Services API \u2014 Skins. 2 operations. Lead operation: Change Skin. Self-contained Naftiko capability covering one Mojang business surface."
+  tags:
+  - Mojang
+  - Minecraft
+  - Skins
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  keys:
+    MINECRAFT_ACCESS_TOKEN: MINECRAFT_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: mojang-minecraft-services-skins
+    baseUri: https://api.minecraftservices.com
+    description: "Minecraft Services API \u2014 skins. Self-contained, no shared references."
+    authentication:
+      type: bearer
+      token: '{{env.MINECRAFT_ACCESS_TOKEN}}'
+    resources:
+    - name: minecraft-profile-skins
+      path: /minecraft/profile/skins
+      operations:
+      - name: changeSkin
+        method: POST
+        description: Change Skin
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: Skin variant plus either a URL or an uploaded image file.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: minecraft-profile-skins-active
+      path: /minecraft/profile/skins/active
+      operations:
+      - name: resetSkin
+        method: DELETE
+        description: Reset Skin
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: mojang-minecraft-services-skins-rest
+    port: 8080
+    description: "REST adapter for Minecraft Services API \u2014 skins. One Spectral-compliant resource per consumed operation, prefixed with /v1."
+    resources:
+    - path: /v1/minecraft/profile/skins
+      name: minecraft-profile-skins
+      description: REST surface for /minecraft/profile/skins.
+      operations:
+      - method: POST
+        name: changeSkin
+        description: Change Skin
+        call: mojang-minecraft-services-skins.changeSkin
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/minecraft/profile/skins/active
+      name: minecraft-profile-skins-active
+      description: REST surface for /minecraft/profile/skins/active.
+      operations:
+      - method: DELETE
+        name: resetSkin
+        description: Reset Skin
+        call: mojang-minecraft-services-skins.resetSkin
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: mojang-minecraft-services-skins-mcp
+    port: 9090
+    transport: http
+    description: "MCP adapter for Minecraft Services API \u2014 skins. One tool per consumed operation, routed inline through this capability's consumes block."
+    tools:
+    - name: change-skin
+      description: Change Skin
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: mojang-minecraft-services-skins.changeSkin
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: reset-skin
+      description: Reset Skin
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: mojang-minecraft-services-skins.resetSkin
+      outputParameters:
+      - type: object
+        mapping: $.

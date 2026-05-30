@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-skin-schema.json",
+  "title": "Skin",
+  "description": "A skin owned by the authenticated player.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Skin UUID.",
+      "example": "cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "INACTIVE"
+      ],
+      "example": "ACTIVE"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Texture URL.",
+      "example": "https://textures.minecraft.net/texture/abc123..."
+    },
+    "textureKey": {
+      "type": "string",
+      "description": "Texture content hash.",
+      "example": "abc123def456..."
+    },
+    "variant": {
+      "type": "string",
+      "enum": [
+        "CLASSIC",
+        "SLIM"
+      ],
+      "example": "CLASSIC"
+    },
+    "alias": {
+      "type": "string",
+      "description": "Skin alias / nickname.",
+      "example": "Steve"
+    }
+  },
+  "required": [
+    "id",
+    "state",
+    "url",
+    "variant"
+  ]
+}

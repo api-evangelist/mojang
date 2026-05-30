@@ -1,0 +1,100 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: "Minecraft Services API \u2014 Keys"
+  description: "Minecraft Services API \u2014 Keys. 2 operations. Lead operation: Get Player Certificates. Self-contained Naftiko capability covering one Mojang business surface."
+  tags:
+  - Mojang
+  - Minecraft
+  - Keys
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  keys:
+    MINECRAFT_ACCESS_TOKEN: MINECRAFT_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: mojang-minecraft-services-keys
+    baseUri: https://api.minecraftservices.com
+    description: "Minecraft Services API \u2014 keys. Self-contained, no shared references."
+    authentication:
+      type: bearer
+      token: '{{env.MINECRAFT_ACCESS_TOKEN}}'
+    resources:
+    - name: player-certificates
+      path: /player/certificates
+      operations:
+      - name: getPlayerCertificates
+        method: POST
+        description: Get Player Certificates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: publickeys
+      path: /publickeys
+      operations:
+      - name: getPublicKeys
+        method: GET
+        description: Get Mojang Public Keys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: mojang-minecraft-services-keys-rest
+    port: 8080
+    description: "REST adapter for Minecraft Services API \u2014 keys. One Spectral-compliant resource per consumed operation, prefixed with /v1."
+    resources:
+    - path: /v1/player/certificates
+      name: player-certificates
+      description: REST surface for /player/certificates.
+      operations:
+      - method: POST
+        name: getPlayerCertificates
+        description: Get Player Certificates
+        call: mojang-minecraft-services-keys.getPlayerCertificates
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/publickeys
+      name: publickeys
+      description: REST surface for /publickeys.
+      operations:
+      - method: GET
+        name: getPublicKeys
+        description: Get Mojang Public Keys
+        call: mojang-minecraft-services-keys.getPublicKeys
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: mojang-minecraft-services-keys-mcp
+    port: 9090
+    transport: http
+    description: "MCP adapter for Minecraft Services API \u2014 keys. One tool per consumed operation, routed inline through this capability's consumes block."
+    tools:
+    - name: get-player-certificates
+      description: Get Player Certificates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: mojang-minecraft-services-keys.getPlayerCertificates
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-public-keys
+      description: Get Mojang Public Keys
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: mojang-minecraft-services-keys.getPublicKeys
+      outputParameters:
+      - type: object
+        mapping: $.

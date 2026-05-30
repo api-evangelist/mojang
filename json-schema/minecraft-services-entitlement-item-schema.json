@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-entitlement-item-schema.json",
+  "title": "EntitlementItem",
+  "description": "A single Minecraft entitlement item.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Entitlement name (e.g. product_minecraft, game_minecraft).",
+      "example": "product_minecraft"
+    },
+    "source": {
+      "type": "string",
+      "description": "How the entitlement was granted (PURCHASE, GIFT, MS_STORE).",
+      "example": "PURCHASE"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Mojang signature for this item.",
+      "example": "a1b2c3..."
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

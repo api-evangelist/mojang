@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/minecraft-services-profanity-filter-preferences-structure.json",
+  "name": "ProfanityFilterPreferences",
+  "description": "Profanity filter settings.",
+  "type": "object",
+  "properties": {
+    "profanityFilterOn": {
+      "type": "boolean",
+      "description": "Master toggle for the profanity filter on inbound chat.",
+      "example": true
+    }
+  }
+}

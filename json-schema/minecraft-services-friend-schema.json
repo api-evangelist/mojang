@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-friend-schema.json",
+  "title": "Friend",
+  "description": "A friend or pending friend.",
+  "type": "object",
+  "properties": {
+    "profile": {
+      "$ref": "#/components/schemas/Profile"
+    },
+    "addedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the friendship was established.",
+      "example": "2025-04-12T18:30:00Z"
+    }
+  },
+  "required": [
+    "profile"
+  ]
+}

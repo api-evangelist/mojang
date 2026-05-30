@@ -1,0 +1,47 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "mojang": "https://api.mojang.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "JoinRequest": "mojang:JoinRequest",
+    "SessionProfile": "mojang:SessionProfile",
+    "SessionProperty": "mojang:SessionProperty",
+    "accessToken": {
+      "@id": "mojang:accessToken",
+      "@type": "xsd:string"
+    },
+    "id": {
+      "@id": "mojang:id",
+      "@type": "xsd:string"
+    },
+    "name": "schema:name",
+    "profileActions": {
+      "@id": "mojang:profileActions",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "properties": {
+      "@id": "mojang:properties",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "selectedProfile": {
+      "@id": "mojang:selectedProfile",
+      "@type": "xsd:string"
+    },
+    "serverId": {
+      "@id": "mojang:serverId",
+      "@type": "xsd:string"
+    },
+    "signature": {
+      "@id": "mojang:signature",
+      "@type": "xsd:string"
+    },
+    "value": {
+      "@id": "mojang:value",
+      "@type": "xsd:string"
+    }
+  }
+}

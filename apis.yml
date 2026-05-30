@@ -1,32 +1,254 @@
 aid: mojang
 name: Mojang
-description: "Mojang / Minecraft API"
-url: https://wiki.vg/Mojang_API
+description: >-
+  Mojang Studios is the developer of Minecraft. The Mojang / Minecraft Services
+  API surface covers Minecraft player identity (UUID and profile lookup), skins
+  and capes, name history and name change, server session verification, blocked
+  server lists, player attributes (privacy, chat, friends settings), friends
+  graph, presence, public keys for profile signature verification, and account
+  entitlements. Endpoints span three hosts: the legacy api.mojang.com, the
+  session-server sessionserver.mojang.com (Yggdrasil), and the modern
+  Microsoft-side api.minecraftservices.com. Most read endpoints are public and
+  unauthenticated; player-account endpoints require a Bearer Minecraft access
+  token obtained via the Xbox Live / XSTS authentication chain.
+url: https://minecraft.wiki/w/Mojang_API
+image: https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/menu/menu-buy--reversed.gif
 specificationVersion: '0.20'
 created: '2026-05-28'
-modified: '2026-05-28'
+modified: '2026-05-30'
 x-source: public-apis/public-apis
 x-category: "Games & Comics"
-x-tier: 3
-x-tier-reason: bulk-registered-from-public-apis
+x-type: company
+x-tier: 2
+x-tier-reason: enriched-from-public-documentation
 tags:
   - Games And Comics
+  - Minecraft
+  - Gaming
+  - Identity
+  - Player Profiles
+  - Session
   - Public APIs
 apis:
-  - name: Mojang
-    description: "Mojang / Minecraft API"
-    humanURL: https://wiki.vg/Mojang_API
-    baseURL: https://wiki.vg/Mojang_API
+  - name: Mojang Public API
+    description: >-
+      Legacy public Mojang API (api.mojang.com) covering username-to-UUID
+      lookup, batch UUID resolution, and historical profile endpoints. Most
+      operations are being migrated to api.minecraftservices.com but remain
+      live for backward compatibility.
+    humanURL: https://minecraft.wiki/w/Mojang_API
+    baseURL: https://api.mojang.com
     tags:
-      - Games And Comics
+      - Identity
+      - Player Profiles
+      - Public
     properties:
       - type: Documentation
-        url: https://wiki.vg/Mojang_API
+        url: https://minecraft.wiki/w/Mojang_API
+      - type: OpenAPI
+        url: openapi/mojang-public-api-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/mojang-public-api-identity.yaml
+  - name: Mojang Session Server
+    description: >-
+      Mojang's Yggdrasil session server (sessionserver.mojang.com) used during
+      the Minecraft login handshake. Provides the canonical skin and cape
+      texture lookup keyed by player UUID, the server-side
+      hasJoined verification used by Minecraft servers, the join endpoint
+      used by clients, and the blocked-servers SHA-1 hash list.
+    humanURL: https://minecraft.wiki/w/Mojang_API
+    baseURL: https://sessionserver.mojang.com
+    tags:
+      - Session
+      - Authentication
+      - Textures
+      - Server
+    properties:
+      - type: Documentation
+        url: https://minecraft.wiki/w/Mojang_API
+      - type: OpenAPI
+        url: openapi/mojang-session-server-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/mojang-session-server-session.yaml
+  - name: Minecraft Services API
+    description: >-
+      Modern Microsoft-managed Minecraft Services API (api.minecraftservices.com)
+      covering authenticated player profile management, name change, skin and
+      cape management, player attributes (chat / friends / profanity filter),
+      blocklist, friends graph, presence reporting, signature keypair
+      issuance, public Mojang keys, and entitlement / ownership checks.
+      Requires a Minecraft Bearer access token obtained via the Xbox Live
+      authentication chain for player-scoped endpoints.
+    humanURL: https://minecraft.wiki/w/Mojang_API
+    baseURL: https://api.minecraftservices.com
+    tags:
+      - Identity
+      - Player Profiles
+      - Friends
+      - Presence
+      - Skins
+      - Capes
+      - Entitlements
+      - Authenticated
+    properties:
+      - type: Documentation
+        url: https://minecraft.wiki/w/Mojang_API
+      - type: OpenAPI
+        url: openapi/mojang-minecraft-services-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/mojang-minecraft-services-profile.yaml
+      - type: NaftikoCapability
+        url: capabilities/mojang-minecraft-services-skins.yaml
+      - type: NaftikoCapability
+        url: capabilities/mojang-minecraft-services-friends.yaml
+      - type: NaftikoCapability
+        url: capabilities/mojang-minecraft-services-attributes.yaml
+      - type: NaftikoCapability
+        url: capabilities/mojang-minecraft-services-keys.yaml
 common:
   - type: Website
-    url: https://wiki.vg/Mojang_API
+    url: https://www.minecraft.net
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+  - type: Documentation
+    url: https://minecraft.wiki/w/Microsoft_authentication
+    title: Microsoft / Xbox Authentication Flow
+  - type: GitHubOrganization
+    url: https://github.com/Mojang
+  - type: GitHubRepository
+    url: https://github.com/Mojang/brigadier
+    title: Brigadier Command Parser
+  - type: GitHubRepository
+    url: https://github.com/Mojang/DataFixerUpper
+    title: DataFixerUpper
+  - type: GitHubRepository
+    url: https://github.com/Mojang/bedrock-protocol-docs
+    title: Bedrock Network Protocol Docs
+  - type: GitHubRepository
+    url: https://github.com/Mojang/bedrock-samples
+    title: Bedrock Edition Add-on Samples
+  - type: GitHubRepository
+    url: https://github.com/Mojang/minecraft-creator-tools
+    title: Minecraft Creator Tools
+  - type: GitHubRepository
+    url: https://github.com/Mojang/minecraft-debugger
+    title: Minecraft VS Code Debugger
   - type: PublicAPIsListing
     url: https://github.com/public-apis/public-apis
+  - type: RateLimits
+    url: rate-limits/mojang-rate-limits.yml
+  - type: Vocabulary
+    url: vocabulary/mojang-vocabulary.yaml
+  - type: SpectralRules
+    url: rules/mojang-spectral-rules.yml
+  - type: JSONLD
+    url: json-ld/mojang-api-context.jsonld
+features:
+  - name: Public UUID Lookup
+    description: >-
+      Look up a Minecraft player's UUID by username (case-insensitive)
+      without authentication via /users/profiles/minecraft/{username}.
+  - name: Batch UUID Resolution
+    description: >-
+      Resolve up to ten usernames to UUIDs in a single POST call to
+      /profiles/minecraft (legacy) or /minecraft/profile/lookup/bulk/byname
+      (modern).
+  - name: Skin and Cape Textures
+    description: >-
+      Retrieve the Base64-encoded textures property for any player via
+      sessionserver /session/minecraft/profile/{UUID}, optionally signed.
+  - name: Server Session Verification
+    description: >-
+      Yggdrasil hasJoined / join handshake used by every Minecraft server
+      and client to validate that a logging-in player is authenticated.
+  - name: Blocked Server List
+    description: >-
+      SHA-1 hash list of servers Mojang has flagged, served as plain text
+      from sessionserver.mojang.com/blockedservers.
+  - name: Authenticated Player Profile
+    description: >-
+      Fetch the signed-in player's own profile including all owned skins and
+      capes via /minecraft/profile with Bearer auth.
+  - name: Skin and Cape Management
+    description: >-
+      Change, upload, reset, hide, and show skins and capes for the
+      authenticated player via /minecraft/profile/skins and /capes/active.
+  - name: Name Change
+    description: >-
+      Check name availability, query cooldown / change history, and rename
+      the authenticated player via /minecraft/profile/name endpoints.
+  - name: Friends and Presence
+    description: >-
+      Manage the player's friends graph, accept and reject requests, and
+      publish presence (offline / online / playing) for friends.
+  - name: Player Attributes and Blocklist
+    description: >-
+      Read and modify the player's profanity filter, friends preferences,
+      and chat settings, and read the player blocklist.
+  - name: Signature Keypair and Public Keys
+    description: >-
+      Issue per-player RSA signing keypairs and serve Mojang's rotating
+      public keys for chat signature verification.
+useCases:
+  - name: Minecraft Server Authentication
+    description: >-
+      Minecraft Java Edition servers call sessionserver.hasJoined during the
+      login handshake to validate a player's session against Mojang.
+  - name: Player Skin Display
+    description: >-
+      Third-party sites and tools (NameMC, MinecraftSkinStealer, server lobby
+      plugins) read the textures property from sessionserver to render
+      player skins and capes.
+  - name: Username History Tools
+    description: >-
+      Username history dashboards once relied on /user/profiles/{uuid}/names;
+      since deprecation tools now snapshot lookups from the public name-to-
+      UUID endpoint over time.
+  - name: Launcher Authentication
+    description: >-
+      The Microsoft / Xbox Live -> XSTS -> Minecraft access-token flow
+      backs the official Minecraft launcher and every third-party launcher.
+  - name: Blocked Server Enforcement
+    description: >-
+      Client-side enforcement of Mojang's EULA blocklist by hashing the
+      server address and checking it against /blockedservers.
+  - name: Community Skin Galleries
+    description: >-
+      Skin upload sites use the authenticated skin endpoints to push player-
+      selected skins to a signed-in Minecraft account.
+integrations:
+  - name: Xbox Live
+    description: >-
+      Mandatory upstream identity provider for Microsoft-era Minecraft
+      accounts; supplies the XSTS token that is exchanged for a Minecraft
+      access token.
+  - name: Microsoft Identity Platform
+    description: >-
+      OAuth 2.0 device-code and authorization-code flows against
+      login.microsoftonline.com originate the access token used in the Xbox
+      Live chain.
+  - name: Minecraft Java Edition Servers
+    description: >-
+      Every Java Edition server speaks the session-server protocol to
+      verify joining clients.
+  - name: Minecraft Realms
+    description: >-
+      Mojang's hosted Realms service consumes the same identity, friends,
+      and presence surface for invites and join flows.
+solutions:
+  - name: Minecraft Account Identity
+    description: >-
+      Resolve, verify, and manage Minecraft player identities across the
+      legacy Mojang and modern Minecraft Services APIs from a single
+      surface.
+  - name: Minecraft Server Session Trust
+    description: >-
+      Use the Yggdrasil session-verification surface plus the blocked-
+      servers list to validate clients and enforce Mojang's server policy.
+  - name: Player Personalization at Scale
+    description: >-
+      Programmatic skin, cape, profanity, and friends management for hosted
+      Minecraft platforms and community tools.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

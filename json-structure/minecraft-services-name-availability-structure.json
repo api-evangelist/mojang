@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/minecraft-services-name-availability-structure.json",
+  "name": "NameAvailability",
+  "description": "Response from the name-availability check.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "AVAILABLE",
+        "DUPLICATE",
+        "NOT_ALLOWED"
+      ],
+      "example": "AVAILABLE"
+    }
+  },
+  "required": [
+    "status"
+  ]
+}

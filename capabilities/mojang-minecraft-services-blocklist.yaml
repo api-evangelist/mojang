@@ -1,0 +1,68 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: "Minecraft Services API \u2014 Blocklist"
+  description: "Minecraft Services API \u2014 Blocklist. 1 operations. Lead operation: Get Blocklist. Self-contained Naftiko capability covering one Mojang business surface."
+  tags:
+  - Mojang
+  - Minecraft
+  - Blocklist
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  keys:
+    MINECRAFT_ACCESS_TOKEN: MINECRAFT_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: mojang-minecraft-services-blocklist
+    baseUri: https://api.minecraftservices.com
+    description: "Minecraft Services API \u2014 blocklist. Self-contained, no shared references."
+    authentication:
+      type: bearer
+      token: '{{env.MINECRAFT_ACCESS_TOKEN}}'
+    resources:
+    - name: privacy-blocklist
+      path: /privacy/blocklist
+      operations:
+      - name: getBlocklist
+        method: GET
+        description: Get Blocklist
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: mojang-minecraft-services-blocklist-rest
+    port: 8080
+    description: "REST adapter for Minecraft Services API \u2014 blocklist. One Spectral-compliant resource per consumed operation, prefixed with /v1."
+    resources:
+    - path: /v1/privacy/blocklist
+      name: privacy-blocklist
+      description: REST surface for /privacy/blocklist.
+      operations:
+      - method: GET
+        name: getBlocklist
+        description: Get Blocklist
+        call: mojang-minecraft-services-blocklist.getBlocklist
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: mojang-minecraft-services-blocklist-mcp
+    port: 9090
+    transport: http
+    description: "MCP adapter for Minecraft Services API \u2014 blocklist. One tool per consumed operation, routed inline through this capability's consumes block."
+    tools:
+    - name: get-blocklist
+      description: Get Blocklist
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: mojang-minecraft-services-blocklist.getBlocklist
+      outputParameters:
+      - type: object
+        mapping: $.

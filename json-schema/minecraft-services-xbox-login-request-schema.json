@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-xbox-login-request-schema.json",
+  "title": "XboxLoginRequest",
+  "description": "Body for /authentication/login_with_xbox.",
+  "type": "object",
+  "properties": {
+    "identityToken": {
+      "type": "string",
+      "description": "XSTS identity token formatted as `XBL3.0 x={userhash};{token}`.",
+      "example": "XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs..."
+    },
+    "ensureLegacyEnabled": {
+      "type": "boolean",
+      "description": "When true, ensures legacy Mojang accounts can also log in.",
+      "example": true
+    }
+  },
+  "required": [
+    "identityToken"
+  ]
+}

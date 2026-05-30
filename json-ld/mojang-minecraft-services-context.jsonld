@@ -1,0 +1,273 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "mojang": "https://api.mojang.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "AuthenticatedProfile": "mojang:AuthenticatedProfile",
+    "BanStatus": "mojang:BanStatus",
+    "Blocklist": "mojang:Blocklist",
+    "Cape": "mojang:Cape",
+    "CapeSelection": "mojang:CapeSelection",
+    "ChangeSkinRequest": "mojang:ChangeSkinRequest",
+    "EntitlementItem": "mojang:EntitlementItem",
+    "Entitlements": "mojang:Entitlements",
+    "Friend": "mojang:Friend",
+    "FriendUpdateRequest": "mojang:FriendUpdateRequest",
+    "FriendsList": "mojang:FriendsList",
+    "FriendsPreferences": "mojang:FriendsPreferences",
+    "MinecraftAccessToken": "mojang:MinecraftAccessToken",
+    "NameAvailability": "mojang:NameAvailability",
+    "NameChangeInfo": "mojang:NameChangeInfo",
+    "PlayerAttributes": "mojang:PlayerAttributes",
+    "PlayerAttributesUpdate": "mojang:PlayerAttributesUpdate",
+    "PlayerCertificates": "mojang:PlayerCertificates",
+    "PresenceEntry": "mojang:PresenceEntry",
+    "PresenceReport": "mojang:PresenceReport",
+    "PrivilegeMap": "mojang:PrivilegeMap",
+    "ProfanityFilterPreferences": "mojang:ProfanityFilterPreferences",
+    "Profile": "mojang:Profile",
+    "PublicKeyEntry": "mojang:PublicKeyEntry",
+    "PublicKeys": "mojang:PublicKeys",
+    "Skin": "mojang:Skin",
+    "XboxLoginRequest": "mojang:XboxLoginRequest",
+    "accessToken": {
+      "@id": "mojang:access_token",
+      "@type": "xsd:string"
+    },
+    "addedAt": "schema:dateCreated",
+    "alias": {
+      "@id": "mojang:alias",
+      "@type": "xsd:string"
+    },
+    "allowFriendRequests": {
+      "@id": "mojang:allowFriendRequests",
+      "@type": "xsd:boolean"
+    },
+    "authenticationKeys": {
+      "@id": "mojang:authenticationKeys",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "banStatus": {
+      "@id": "mojang:banStatus",
+      "@type": "@id"
+    },
+    "bannedScopes": {
+      "@id": "mojang:bannedScopes",
+      "@type": "@id"
+    },
+    "blockedProfiles": {
+      "@id": "mojang:blockedProfiles",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "capeId": {
+      "@id": "mojang:capeId",
+      "@type": "xsd:string"
+    },
+    "capes": {
+      "@id": "mojang:capes",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "changedAt": {
+      "@id": "mojang:changedAt",
+      "@type": "xsd:dateTime"
+    },
+    "createdAt": "schema:dateCreated",
+    "empty": {
+      "@id": "mojang:empty",
+      "@type": "xsd:boolean"
+    },
+    "enabled": {
+      "@id": "mojang:enabled",
+      "@type": "xsd:boolean"
+    },
+    "ensureLegacyEnabled": {
+      "@id": "mojang:ensureLegacyEnabled",
+      "@type": "xsd:boolean"
+    },
+    "expiresAt": {
+      "@id": "mojang:expiresAt",
+      "@type": "xsd:dateTime"
+    },
+    "expiresIn": {
+      "@id": "mojang:expires_in",
+      "@type": "xsd:integer"
+    },
+    "friends": {
+      "@id": "mojang:friends",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "friendsPreferences": {
+      "@id": "mojang:friendsPreferences",
+      "@type": "@id"
+    },
+    "id": {
+      "@id": "mojang:id",
+      "@type": "xsd:string"
+    },
+    "identityToken": {
+      "@id": "mojang:identityToken",
+      "@type": "xsd:string"
+    },
+    "incomingRequests": {
+      "@id": "mojang:incomingRequests",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "items": {
+      "@id": "mojang:items",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "joinInfo": {
+      "@id": "mojang:joinInfo",
+      "@type": "@id"
+    },
+    "keyId": {
+      "@id": "mojang:keyId",
+      "@type": "xsd:string"
+    },
+    "keyPair": {
+      "@id": "mojang:keyPair",
+      "@type": "@id"
+    },
+    "lastUpdated": "schema:dateModified",
+    "multiplayerRealms": {
+      "@id": "mojang:multiplayerRealms",
+      "@type": "@id"
+    },
+    "multiplayerServer": {
+      "@id": "mojang:multiplayerServer",
+      "@type": "@id"
+    },
+    "name": "schema:name",
+    "nameChangeAllowed": {
+      "@id": "mojang:nameChangeAllowed",
+      "@type": "xsd:boolean"
+    },
+    "onlineChat": {
+      "@id": "mojang:onlineChat",
+      "@type": "@id"
+    },
+    "outgoingRequests": {
+      "@id": "mojang:outgoingRequests",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "playerCertificateKeys": {
+      "@id": "mojang:playerCertificateKeys",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "privateKey": {
+      "@id": "mojang:privateKey",
+      "@type": "xsd:string"
+    },
+    "privileges": {
+      "@id": "mojang:privileges",
+      "@type": "@id"
+    },
+    "profanityFilterOn": {
+      "@id": "mojang:profanityFilterOn",
+      "@type": "xsd:boolean"
+    },
+    "profanityFilterPreferences": {
+      "@id": "mojang:profanityFilterPreferences",
+      "@type": "@id"
+    },
+    "profile": {
+      "@id": "mojang:profile",
+      "@type": "@id"
+    },
+    "profileActions": {
+      "@id": "mojang:profileActions",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "profileId": {
+      "@id": "mojang:profileId",
+      "@type": "xsd:string"
+    },
+    "profileName": {
+      "@id": "mojang:profileName",
+      "@type": "xsd:string"
+    },
+    "profilePropertyKeys": {
+      "@id": "mojang:profilePropertyKeys",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "publicKey": {
+      "@id": "mojang:publicKey",
+      "@type": "xsd:string"
+    },
+    "publicKeySignature": {
+      "@id": "mojang:publicKeySignature",
+      "@type": "xsd:string"
+    },
+    "publicKeySignatureV2": {
+      "@id": "mojang:publicKeySignatureV2",
+      "@type": "xsd:string"
+    },
+    "refreshedAfter": {
+      "@id": "mojang:refreshedAfter",
+      "@type": "xsd:dateTime"
+    },
+    "roles": {
+      "@id": "mojang:roles",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "signature": {
+      "@id": "mojang:signature",
+      "@type": "xsd:string"
+    },
+    "skins": {
+      "@id": "mojang:skins",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "source": {
+      "@id": "mojang:source",
+      "@type": "xsd:string"
+    },
+    "state": {
+      "@id": "mojang:state",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "mojang:status",
+      "@type": "xsd:string"
+    },
+    "telemetry": {
+      "@id": "mojang:telemetry",
+      "@type": "@id"
+    },
+    "textureKey": {
+      "@id": "mojang:textureKey",
+      "@type": "xsd:string"
+    },
+    "tokenType": {
+      "@id": "mojang:token_type",
+      "@type": "xsd:string"
+    },
+    "updateType": {
+      "@id": "mojang:updateType",
+      "@type": "xsd:string"
+    },
+    "url": "schema:url",
+    "username": {
+      "@id": "mojang:username",
+      "@type": "xsd:string"
+    },
+    "variant": {
+      "@id": "mojang:variant",
+      "@type": "xsd:string"
+    }
+  }
+}

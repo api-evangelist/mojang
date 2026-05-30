@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-public-keys-schema.json",
+  "title": "PublicKeys",
+  "description": "Mojang public keys for verifying signatures.",
+  "type": "object",
+  "properties": {
+    "profilePropertyKeys": {
+      "type": "array",
+      "description": "Keys used to verify session-profile property signatures.",
+      "items": {
+        "$ref": "#/components/schemas/PublicKeyEntry"
+      }
+    },
+    "playerCertificateKeys": {
+      "type": "array",
+      "description": "Keys used to verify player chat-signature certificates.",
+      "items": {
+        "$ref": "#/components/schemas/PublicKeyEntry"
+      }
+    },
+    "authenticationKeys": {
+      "type": "array",
+      "description": "Keys used to verify Mojang authentication tokens.",
+      "items": {
+        "$ref": "#/components/schemas/PublicKeyEntry"
+      }
+    }
+  }
+}

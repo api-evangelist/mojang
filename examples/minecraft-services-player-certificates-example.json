@@ -1,0 +1,10 @@
+{
+  "keyPair": {
+    "privateKey": "-----BEGIN RSA PRIVATE KEY-----...",
+    "publicKey": "-----BEGIN RSA PUBLIC KEY-----..."
+  },
+  "publicKeySignature": "a1b2c3...",
+  "publicKeySignatureV2": "a1b2c3...",
+  "expiresAt": "2026-06-01T00:00:00Z",
+  "refreshedAfter": "2026-05-31T12:00:00Z"
+}

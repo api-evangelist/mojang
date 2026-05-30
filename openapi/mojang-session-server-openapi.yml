@@ -1,0 +1,298 @@
+openapi: 3.0.3
+info:
+  title: Mojang Session Server
+  description: >-
+    Mojang's Yggdrasil session server (sessionserver.mojang.com) used in the
+    Minecraft Java Edition login handshake. Exposes the canonical skin and
+    cape texture lookup keyed by UUID, the client-side /join and
+    server-side /hasJoined verification calls, and the SHA-1 blocked-server
+    hash list.
+  version: '1.0.0'
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+  - url: https://sessionserver.mojang.com
+    description: Mojang Yggdrasil session server (production)
+tags:
+  - name: Textures
+    description: Player skin and cape texture lookup
+  - name: Session
+    description: Login-handshake session verification
+  - name: Server
+    description: Server-policy artifacts (blocked servers)
+paths:
+  /session/minecraft/profile/{uuid}:
+    get:
+      operationId: getSessionProfile
+      summary: Get Session Profile (Skin and Cape)
+      description: >-
+        Returns the player's session profile including the Base64-encoded
+        textures property holding skin and cape URLs. Pass unsigned=false
+        to receive a signed payload that includes Mojang's RSA signature.
+      tags:
+        - Textures
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          description: Player UUID (hyphenated or unhyphenated).
+          example: 853c80ef3c3749fdaa49938b674adae6
+          schema:
+            type: string
+            pattern: ^[0-9a-fA-F-]{32,36}$
+        - name: unsigned
+          in: query
+          required: false
+          description: >-
+            Set to false to include the Mojang signature on each property. When
+            omitted, properties are returned without signature.
+          example: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Session profile with textures property.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionProfile'
+        '204':
+          description: UUID has no matching profile.
+        '400':
+          description: UUID parameter is not a valid Minecraft UUID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded (per-IP).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /session/minecraft/hasJoined:
+    get:
+      operationId: hasJoined
+      summary: Has Joined Verification (Server-Side)
+      description: >-
+        Called by a Minecraft server during the login handshake to verify that
+        the client claiming to be `username` has authenticated against Mojang
+        for the supplied `serverId` (a SHA-1 hash of the server's shared
+        secret and public key). Returns the player's full session profile on
+        success.
+      tags:
+        - Session
+      parameters:
+        - name: username
+          in: query
+          required: true
+          description: Username sent by the connecting client.
+          example: jeb_
+          schema:
+            type: string
+        - name: serverId
+          in: query
+          required: true
+          description: SHA-1 server hash computed during the handshake.
+          example: e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b
+          schema:
+            type: string
+        - name: ip
+          in: query
+          required: false
+          description: Optional IP of the connecting client for stricter checks.
+          example: 203.0.113.42
+          schema:
+            type: string
+        - name: prevent_proxy
+          in: query
+          required: false
+          description: When true, fails verification if the client appears proxied.
+          example: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Player authenticated; returns the session profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionProfile'
+        '204':
+          description: Verification failed.
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /session/minecraft/join:
+    post:
+      operationId: joinSession
+      summary: Join Session (Client-Side)
+      description: >-
+        Called by the Minecraft client during the login handshake to register
+        the session with Mojang before the server's hasJoined check. The
+        request body carries the player's Minecraft access token, profile
+        UUID, and the SHA-1 server hash.
+      tags:
+        - Session
+      requestBody:
+        required: true
+        description: Join-session payload.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JoinRequest'
+      responses:
+        '204':
+          description: Join successful.
+        '400':
+          description: Invalid request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Access token invalid or revoked.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded (6 joins per 30 seconds per account).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /blockedservers:
+    get:
+      operationId: getBlockedServers
+      summary: Get Blocked Servers
+      description: >-
+        Returns a newline-delimited plain-text list of SHA-1 hashes representing
+        servers Mojang has blocked under the EULA. Clients hash the server
+        address (and parent domains / wildcards) and check against this list.
+      tags:
+        - Server
+      responses:
+        '200':
+          description: Newline-delimited list of SHA-1 hashes.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |
+                  6f2520307bbcd07a526a4267d28a73a4f88f9b0a
+                  7c1f8f5fd5b18c7ce5a4a6a5c8d6e1b0a4b8c9d2
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SessionProfile:
+      type: object
+      description: A signed session profile with textures and metadata properties.
+      required:
+        - id
+        - name
+        - properties
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Player username.
+          example: jeb_
+        properties:
+          type: array
+          description: Signed property list (currently only `textures`).
+          items:
+            $ref: '#/components/schemas/SessionProperty'
+        profileActions:
+          type: array
+          description: Sanctions or actions Mojang has taken on the profile.
+          items:
+            type: string
+            example: FORCED_NAME_CHANGE
+    SessionProperty:
+      type: object
+      description: A single signed session-profile property (e.g. textures).
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          description: Property name (typically `textures`).
+          example: textures
+        value:
+          type: string
+          description: Base64-encoded JSON payload (skin / cape URLs and metadata).
+          example: ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9
+        signature:
+          type: string
+          description: >-
+            Mojang RSA signature of `value`. Present only when the request
+            included `unsigned=false`.
+          example: a1b2c3d4...==
+    JoinRequest:
+      type: object
+      description: Body of the client-side /join call.
+      required:
+        - accessToken
+        - selectedProfile
+        - serverId
+      properties:
+        accessToken:
+          type: string
+          description: Minecraft Bearer access token for the player.
+          example: eyJraWQiOiJhYmMxMjMi...
+        selectedProfile:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        serverId:
+          type: string
+          description: SHA-1 hash computed by the client during the handshake.
+          example: e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b
+    Error:
+      type: object
+      description: Standard Mojang error envelope.
+      properties:
+        error:
+          type: string
+          description: Error class name.
+          example: ForbiddenOperationException
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+          example: Invalid token.
+        cause:
+          type: string
+          description: Optional cause classification.
+          example: UserMigratedException
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Minecraft access token (used in /join request body, not as a header).
+security: []

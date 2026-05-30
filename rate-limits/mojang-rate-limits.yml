@@ -1,0 +1,123 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Mojang
+providerId: mojang
+created: '2026-05-30'
+modified: '2026-05-30'
+reconciled: true
+tags:
+  - Rate Limiting
+  - Identity
+  - Session
+  - Minecraft
+
+description: >-
+  Mojang's public API surface (api.mojang.com, sessionserver.mojang.com,
+  api.minecraftservices.com) is rate-limited primarily per source IP and,
+  on player-scoped endpoints, per account. Limits are enforced as hard
+  throttles returning HTTP 429. The session server tolerates a far higher
+  RPS than the legacy public API because it sits on the login-handshake
+  hot path. A small number of endpoints carry per-account quotas
+  (name-availability checks, server-join calls) that are stricter than the
+  per-IP defaults. There is no public form for raising limits; production
+  load that exceeds them must be sharded across IPs and accounts. New
+  experimental rate limits were rolled out to api.mojang.com lookups in
+  January 2025; consumers should treat all published numbers as
+  approximate.
+
+sources:
+  - https://minecraft.wiki/w/Mojang_API
+  - https://wiki.vg/Mojang_API
+
+headers:
+  retryAfter: Retry-After
+  requestId: X-Request-Id
+
+responseCodes:
+  throttled: 429
+  quotaExceeded: 429
+  authFailure: 403
+  invalidArgument: 400
+
+limits:
+  - name: Standard per-IP request budget
+    scope: IP
+    metric: requests_per_minute
+    limit: 100
+    timeFrame: minute
+    notes: >-
+      Documented as "200 requests per 2 minutes per IP" — equivalent to
+      ~100 req/min. IPv6 callers are bucketed by /56 subnet.
+  - name: Session server profile and texture lookups
+    scope: IP
+    metric: requests_per_second
+    limit: 40
+    timeFrame: second
+    notes: >-
+      sessionserver.mojang.com tolerates roughly 400 requests per 10
+      seconds, the highest sustained budget on the surface, because it
+      sits on the Minecraft login hot path.
+  - name: Name-availability check
+    scope: account
+    metric: requests_per_minute
+    limit: 4
+    timeFrame: minute
+    notes: >-
+      Approximately 20 requests per 5 minutes per account; sustained
+      checks above this rate produce HTTP 429.
+  - name: Server-join handshake
+    scope: account
+    metric: requests_per_second
+    limit: 0.2
+    timeFrame: second
+    notes: >-
+      Roughly 6 successful join calls per 30 seconds per account on
+      sessionserver.mojang.com/session/minecraft/join.
+  - name: Bulk profile lookup
+    scope: IP
+    metric: requests_per_minute
+    limit: 100
+    timeFrame: minute
+    notes: >-
+      The bulk byname endpoints accept at most 10 usernames per call;
+      callers attempting more than 10 in one request receive HTTP 400.
+      Per-IP budget otherwise tracks the standard quota.
+  - name: Authenticated player attribute writes
+    scope: account
+    metric: varies
+    limit: see Minecraft Services API reference for per-endpoint guidance
+    notes: >-
+      Skin upload, cape changes, attribute updates, friends mutations
+      and presence reports are accepted at the standard per-account
+      rate but are routinely throttled when called in tight loops.
+
+policies:
+  - name: Exponential backoff on 429
+    description: >-
+      Honour the Retry-After header where supplied; otherwise back off
+      exponentially starting at 1 second and capping at 60 seconds.
+  - name: Account-scoped operations
+    description: >-
+      Name change, skin change, friends, and presence operations are
+      throttled per Minecraft account, not just per IP. Sharding across
+      IPs does not help these endpoints.
+  - name: IPv6 subnet bucketing
+    description: >-
+      IPv6 traffic is bucketed by /56 subnet for the per-IP budget,
+      preventing rotation through individual addresses within a single
+      allocation.
+  - name: No documented limit increase
+    description: >-
+      Mojang does not publish a process for raising rate limits.
+      Production load above the documented budget must be sharded
+      across multiple source IPs and accounts.
+  - name: Experimental limits as of January 2025
+    description: >-
+      Mojang noted that "experimental rate limits" are in effect on the
+      legacy api.mojang.com username-to-UUID endpoints. Callers should
+      design for sudden, undocumented tightening.
+  - name: Blocked-server list caching
+    description: >-
+      /blockedservers is intended to be cached client-side (5 minutes is
+      typical for Minecraft clients) rather than polled.

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-player-attributes-update-schema.json",
+  "title": "PlayerAttributesUpdate",
+  "description": "Patch payload for updating player attributes.",
+  "type": "object",
+  "properties": {
+    "profanityFilterPreferences": {
+      "$ref": "#/components/schemas/ProfanityFilterPreferences"
+    },
+    "friendsPreferences": {
+      "$ref": "#/components/schemas/FriendsPreferences"
+    }
+  }
+}

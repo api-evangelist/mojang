@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/minecraft-services-player-certificates-structure.json",
+  "name": "PlayerCertificates",
+  "description": "Player keypair payload returned by /player/certificates.",
+  "type": "object",
+  "properties": {
+    "keyPair": {
+      "type": "object",
+      "description": "PEM-encoded RSA keypair.",
+      "properties": {
+        "privateKey": {
+          "type": "string",
+          "example": "-----BEGIN RSA PRIVATE KEY-----..."
+        },
+        "publicKey": {
+          "type": "string",
+          "example": "-----BEGIN RSA PUBLIC KEY-----..."
+        }
+      }
+    },
+    "publicKeySignature": {
+      "type": "string",
+      "description": "Mojang signature over the public key (legacy).",
+      "example": "a1b2c3..."
+    },
+    "publicKeySignatureV2": {
+      "type": "string",
+      "description": "Mojang signature including player UUID (v2).",
+      "example": "a1b2c3..."
+    },
+    "expiresAt": {
+      "type": "datetime",
+      "description": "Keypair expiry time.",
+      "example": "2026-06-01T00:00:00Z"
+    },
+    "refreshedAfter": {
+      "type": "datetime",
+      "description": "Earliest time the client should re-request the keypair.",
+      "example": "2026-05-31T12:00:00Z"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/minecraft-services-presence-report-structure.json",
+  "name": "PresenceReport",
+  "description": "Body for POST /presence.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "OFFLINE",
+        "ONLINE",
+        "PLAYING_OFFLINE",
+        "PLAYING_HOSTED_SERVER",
+        "PLAYING_REALMS",
+        "PLAYING_SERVER"
+      ],
+      "example": "PLAYING_SERVER"
+    },
+    "joinInfo": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional server / realm join metadata."
+    }
+  },
+  "required": [
+    "status"
+  ]
+}

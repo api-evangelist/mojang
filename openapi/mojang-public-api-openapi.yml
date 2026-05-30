@@ -1,0 +1,282 @@
+openapi: 3.0.3
+info:
+  title: Mojang Public API
+  description: >-
+    Legacy public Mojang API (api.mojang.com). Covers username-to-UUID lookup,
+    batch UUID resolution, and historical profile endpoints. Most authenticated
+    operations have been migrated to api.minecraftservices.com; the public
+    lookups remain in service for backwards compatibility.
+  version: '1.0.0'
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+  - url: https://api.mojang.com
+    description: Mojang public API (production)
+tags:
+  - name: Identity
+    description: Player identity (UUID, username, profile)
+  - name: Profile
+    description: Player profile records and history
+paths:
+  /users/profiles/minecraft/{username}:
+    get:
+      operationId: getProfileByUsername
+      summary: Get Profile by Username
+      description: >-
+        Look up a Minecraft player's UUID and profile metadata by their
+        case-insensitive username. Returns 204 / 404 when the username is not
+        currently in use by any account.
+      tags:
+        - Identity
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: Case-insensitive Minecraft username.
+          example: jeb_
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Profile found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '204':
+          description: No profile matched the requested username.
+        '400':
+          description: Invalid username supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /profiles/minecraft:
+    post:
+      operationId: getProfilesByUsernamesBulk
+      summary: Get Profiles by Usernames (Bulk)
+      description: >-
+        Resolve a list of up to ten Minecraft usernames to their profiles in a
+        single request. Names with no matching account are omitted from the
+        response array.
+      tags:
+        - Identity
+      requestBody:
+        required: true
+        description: JSON array of up to ten usernames.
+        content:
+          application/json:
+            schema:
+              type: array
+              minItems: 1
+              maxItems: 10
+              items:
+                type: string
+              example:
+                - jeb_
+                - Dinnerbone
+                - Notch
+      responses:
+        '200':
+          description: Resolved profiles for the supplied usernames.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        '400':
+          description: Empty array or more than ten usernames supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /user/profiles/{uuid}/names:
+    get:
+      operationId: getNameHistory
+      summary: Get Name History (Deprecated)
+      description: >-
+        Returns the full name-change history for the player identified by
+        UUID. Deprecated and disabled by Mojang on 13 September 2022 — the
+        endpoint now returns 410 Gone for all callers. Documented for
+        historical reference and archival research.
+      tags:
+        - Profile
+      deprecated: true
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          description: Player UUID (with or without hyphens).
+          example: 853c80ef3c3749fdaa49938b674adae6
+          schema:
+            type: string
+            pattern: ^[0-9a-fA-F-]{32,36}$
+      responses:
+        '200':
+          description: Historical response; no longer issued.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NameChange'
+        '410':
+          description: Endpoint disabled by Mojang.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orders/statistics:
+    post:
+      operationId: getSaleStatistics
+      summary: Get Sale Statistics
+      description: >-
+        Returns aggregate sale and revenue statistics across one or more
+        Mojang product SKUs (Minecraft, Minecraft Realms, Minecraft Bedrock,
+        Cobalt, etc.). Public, unauthenticated.
+      tags:
+        - Profile
+      requestBody:
+        required: true
+        description: SKU filter.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaleStatisticsRequest'
+      responses:
+        '200':
+          description: Aggregate sale statistics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaleStatistics'
+        '400':
+          description: Invalid metric key supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Profile:
+      type: object
+      description: A Minecraft player profile (id / name pair).
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username (case-preserving).
+          example: jeb_
+        legacy:
+          type: boolean
+          description: True if the account has not yet been migrated to Mojang.
+          example: false
+        demo:
+          type: boolean
+          description: True if the account is a free demo account.
+          example: false
+    NameChange:
+      type: object
+      description: A historical name-change entry (deprecated endpoint).
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Player username at the time of the change.
+          example: jeb_
+        changedToAt:
+          type: integer
+          format: int64
+          description: >-
+            Unix epoch milliseconds at which the player changed to this name.
+            Absent for the original account name.
+          example: 1417597263000
+    SaleStatisticsRequest:
+      type: object
+      description: Filter for the /orders/statistics request.
+      required:
+        - metricKeys
+      properties:
+        metricKeys:
+          type: array
+          description: SKUs to aggregate.
+          items:
+            type: string
+            enum:
+              - item_sold_minecraft
+              - prepaid_card_redeemed_minecraft
+              - item_sold_cobalt
+              - item_sold_scrolls
+              - item_sold_dungeons
+          example:
+            - item_sold_minecraft
+            - prepaid_card_redeemed_minecraft
+    SaleStatistics:
+      type: object
+      description: Aggregate sale figures.
+      properties:
+        total:
+          type: integer
+          description: Total units sold across the requested SKUs.
+          example: 41000000
+        last24h:
+          type: integer
+          description: Units sold in the last 24 hours.
+          example: 75000
+        saleVelocityPerSeconds:
+          type: number
+          format: float
+          description: Recent average sales per second.
+          example: 0.85
+    Error:
+      type: object
+      description: Standard Mojang error envelope.
+      properties:
+        error:
+          type: string
+          description: Error class name.
+          example: IllegalArgumentException
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+          example: Path /users/profiles/minecraft/ is invalid.
+  securitySchemes: {}
+security: []

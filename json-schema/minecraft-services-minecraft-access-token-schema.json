@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-minecraft-access-token-schema.json",
+  "title": "MinecraftAccessToken",
+  "description": "Successful response from /authentication/login_with_xbox.",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string",
+      "description": "Internal Mojang account UUID (different from the player UUID).",
+      "example": "0c11b18a48e94c8d8d8c8f2b3a4e1234"
+    },
+    "roles": {
+      "type": "array",
+      "description": "Account roles array (typically empty for player accounts).",
+      "items": {
+        "type": "string"
+      },
+      "example": []
+    },
+    "access_token": {
+      "type": "string",
+      "description": "Minecraft Bearer access token.",
+      "example": "eyJraWQiOiJhYmMxMjMi..."
+    },
+    "token_type": {
+      "type": "string",
+      "description": "Token type (always `Bearer`).",
+      "example": "Bearer"
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "Token lifetime in seconds.",
+      "example": 86400
+    }
+  },
+  "required": [
+    "access_token"
+  ]
+}

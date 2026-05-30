@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/minecraft-services-profile-structure.json",
+  "name": "Profile",
+  "description": "A Minecraft player profile (id / name pair).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Player UUID without hyphens.",
+      "example": "853c80ef3c3749fdaa49938b674adae6"
+    },
+    "name": {
+      "type": "string",
+      "description": "Current player username.",
+      "example": "jeb_"
+    }
+  },
+  "required": [
+    "id",
+    "name"
+  ]
+}

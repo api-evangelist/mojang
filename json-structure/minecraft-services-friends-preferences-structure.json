@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/minecraft-services-friends-preferences-structure.json",
+  "name": "FriendsPreferences",
+  "description": "Friends-graph privacy settings.",
+  "type": "object",
+  "properties": {
+    "allowFriendRequests": {
+      "type": "boolean",
+      "description": "Whether other players may send friend requests.",
+      "example": true
+    }
+  }
+}

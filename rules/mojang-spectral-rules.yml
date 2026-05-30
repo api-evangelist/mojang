@@ -1,0 +1,460 @@
+# Mojang Spectral Ruleset
+# ------------------------------------------------------------------------
+# Enforces the conventions observed across the Mojang OpenAPI surface:
+#   - kebab-case lowercase paths under three documented hosts
+#   - PascalCase tags grouped by capability (Identity, Profile, Skins,
+#     Capes, Friends, Presence, Keys, Entitlements, Session, Textures,
+#     Server, Authentication, Attributes, Blocklist)
+#   - camelCase operationIds prefixed with a verb (get, lookup, change,
+#     update, report, reset, show, hide, join, login, check, has)
+#   - camelCase JSON property names with PascalCase schema names
+#   - Bearer auth on every authenticated path; public endpoints declare
+#     no security
+#   - Operation summaries title-cased and prefixed with "Mojang " or
+#     "Minecraft Services " when used downstream
+#   - Microcks compatibility (x-microcks-operation on every operation)
+
+rules:
+
+  # =========================================================
+  # INFO / METADATA
+  # =========================================================
+  info-title-required:
+    description: Every Mojang spec must declare info.title.
+    severity: error
+    given: $.info
+    then:
+      field: title
+      function: truthy
+
+  info-title-mojang-or-minecraft-prefix:
+    description: >-
+      Spec titles must start with "Mojang " or "Minecraft Services " to
+      identify which host surface the document describes.
+    severity: warn
+    given: $.info.title
+    then:
+      function: pattern
+      functionOptions:
+        match: '^(Mojang|Minecraft Services)\b.*'
+
+  info-description-required:
+    description: Spec info must include a meaningful description.
+    severity: warn
+    given: $.info
+    then:
+      field: description
+      function: truthy
+
+  info-version-required:
+    description: Spec version must be declared.
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+
+  info-contact-required:
+    description: Provide a contact block pointing to www.minecraft.net.
+    severity: info
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+
+  info-license-required:
+    description: Spec must reference Mojang's brand-and-asset usage guidelines.
+    severity: info
+    given: $.info
+    then:
+      field: license
+      function: truthy
+
+  # =========================================================
+  # OPENAPI VERSION
+  # =========================================================
+  openapi-version-3:
+    description: Mojang specs are emitted as OpenAPI 3.0.x.
+    severity: error
+    given: $.openapi
+    then:
+      function: pattern
+      functionOptions:
+        match: '^3\.0\.\d+$'
+
+  # =========================================================
+  # SERVERS
+  # =========================================================
+  servers-defined:
+    description: Every spec must declare at least one server URL.
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+
+  servers-https-required:
+    description: Mojang only serves over HTTPS.
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://'
+
+  servers-canonical-mojang-host:
+    description: >-
+      The server URL must match one of the documented Mojang hosts
+      (api.mojang.com, sessionserver.mojang.com, api.minecraftservices.com).
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://(api\.mojang\.com|sessionserver\.mojang\.com|api\.minecraftservices\.com)$'
+
+  servers-description-required:
+    description: Each server entry must carry a description.
+    severity: warn
+    given: $.servers[*]
+    then:
+      field: description
+      function: truthy
+
+  # =========================================================
+  # PATHS — NAMING CONVENTIONS
+  # =========================================================
+  paths-kebab-case:
+    description: Path segments use lowercase kebab-case (or template parameters).
+    severity: warn
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: '^\/([a-z0-9\-]+|\{[a-zA-Z]+\})(\/([a-z0-9\-]+|\{[a-zA-Z]+\}))*$'
+
+  paths-no-trailing-slash:
+    description: Paths must not end with a trailing slash.
+    severity: error
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '.+\/$'
+
+  paths-no-query-string:
+    description: Paths must not embed query strings; use parameters instead.
+    severity: error
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '\?'
+
+  # =========================================================
+  # OPERATIONS
+  # =========================================================
+  operation-operationid-required:
+    description: Every operation must declare an operationId.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: operationId
+      function: truthy
+
+  operation-operationid-camel-case:
+    description: operationId must use camelCase.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9]*$'
+
+  operation-operationid-verb-prefix:
+    description: >-
+      operationId must start with one of the Mojang verb prefixes (get,
+      lookup, change, update, report, reset, show, hide, join, login,
+      check, has).
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: '^(get|lookup|change|update|report|reset|show|hide|join|login|check|has)[A-Z]'
+
+  operation-summary-required:
+    description: Every operation must declare a summary.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: summary
+      function: truthy
+
+  operation-summary-title-case:
+    description: >-
+      Summaries are Title Case (first word capitalised, every significant
+      word capitalised). Acronyms such as UUID are preserved.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][A-Za-z0-9\(\) \-]*$'
+
+  operation-description-required:
+    description: Every operation must declare a description.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: description
+      function: truthy
+
+  operation-tags-required:
+    description: Every operation must be tagged.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: tags
+      function: truthy
+
+  operation-microcks-extension-required:
+    description: Every operation must include x-microcks-operation for mock compatibility.
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: x-microcks-operation
+      function: truthy
+
+  # =========================================================
+  # TAGS
+  # =========================================================
+  tag-pascal-case:
+    description: Tags are PascalCase capability names.
+    severity: warn
+    given: $.tags[*].name
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][A-Za-z]*$'
+
+  tag-description-required:
+    description: Each global tag must carry a description.
+    severity: warn
+    given: $.tags[*]
+    then:
+      field: description
+      function: truthy
+
+  # =========================================================
+  # PARAMETERS
+  # =========================================================
+  parameter-description-required:
+    description: Every parameter must declare a description.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].parameters[*]
+    then:
+      field: description
+      function: truthy
+
+  parameter-schema-required:
+    description: Every parameter must declare a schema with a type.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].parameters[*]
+    then:
+      field: schema
+      function: truthy
+
+  parameter-name-camel-case:
+    description: >-
+      Query, path and header parameter names use camelCase (uuid, username,
+      serverId, prevent_proxy is a legacy exception). Headers may use
+      hyphen-case.
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete].parameters[?(@.in=='query' || @.in=='path')]
+    then:
+      field: name
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9_]*$'
+
+  parameter-example-encouraged:
+    description: Provide an example for each parameter to support Microcks mocks.
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete].parameters[*]
+    then:
+      field: example
+      function: truthy
+
+  # =========================================================
+  # REQUEST BODIES
+  # =========================================================
+  request-body-json-content:
+    description: Request bodies must include an application/json media type.
+    severity: warn
+    given: $.paths[*][post,put,patch].requestBody.content
+    then:
+      field: application/json
+      function: truthy
+
+  request-body-description-required:
+    description: Request bodies must declare a description.
+    severity: info
+    given: $.paths[*][post,put,patch].requestBody
+    then:
+      field: description
+      function: truthy
+
+  # =========================================================
+  # RESPONSES
+  # =========================================================
+  response-success-required:
+    description: Every operation must declare at least one 2xx response.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: ['200']
+            - required: ['201']
+            - required: ['204']
+
+  response-description-required:
+    description: Every response must declare a description.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].responses.*
+    then:
+      field: description
+      function: truthy
+
+  response-401-on-authenticated:
+    description: >-
+      Authenticated paths must document 401 to make missing-token behaviour
+      explicit for clients.
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete][?(@.security)]
+    then:
+      field: responses.401
+      function: truthy
+
+  response-429-encouraged:
+    description: Mojang rate limits aggressively; document 429 where appropriate.
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      field: '429'
+      function: truthy
+
+  # =========================================================
+  # SCHEMAS — PROPERTY NAMING
+  # =========================================================
+  schema-name-pascal-case:
+    description: Component schema names use PascalCase.
+    severity: warn
+    given: $.components.schemas[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][A-Za-z0-9]*$'
+
+  schema-property-camel-case:
+    description: >-
+      JSON property names use camelCase across the Mojang surface (id,
+      name, capeId, profileActions, lastUpdated, ...). Legacy snake_case
+      such as access_token in the OAuth response is tolerated; otherwise
+      stick to camelCase.
+    severity: info
+    given: $.components.schemas[*].properties[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9_]*$'
+
+  schema-description-required:
+    description: Top-level schemas must carry a description.
+    severity: warn
+    given: $.components.schemas[*]
+    then:
+      field: description
+      function: truthy
+
+  schema-property-type-required:
+    description: Each non-$ref schema property must declare a type.
+    severity: warn
+    given: $.components.schemas[*].properties[?(!@property.match(/^\$ref$/))][?(!@.$ref)]
+    then:
+      field: type
+      function: truthy
+
+  # =========================================================
+  # SECURITY
+  # =========================================================
+  security-scheme-defined:
+    description: Bearer scheme must be defined when authenticated paths exist.
+    severity: warn
+    given: $.components.securitySchemes
+    then:
+      function: truthy
+
+  security-bearer-format:
+    description: When defined, the bearer scheme must use JWT bearerFormat.
+    severity: info
+    given: $.components.securitySchemes.bearerAuth
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            type:
+              const: http
+            scheme:
+              const: bearer
+
+  # =========================================================
+  # HTTP METHOD CONVENTIONS
+  # =========================================================
+  http-get-no-request-body:
+    description: GET operations must not declare a request body.
+    severity: error
+    given: $.paths[*].get
+    then:
+      field: requestBody
+      function: falsy
+
+  http-delete-returns-204-or-200:
+    description: DELETE operations must return 200 or 204.
+    severity: warn
+    given: $.paths[*].delete.responses
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: ['200']
+            - required: ['204']
+
+  # =========================================================
+  # GENERAL QUALITY
+  # =========================================================
+  general-no-empty-descriptions:
+    description: Descriptions must not be empty strings.
+    severity: warn
+    given: '$..description'
+    then:
+      function: truthy
+
+  general-deprecation-documented:
+    description: >-
+      Deprecated operations must be flagged with `deprecated: true` and
+      explain the migration path in their description (e.g. /user/profiles/
+      {uuid}/names returns 410 Gone).
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete][?(@.deprecated == true)]
+    then:
+      field: description
+      function: truthy

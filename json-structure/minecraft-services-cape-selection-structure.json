@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/minecraft-services-cape-selection-structure.json",
+  "name": "CapeSelection",
+  "description": "Cape-selection payload.",
+  "type": "object",
+  "properties": {
+    "capeId": {
+      "type": "string",
+      "description": "UUID of the cape to set active.",
+      "example": "1981aad373fa9754"
+    }
+  },
+  "required": [
+    "capeId"
+  ]
+}

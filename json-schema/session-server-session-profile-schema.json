@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/session-server-session-profile-schema.json",
+  "title": "SessionProfile",
+  "description": "A signed session profile with textures and metadata properties.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Player UUID without hyphens.",
+      "example": "853c80ef3c3749fdaa49938b674adae6"
+    },
+    "name": {
+      "type": "string",
+      "description": "Player username.",
+      "example": "jeb_"
+    },
+    "properties": {
+      "type": "array",
+      "description": "Signed property list (currently only `textures`).",
+      "items": {
+        "$ref": "#/components/schemas/SessionProperty"
+      }
+    },
+    "profileActions": {
+      "type": "array",
+      "description": "Sanctions or actions Mojang has taken on the profile.",
+      "items": {
+        "type": "string",
+        "example": "FORCED_NAME_CHANGE"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "properties"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/minecraft-services-name-change-info-structure.json",
+  "name": "NameChangeInfo",
+  "description": "Name-change cooldown information.",
+  "type": "object",
+  "properties": {
+    "changedAt": {
+      "type": "datetime",
+      "description": "ISO 8601 timestamp of the most recent name change.",
+      "example": "2025-04-12T18:30:00Z"
+    },
+    "createdAt": {
+      "type": "datetime",
+      "description": "ISO 8601 timestamp of the player profile's creation.",
+      "example": "2014-11-19T12:42:43Z"
+    },
+    "nameChangeAllowed": {
+      "type": "boolean",
+      "description": "True if a name change is currently allowed.",
+      "example": true
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/minecraft-services-player-attributes-structure.json",
+  "name": "PlayerAttributes",
+  "description": "Account-level player attributes.",
+  "type": "object",
+  "properties": {
+    "privileges": {
+      "$ref": "#/components/schemas/PrivilegeMap"
+    },
+    "profanityFilterPreferences": {
+      "$ref": "#/components/schemas/ProfanityFilterPreferences"
+    },
+    "friendsPreferences": {
+      "$ref": "#/components/schemas/FriendsPreferences"
+    },
+    "banStatus": {
+      "$ref": "#/components/schemas/BanStatus"
+    }
+  }
+}

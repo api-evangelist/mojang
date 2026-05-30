@@ -1,0 +1,14 @@
+{
+  "onlineChat": {
+    "enabled": true
+  },
+  "multiplayerServer": {
+    "enabled": true
+  },
+  "multiplayerRealms": {
+    "enabled": true
+  },
+  "telemetry": {
+    "enabled": true
+  }
+}

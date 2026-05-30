@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-cape-schema.json",
+  "title": "Cape",
+  "description": "A cape owned by the authenticated player.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Cape UUID.",
+      "example": "1981aad373fa9754"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "INACTIVE"
+      ],
+      "example": "ACTIVE"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Cape texture URL.",
+      "example": "https://textures.minecraft.net/texture/cape123..."
+    },
+    "alias": {
+      "type": "string",
+      "description": "Cape display name.",
+      "example": "Migrator"
+    }
+  },
+  "required": [
+    "id",
+    "state",
+    "url"
+  ]
+}

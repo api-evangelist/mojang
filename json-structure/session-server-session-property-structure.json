@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/session-server-session-property-structure.json",
+  "name": "SessionProperty",
+  "description": "A single signed session-profile property (e.g. textures).",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Property name (typically `textures`).",
+      "example": "textures"
+    },
+    "value": {
+      "type": "string",
+      "description": "Base64-encoded JSON payload (skin / cape URLs and metadata).",
+      "example": "ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Mojang RSA signature of `value`. Present only when the request included `unsigned=false`.",
+      "example": "a1b2c3d4...=="
+    }
+  },
+  "required": [
+    "name",
+    "value"
+  ]
+}

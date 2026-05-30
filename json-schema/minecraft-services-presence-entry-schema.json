@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-presence-entry-schema.json",
+  "title": "PresenceEntry",
+  "description": "A friend's current presence.",
+  "type": "object",
+  "properties": {
+    "profileId": {
+      "type": "string",
+      "description": "Friend UUID.",
+      "example": "853c80ef3c3749fdaa49938b674adae6"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "OFFLINE",
+        "ONLINE",
+        "PLAYING_OFFLINE",
+        "PLAYING_HOSTED_SERVER",
+        "PLAYING_REALMS",
+        "PLAYING_SERVER"
+      ],
+      "example": "PLAYING_SERVER"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2026-05-30T12:00:00Z"
+    }
+  }
+}

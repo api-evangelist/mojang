@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-friends-list-schema.json",
+  "title": "FriendsList",
+  "description": "Friends and pending friend requests for the authenticated player.",
+  "type": "object",
+  "properties": {
+    "friends": {
+      "type": "array",
+      "description": "Confirmed friends.",
+      "items": {
+        "$ref": "#/components/schemas/Friend"
+      }
+    },
+    "incomingRequests": {
+      "type": "array",
+      "description": "Pending inbound friend requests.",
+      "items": {
+        "$ref": "#/components/schemas/Friend"
+      }
+    },
+    "outgoingRequests": {
+      "type": "array",
+      "description": "Pending outbound friend requests.",
+      "items": {
+        "$ref": "#/components/schemas/Friend"
+      }
+    },
+    "empty": {
+      "type": "boolean",
+      "description": "Convenience flag \u2014 true if no friends or requests.",
+      "example": false
+    }
+  }
+}

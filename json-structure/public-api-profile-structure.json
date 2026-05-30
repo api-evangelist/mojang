@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-structure/public-api-profile-structure.json",
+  "name": "Profile",
+  "description": "A Minecraft player profile (id / name pair).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Player UUID without hyphens.",
+      "example": "853c80ef3c3749fdaa49938b674adae6"
+    },
+    "name": {
+      "type": "string",
+      "description": "Current player username (case-preserving).",
+      "example": "jeb_"
+    },
+    "legacy": {
+      "type": "boolean",
+      "description": "True if the account has not yet been migrated to Mojang.",
+      "example": false
+    },
+    "demo": {
+      "type": "boolean",
+      "description": "True if the account is a free demo account.",
+      "example": false
+    }
+  },
+  "required": [
+    "id",
+    "name"
+  ]
+}

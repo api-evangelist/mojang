@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/session-server-join-request-schema.json",
+  "title": "JoinRequest",
+  "description": "Body of the client-side /join call.",
+  "type": "object",
+  "properties": {
+    "accessToken": {
+      "type": "string",
+      "description": "Minecraft Bearer access token for the player.",
+      "example": "eyJraWQiOiJhYmMxMjMi..."
+    },
+    "selectedProfile": {
+      "type": "string",
+      "description": "Player UUID without hyphens.",
+      "example": "853c80ef3c3749fdaa49938b674adae6"
+    },
+    "serverId": {
+      "type": "string",
+      "description": "SHA-1 hash computed by the client during the handshake.",
+      "example": "e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b"
+    }
+  },
+  "required": [
+    "accessToken",
+    "selectedProfile",
+    "serverId"
+  ]
+}

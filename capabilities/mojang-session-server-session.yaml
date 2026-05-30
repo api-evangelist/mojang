@@ -1,0 +1,138 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: "Mojang Session Server \u2014 Session"
+  description: "Mojang Session Server \u2014 Session. 2 operations. Lead operation: Has Joined Verification (Server-Side). Self-contained Naftiko capability covering one Mojang business surface."
+  tags:
+  - Mojang
+  - Minecraft
+  - Session
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  keys:
+    MOJANG_ACCESS_TOKEN: MOJANG_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: mojang-session-server-session
+    baseUri: https://sessionserver.mojang.com
+    description: "Mojang Session Server \u2014 session. Self-contained, no shared references."
+    resources:
+    - name: session-minecraft-hasjoined
+      path: /session/minecraft/hasJoined
+      operations:
+      - name: hasJoined
+        method: GET
+        description: Has Joined Verification (Server-Side)
+        inputParameters:
+        - name: username
+          in: query
+          type: string
+          required: true
+          description: Username sent by the connecting client.
+        - name: serverId
+          in: query
+          type: string
+          required: true
+          description: SHA-1 server hash computed during the handshake.
+        - name: ip
+          in: query
+          type: string
+          required: false
+          description: Optional IP of the connecting client for stricter checks.
+        - name: prevent_proxy
+          in: query
+          type: boolean
+          required: false
+          description: When true, fails verification if the client appears proxied.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: session-minecraft-join
+      path: /session/minecraft/join
+      operations:
+      - name: joinSession
+        method: POST
+        description: Join Session (Client-Side)
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: Join-session payload.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: mojang-session-server-session-rest
+    port: 8080
+    description: "REST adapter for Mojang Session Server \u2014 session. One Spectral-compliant resource per consumed operation, prefixed with /v1."
+    resources:
+    - path: /v1/session/minecraft/hasjoined
+      name: session-minecraft-hasjoined
+      description: REST surface for /session/minecraft/hasJoined.
+      operations:
+      - method: GET
+        name: hasJoined
+        description: Has Joined Verification (Server-Side)
+        call: mojang-session-server-session.hasJoined
+        with:
+          username: rest.username
+          serverId: rest.serverId
+          ip: rest.ip
+          prevent_proxy: rest.prevent_proxy
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/session/minecraft/join
+      name: session-minecraft-join
+      description: REST surface for /session/minecraft/join.
+      operations:
+      - method: POST
+        name: joinSession
+        description: Join Session (Client-Side)
+        call: mojang-session-server-session.joinSession
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: mojang-session-server-session-mcp
+    port: 9090
+    transport: http
+    description: "MCP adapter for Mojang Session Server \u2014 session. One tool per consumed operation, routed inline through this capability's consumes block."
+    tools:
+    - name: has-joined
+      description: Has Joined Verification (Server-Side)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: mojang-session-server-session.hasJoined
+      with:
+        username: tools.username
+        serverId: tools.serverId
+        ip: tools.ip
+        prevent_proxy: tools.prevent_proxy
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: join-session
+      description: Join Session (Client-Side)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: mojang-session-server-session.joinSession
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

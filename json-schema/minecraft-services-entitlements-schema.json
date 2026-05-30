@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-entitlements-schema.json",
+  "title": "Entitlements",
+  "description": "Account entitlements for Minecraft store items.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "Owned entitlement items.",
+      "items": {
+        "$ref": "#/components/schemas/EntitlementItem"
+      }
+    },
+    "signature": {
+      "type": "string",
+      "description": "Mojang signature over the items array.",
+      "example": "eyJraWQiOiJhYmMxMjMi..."
+    },
+    "keyId": {
+      "type": "string",
+      "description": "Key identifier used for the signature.",
+      "example": 1
+    }
+  }
+}

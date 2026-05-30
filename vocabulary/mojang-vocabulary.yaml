@@ -1,0 +1,539 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "Mojang"
+  description: >-
+    Unified taxonomy for the Mojang / Minecraft Services API surface across
+    three hosts (api.mojang.com, sessionserver.mojang.com,
+    api.minecraftservices.com). Maps the operational dimension (OpenAPI
+    paths, schemas, parameters, enums, authentication) to the capability
+    dimension (Naftiko consume / REST / MCP exposers grouped per business
+    surface).
+  created: "2026-05-30"
+  modified: "2026-05-30"
+
+operational:
+  apis:
+    - name: "Mojang Public API"
+      namespace: "mojang-public-api"
+      version: "1.0.0"
+      baseUrl: "https://api.mojang.com"
+      status: "active"
+    - name: "Mojang Session Server"
+      namespace: "mojang-session-server"
+      version: "1.0.0"
+      baseUrl: "https://sessionserver.mojang.com"
+      status: "active"
+    - name: "Minecraft Services API"
+      namespace: "mojang-minecraft-services"
+      version: "1.0.0"
+      baseUrl: "https://api.minecraftservices.com"
+      status: "active"
+
+  resources:
+    - name: profiles
+      apis: ["Mojang Public API", "Minecraft Services API"]
+      actions: [lookup, lookupBulk, getAuthenticated]
+    - name: nameHistory
+      apis: ["Mojang Public API"]
+      status: "deprecated"
+      actions: [get]
+    - name: nameChange
+      apis: ["Minecraft Services API"]
+      actions: [getInfo, checkAvailability, change]
+    - name: skins
+      apis: ["Minecraft Services API", "Mojang Session Server"]
+      actions: [getActive, change, upload, reset]
+    - name: capes
+      apis: ["Minecraft Services API"]
+      actions: [show, hide]
+    - name: attributes
+      apis: ["Minecraft Services API"]
+      actions: [get, update]
+    - name: blocklist
+      apis: ["Minecraft Services API"]
+      actions: [get]
+    - name: friends
+      apis: ["Minecraft Services API"]
+      actions: [list, add, remove]
+    - name: presence
+      apis: ["Minecraft Services API"]
+      actions: [report]
+    - name: session
+      apis: ["Mojang Session Server"]
+      actions: [join, hasJoined]
+    - name: blockedServers
+      apis: ["Mojang Session Server"]
+      actions: [get]
+    - name: keys
+      apis: ["Minecraft Services API"]
+      actions: [getCertificates, getPublicKeys]
+    - name: entitlements
+      apis: ["Minecraft Services API"]
+      actions: [list]
+    - name: saleStatistics
+      apis: ["Mojang Public API"]
+      actions: [get]
+
+  actions:
+    - name: get
+      methods: [GET]
+      pattern: read
+    - name: lookup
+      methods: [GET]
+      pattern: read
+    - name: lookupBulk
+      methods: [POST]
+      pattern: query
+    - name: getAuthenticated
+      methods: [GET]
+      pattern: read
+    - name: checkAvailability
+      methods: [GET]
+      pattern: read
+    - name: change
+      methods: [PUT]
+      pattern: write
+    - name: upload
+      methods: [POST]
+      pattern: write
+    - name: reset
+      methods: [DELETE]
+      pattern: destructive
+    - name: show
+      methods: [PUT]
+      pattern: write
+    - name: hide
+      methods: [DELETE]
+      pattern: destructive
+    - name: update
+      methods: [POST]
+      pattern: write
+    - name: list
+      methods: [GET]
+      pattern: read
+    - name: add
+      methods: [PUT]
+      pattern: write
+    - name: remove
+      methods: [PUT]
+      pattern: write
+    - name: report
+      methods: [POST]
+      pattern: write
+    - name: join
+      methods: [POST]
+      pattern: write
+    - name: hasJoined
+      methods: [GET]
+      pattern: read
+    - name: getCertificates
+      methods: [POST]
+      pattern: write
+    - name: getPublicKeys
+      methods: [GET]
+      pattern: read
+
+  schemas:
+    identity:
+      - Profile
+      - AuthenticatedProfile
+      - SessionProfile
+      - SessionProperty
+    skinsAndCapes:
+      - Skin
+      - Cape
+      - ChangeSkinRequest
+      - CapeSelection
+    attributes:
+      - PlayerAttributes
+      - PlayerAttributesUpdate
+      - PrivilegeMap
+      - ProfanityFilterPreferences
+      - FriendsPreferences
+      - BanStatus
+    friendsAndPresence:
+      - FriendsList
+      - Friend
+      - FriendUpdateRequest
+      - PresenceReport
+      - PresenceEntry
+    keys:
+      - PlayerCertificates
+      - PublicKeys
+      - PublicKeyEntry
+    entitlements:
+      - Entitlements
+      - EntitlementItem
+    nameChange:
+      - NameChangeInfo
+      - NameAvailability
+      - NameChange
+    session:
+      - JoinRequest
+    sales:
+      - SaleStatisticsRequest
+      - SaleStatistics
+    authentication:
+      - XboxLoginRequest
+      - MinecraftAccessToken
+    privacy:
+      - Blocklist
+
+  parameters:
+    identifiers:
+      - username
+      - uuid
+      - name
+      - capeId
+    pagination: []
+    filters:
+      - unsigned
+      - prevent_proxy
+    headers:
+      - If-None-Match
+      - x-mojangauth
+
+  enums:
+    skinVariant:
+      - CLASSIC
+      - SLIM
+    skinState:
+      - ACTIVE
+      - INACTIVE
+    capeState:
+      - ACTIVE
+      - INACTIVE
+    nameAvailability:
+      - AVAILABLE
+      - DUPLICATE
+      - NOT_ALLOWED
+    friendUpdateType:
+      - ADD
+      - REMOVE
+    presenceStatus:
+      - OFFLINE
+      - ONLINE
+      - PLAYING_OFFLINE
+      - PLAYING_HOSTED_SERVER
+      - PLAYING_REALMS
+      - PLAYING_SERVER
+    profileActions:
+      - FORCED_NAME_CHANGE
+    saleMetricKeys:
+      - item_sold_minecraft
+      - prepaid_card_redeemed_minecraft
+      - item_sold_cobalt
+      - item_sold_scrolls
+      - item_sold_dungeons
+
+  authentication:
+    schemes:
+      - id: bearerAuth
+        type: http
+        scheme: bearer
+        format: JWT
+        appliesTo:
+          - Minecraft Services API (all authenticated paths)
+    flows:
+      - id: microsoftXboxFlow
+        steps:
+          - "OAuth 2.0 against login.microsoftonline.com (Microsoft Identity)"
+          - "POST https://user.auth.xboxlive.com/user/authenticate (Xbox Live)"
+          - "POST https://xsts.auth.xboxlive.com/xsts/authorize (XSTS)"
+          - "POST https://api.minecraftservices.com/authentication/login_with_xbox"
+        result: "Minecraft Bearer access token"
+
+capability:
+  workflows:
+    - name: "Mojang Public API — Identity"
+      file: "capabilities/mojang-public-api-identity.yaml"
+      apisCombined: ["Mojang Public API"]
+      tools: 2
+      personas: [DeveloperTooling, ServerOperator]
+      domains: [Identity]
+    - name: "Mojang Public API — Profile"
+      file: "capabilities/mojang-public-api-profile.yaml"
+      apisCombined: ["Mojang Public API"]
+      tools: 2
+      personas: [DeveloperTooling, Researcher]
+      domains: [Profile]
+    - name: "Mojang Session Server — Session"
+      file: "capabilities/mojang-session-server-session.yaml"
+      apisCombined: ["Mojang Session Server"]
+      tools: 2
+      personas: [ServerOperator, LauncherDeveloper]
+      domains: [Session]
+    - name: "Mojang Session Server — Textures"
+      file: "capabilities/mojang-session-server-textures.yaml"
+      apisCombined: ["Mojang Session Server"]
+      tools: 1
+      personas: [SkinGalleryOperator, DeveloperTooling]
+      domains: [Textures]
+    - name: "Mojang Session Server — Server"
+      file: "capabilities/mojang-session-server-server.yaml"
+      apisCombined: ["Mojang Session Server"]
+      tools: 1
+      personas: [ServerOperator]
+      domains: [Server]
+    - name: "Minecraft Services — Authentication"
+      file: "capabilities/mojang-minecraft-services-authentication.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 1
+      personas: [LauncherDeveloper]
+      domains: [Authentication]
+    - name: "Minecraft Services — Identity"
+      file: "capabilities/mojang-minecraft-services-identity.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 3
+      personas: [DeveloperTooling, LauncherDeveloper]
+      domains: [Identity]
+    - name: "Minecraft Services — Profile"
+      file: "capabilities/mojang-minecraft-services-profile.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 4
+      personas: [Player, LauncherDeveloper]
+      domains: [Profile]
+    - name: "Minecraft Services — Skins"
+      file: "capabilities/mojang-minecraft-services-skins.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 2
+      personas: [Player, SkinGalleryOperator]
+      domains: [Skins]
+    - name: "Minecraft Services — Capes"
+      file: "capabilities/mojang-minecraft-services-capes.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 2
+      personas: [Player]
+      domains: [Capes]
+    - name: "Minecraft Services — Attributes"
+      file: "capabilities/mojang-minecraft-services-attributes.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 2
+      personas: [Player]
+      domains: [Attributes]
+    - name: "Minecraft Services — Blocklist"
+      file: "capabilities/mojang-minecraft-services-blocklist.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 1
+      personas: [Player]
+      domains: [Privacy]
+    - name: "Minecraft Services — Friends"
+      file: "capabilities/mojang-minecraft-services-friends.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 2
+      personas: [Player]
+      domains: [Social]
+    - name: "Minecraft Services — Presence"
+      file: "capabilities/mojang-minecraft-services-presence.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 1
+      personas: [Player]
+      domains: [Social]
+    - name: "Minecraft Services — Keys"
+      file: "capabilities/mojang-minecraft-services-keys.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 2
+      personas: [LauncherDeveloper, ServerOperator]
+      domains: [Trust]
+    - name: "Minecraft Services — Entitlements"
+      file: "capabilities/mojang-minecraft-services-entitlements.yaml"
+      apisCombined: ["Minecraft Services API"]
+      tools: 1
+      personas: [LauncherDeveloper, Player]
+      domains: [Entitlements]
+
+  personas:
+    - id: Player
+      name: "Minecraft Player"
+      description: "End user authenticated with a Microsoft / Mojang account."
+      workflows:
+        - Minecraft Services — Profile
+        - Minecraft Services — Skins
+        - Minecraft Services — Capes
+        - Minecraft Services — Attributes
+        - Minecraft Services — Friends
+        - Minecraft Services — Presence
+        - Minecraft Services — Blocklist
+        - Minecraft Services — Entitlements
+    - id: ServerOperator
+      name: "Minecraft Server Operator"
+      description: "Operator of a Java Edition server validating client sessions."
+      workflows:
+        - Mojang Session Server — Session
+        - Mojang Session Server — Server
+        - Mojang Public API — Identity
+        - Minecraft Services — Keys
+    - id: LauncherDeveloper
+      name: "Launcher Developer"
+      description: "Engineer building the Minecraft client or a third-party launcher."
+      workflows:
+        - Minecraft Services — Authentication
+        - Minecraft Services — Identity
+        - Minecraft Services — Profile
+        - Minecraft Services — Keys
+        - Minecraft Services — Entitlements
+        - Mojang Session Server — Session
+    - id: SkinGalleryOperator
+      name: "Skin Gallery Operator"
+      description: "Operator of a community skin / cape gallery."
+      workflows:
+        - Mojang Session Server — Textures
+        - Minecraft Services — Skins
+    - id: DeveloperTooling
+      name: "Developer / Tooling"
+      description: "Third-party tools resolving identity for analytics or display."
+      workflows:
+        - Mojang Public API — Identity
+        - Mojang Public API — Profile
+        - Mojang Session Server — Textures
+        - Minecraft Services — Identity
+    - id: Researcher
+      name: "Researcher"
+      description: "Historical-data researcher consuming sale and profile artefacts."
+      workflows:
+        - Mojang Public API — Profile
+
+  domains:
+    - id: Identity
+      description: "UUID and username resolution."
+    - id: Profile
+      description: "Authenticated profile and name management."
+    - id: Skins
+      description: "Skin selection, upload, reset."
+    - id: Capes
+      description: "Cape selection and visibility."
+    - id: Attributes
+      description: "Profanity, friends and chat preferences."
+    - id: Privacy
+      description: "Player blocklist."
+    - id: Social
+      description: "Friends and presence."
+    - id: Trust
+      description: "Signing keypairs and public-key publication."
+    - id: Entitlements
+      description: "Account entitlements and store ownership."
+    - id: Session
+      description: "Session-handshake verification."
+    - id: Textures
+      description: "Skin and cape texture lookup."
+    - id: Server
+      description: "Server-side artefacts (blocked-server list)."
+    - id: Authentication
+      description: "XSTS exchange for Minecraft access tokens."
+
+  namespaces:
+    consumed:
+      - mojang-public-api-identity
+      - mojang-public-api-profile
+      - mojang-session-server-textures
+      - mojang-session-server-session
+      - mojang-session-server-server
+      - mojang-minecraft-services-authentication
+      - mojang-minecraft-services-identity
+      - mojang-minecraft-services-profile
+      - mojang-minecraft-services-skins
+      - mojang-minecraft-services-capes
+      - mojang-minecraft-services-attributes
+      - mojang-minecraft-services-blocklist
+      - mojang-minecraft-services-friends
+      - mojang-minecraft-services-presence
+      - mojang-minecraft-services-keys
+      - mojang-minecraft-services-entitlements
+    restPort: 8080
+    mcpPort: 9090
+
+  binds:
+    - name: MINECRAFT_ACCESS_TOKEN
+      usedBy:
+        - Minecraft Services — Profile
+        - Minecraft Services — Skins
+        - Minecraft Services — Capes
+        - Minecraft Services — Attributes
+        - Minecraft Services — Blocklist
+        - Minecraft Services — Friends
+        - Minecraft Services — Presence
+        - Minecraft Services — Keys
+        - Minecraft Services — Entitlements
+    - name: MOJANG_ACCESS_TOKEN
+      usedBy:
+        - Mojang Session Server — Session
+        - Mojang Public API — Identity
+        - Mojang Public API — Profile
+
+crossReference:
+  - resource: profiles
+    operations:
+      - getProfileByUsername
+      - getProfilesByUsernamesBulk
+      - lookupProfileByName
+      - lookupProfileByUuid
+      - lookupProfilesBulkByName
+      - getAuthenticatedProfile
+    workflows:
+      - Mojang Public API — Identity
+      - Minecraft Services — Identity
+      - Minecraft Services — Profile
+    personas:
+      - Player
+      - DeveloperTooling
+      - LauncherDeveloper
+  - resource: session
+    operations:
+      - joinSession
+      - hasJoined
+    workflows:
+      - Mojang Session Server — Session
+    personas:
+      - ServerOperator
+      - LauncherDeveloper
+  - resource: skins
+    operations:
+      - getSessionProfile
+      - changeSkin
+      - resetSkin
+    workflows:
+      - Mojang Session Server — Textures
+      - Minecraft Services — Skins
+    personas:
+      - Player
+      - SkinGalleryOperator
+  - resource: friends
+    operations:
+      - getFriends
+      - updateFriends
+    workflows:
+      - Minecraft Services — Friends
+    personas:
+      - Player
+  - resource: presence
+    operations:
+      - reportPresence
+    workflows:
+      - Minecraft Services — Presence
+    personas:
+      - Player
+  - resource: keys
+    operations:
+      - getPlayerCertificates
+      - getPublicKeys
+    workflows:
+      - Minecraft Services — Keys
+    personas:
+      - LauncherDeveloper
+      - ServerOperator
+  - resource: entitlements
+    operations:
+      - getMinecraftEntitlements
+    workflows:
+      - Minecraft Services — Entitlements
+    personas:
+      - Player
+      - LauncherDeveloper
+  - resource: blockedServers
+    operations:
+      - getBlockedServers
+    workflows:
+      - Mojang Session Server — Server
+    personas:
+      - ServerOperator

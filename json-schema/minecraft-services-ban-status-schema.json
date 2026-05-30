@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-ban-status-schema.json",
+  "title": "BanStatus",
+  "description": "Active ban / suspension status, if any.",
+  "type": "object",
+  "properties": {
+    "bannedScopes": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Map of scope -> ban metadata."
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mojang/refs/heads/main/json-schema/minecraft-services-authenticated-profile-schema.json",
+  "title": "AuthenticatedProfile",
+  "description": "The authenticated player's own profile with skins and capes.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Player UUID without hyphens.",
+      "example": "853c80ef3c3749fdaa49938b674adae6"
+    },
+    "name": {
+      "type": "string",
+      "description": "Current username.",
+      "example": "jeb_"
+    },
+    "skins": {
+      "type": "array",
+      "description": "All skins owned by the player; one is marked ACTIVE.",
+      "items": {
+        "$ref": "#/components/schemas/Skin"
+      }
+    },
+    "capes": {
+      "type": "array",
+      "description": "All capes owned by the player; one may be marked ACTIVE.",
+      "items": {
+        "$ref": "#/components/schemas/Cape"
+      }
+    },
+    "profileActions": {
+      "type": "array",
+      "description": "Sanctions in effect on the profile (e.g. FORCED_NAME_CHANGE).",
+      "items": {
+        "type": "string"
+      },
+      "example": []
+    }
+  },
+  "required": [
+    "id",
+    "name"
+  ]
+}
