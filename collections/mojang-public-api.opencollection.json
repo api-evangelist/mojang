@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Mojang Public API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Identity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Profile by Username",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mojang.com/users/profiles/minecraft/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "jeb_",
+                "type": "path",
+                "description": "Case-insensitive Minecraft username."
+              }
+            ]
+          },
+          "docs": "Look up a Minecraft player's UUID and profile metadata by their case-insensitive username. Returns 204 / 404 when the username is not currently in use by any account."
+        },
+        {
+          "info": {
+            "name": "Get Profiles by Usernames (Bulk)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mojang.com/profiles/minecraft",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resolve a list of up to ten Minecraft usernames to their profiles in a single request. Names with no matching account are omitted from the response array."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Profile",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Name History (Deprecated)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mojang.com/user/profiles/:uuid/names",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "853c80ef3c3749fdaa49938b674adae6",
+                "type": "path",
+                "description": "Player UUID (with or without hyphens)."
+              }
+            ]
+          },
+          "docs": "Returns the full name-change history for the player identified by UUID. Deprecated and disabled by Mojang on 13 September 2022 — the endpoint now returns 410 Gone for all callers. Documented for historical reference and archival research."
+        },
+        {
+          "info": {
+            "name": "Get Sale Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mojang.com/orders/statistics",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns aggregate sale and revenue statistics across one or more Mojang product SKUs (Minecraft, Minecraft Realms, Minecraft Bedrock, Cobalt, etc.). Public, unauthenticated."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,3384 @@
+{
+  "item": [
+    {
+      "id": "288c670f-5d9e-41b6-bdef-d2ada27145f9",
+      "name": "Authentication",
+      "description": {
+        "content": "Exchange Xbox Live tokens for Minecraft access tokens",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bbecd694-f122-4a57-af39-eac61d3e9e5f",
+          "name": "Login With Xbox",
+          "request": {
+            "name": "Login With Xbox",
+            "description": {
+              "content": "Exchange an XSTS identity token for a Minecraft Bearer access token. First step after completing the Xbox Live authentication chain.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "authentication",
+                "login_with_xbox"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identityToken\": \"<string>\",\n  \"ensureLegacyEnabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "52641e87-41d4-4fa6-8985-36926f5884d3",
+              "name": "Minecraft access token issued.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authentication",
+                    "login_with_xbox"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityToken\": \"XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs...\",\n  \"ensureLegacyEnabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"eyJraWQiOiJhYmMxMjMi...\",\n  \"username\": \"0c11b18a48e94c8d8d8c8f2b3a4e1234\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 86400\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26124cc3-ad63-4181-a406-c752acb23862",
+              "name": "Identity token rejected.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authentication",
+                    "login_with_xbox"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityToken\": \"XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs...\",\n  \"ensureLegacyEnabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "8aaa42eb-ae8e-4913-9e28-ff071a54329e",
+      "name": "Identity",
+      "description": {
+        "content": "Player UUID and username lookup",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "19b2906b-a8a5-43ef-8ac8-3b863733bd5e",
+          "name": "Lookup Profile by Name",
+          "request": {
+            "name": "Lookup Profile by Name",
+            "description": {
+              "content": "Modern equivalent of the legacy api.mojang.com username-to-UUID lookup.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "lookup",
+                "name",
+                ":username"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) Case-insensitive Minecraft username."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4e3f84a9-663d-41eb-8822-3cfca249b595",
+              "name": "Profile match.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    "name",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Case-insensitive Minecraft username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98d1d4e6-8f64-4f2e-b539-5be985bf0251",
+              "name": "Username not currently in use.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    "name",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Case-insensitive Minecraft username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d62bcad2-ed53-4fca-843a-5387e15fbb43",
+          "name": "Lookup Profile by UUID",
+          "request": {
+            "name": "Lookup Profile by UUID",
+            "description": {
+              "content": "Resolve a Minecraft username from a player UUID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "lookup",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3180d9a8-2d4d-4b91-9c31-d6cc01cd23c3",
+              "name": "Profile match.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36f0c1f3-1b35-48a3-9916-ba2feaff6deb",
+              "name": "UUID has no matching profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9d6571df-3b5d-4dcf-b54e-020e52053284",
+          "name": "Lookup Profiles Bulk by Name",
+          "request": {
+            "name": "Lookup Profiles Bulk by Name",
+            "description": {
+              "content": "Resolve up to ten usernames to profiles in a single request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "lookup",
+                "bulk",
+                "byname"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "54f24499-848b-42a1-a316-06a84ab5eba3",
+              "name": "Resolved profiles.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    "bulk",
+                    "byname"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"jeb_\",\n  \"Dinnerbone\",\n  \"Notch\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"name\": \"jeb_\"\n  },\n  {\n    \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"name\": \"jeb_\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe287ce4-5ec6-4a9e-ae7f-a9730b54b87d",
+              "name": "Empty array or more than ten usernames.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    "bulk",
+                    "byname"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"jeb_\",\n  \"Dinnerbone\",\n  \"Notch\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "17e2ce94-c320-44b0-837d-22104f444ccf",
+      "name": "Profile",
+      "description": {
+        "content": "Authenticated profile and name management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c10cbb85-c765-4100-a268-00779bf90bf1",
+          "name": "Get Authenticated Profile",
+          "request": {
+            "name": "Get Authenticated Profile",
+            "description": {
+              "content": "Return the signed-in player's own profile including UUID, name, owned skins, and owned capes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fc4d1ef7-c728-4fbc-b22a-206144b56380",
+              "name": "Authenticated profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"skins\": [\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    },\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    }\n  ],\n  \"capes\": [\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    },\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bff16bef-89ae-409d-9ffa-d8092f345404",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dc0d4447-b347-45e7-858d-bd88f2b6779c",
+          "name": "Get Name Change Info",
+          "request": {
+            "name": "Get Name Change Info",
+            "description": {
+              "content": "Returns the player's name-change cooldown state — last-change date, creation date, and whether a change is currently allowed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "namechange"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8b3d56fc-273a-47cb-810b-a37371cd0bb2",
+              "name": "Name-change information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "namechange"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"changedAt\": \"2025-04-12T18:30:00Z\",\n  \"createdAt\": \"2014-11-19T12:42:43Z\",\n  \"nameChangeAllowed\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a28a010e-efde-4b13-9a93-c787513b58da",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "namechange"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6e2cda44-11ff-4386-ba96-972ac47c27c8",
+          "name": "Check Name Availability",
+          "request": {
+            "name": "Check Name Availability",
+            "description": {
+              "content": "Check whether a desired username is available, duplicate, or otherwise not allowed. Rate-limited to roughly 20 requests per five minutes per account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "name",
+                ":name",
+                "available"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Candidate username."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3c14cdad-495e-45d4-9bcc-8a8b6b124961",
+              "name": "Availability response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "name",
+                    ":name",
+                    "available"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Candidate username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"AVAILABLE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab599b51-5f53-4146-b944-c2c96282f4a1",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "name",
+                    ":name",
+                    "available"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Candidate username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "daf6ebb1-dc5a-4041-9590-ae38a94fe3e7",
+          "name": "Change Name",
+          "request": {
+            "name": "Change Name",
+            "description": {
+              "content": "Change the authenticated player's username.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "name",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) New username."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "02afa620-2749-4032-afa6-bae714e7cc16",
+              "name": "Updated profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "name",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) New username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"skins\": [\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    },\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    }\n  ],\n  \"capes\": [\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    },\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cc6439f-5418-451d-a9f3-f2f4716b8733",
+              "name": "Invalid name supplied.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "name",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) New username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f901f009-9ee2-427d-99ad-112473a4debd",
+              "name": "Name already taken or change not currently allowed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "name",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) New username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ab9d5e6-4c0d-4273-a083-45cd1c9fbda5",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "name",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) New username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "82730006-9a89-4275-bafe-2e742ed81470",
+      "name": "Skins",
+      "description": {
+        "content": "Skin selection, upload, and reset",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bf9425a7-9235-40df-a3d5-e8f27a8492c1",
+          "name": "Change Skin",
+          "request": {
+            "name": "Change Skin",
+            "description": {
+              "content": "Set the player's active skin. Accepts either a URL pointing to the skin image (JSON body) or a multipart upload of the image file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "skins"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "variant",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required)  (This can only be one of classic,slim)"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) PNG skin image upload."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "680ae21c-5582-4200-866b-e0b667e0c02f",
+              "name": "Updated profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of classic,slim)",
+                        "type": "text/plain"
+                      },
+                      "key": "variant",
+                      "value": "classic",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) PNG skin image upload.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"skins\": [\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    },\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    }\n  ],\n  \"capes\": [\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    },\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2864aed-d76e-4d6f-87bf-a66e7edc2524",
+              "name": "Invalid skin payload.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of classic,slim)",
+                        "type": "text/plain"
+                      },
+                      "key": "variant",
+                      "value": "classic",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) PNG skin image upload.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6049583b-a351-4d2f-bd30-0d7f39b83489",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of classic,slim)",
+                        "type": "text/plain"
+                      },
+                      "key": "variant",
+                      "value": "classic",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) PNG skin image upload.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3a31d2a1-a1aa-40b4-a6e7-2681196693ce",
+          "name": "Reset Skin",
+          "request": {
+            "name": "Reset Skin",
+            "description": {
+              "content": "Reset the player's skin to the default Minecraft skin (Steve / Alex).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "skins",
+                "active"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4c1e7686-369e-4efc-8858-46770ea6566e",
+              "name": "Updated profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"skins\": [\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    },\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    }\n  ],\n  \"capes\": [\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    },\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f05a2e41-a17f-47b1-848e-d20bf3d55a5d",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "0489a644-8dcf-451b-8d39-1baa493e083a",
+      "name": "Capes",
+      "description": {
+        "content": "Cape selection and visibility",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ced16ac3-26e8-420e-8807-d69299dd9c3c",
+          "name": "Show Cape",
+          "request": {
+            "name": "Show Cape",
+            "description": {
+              "content": "Set a cape (by UUID) as the player's active cape.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "capes",
+                "active"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"capeId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ef9bec53-91e9-409b-b0e1-ea3edf19a55c",
+              "name": "Updated profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "capes",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"capeId\": \"1981aad373fa9754\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"skins\": [\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    },\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    }\n  ],\n  \"capes\": [\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    },\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "964736ec-034d-4ed4-a864-a5c054088bd0",
+              "name": "Player does not own the requested cape.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "capes",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"capeId\": \"1981aad373fa9754\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b0ebd7d-5241-4160-9a05-e1c6daceca75",
+          "name": "Hide Cape",
+          "request": {
+            "name": "Hide Cape",
+            "description": {
+              "content": "Hide the player's currently active cape.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "capes",
+                "active"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "318c8ea2-3ed1-46a2-adce-1a194161a842",
+              "name": "Updated profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "capes",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"skins\": [\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    },\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    }\n  ],\n  \"capes\": [\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    },\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc364493-37c9-420a-a8c9-4e52604be985",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "capes",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2998788e-0fef-4e4d-b586-1bdda72375ef",
+      "name": "Attributes",
+      "description": {
+        "content": "Profanity filter, friends, chat preferences",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "20389325-6984-4ddd-91cb-579dedc4828d",
+          "name": "Get Player Attributes",
+          "request": {
+            "name": "Get Player Attributes",
+            "description": {
+              "content": "Returns the player's account attributes: privileges, profanity filter preferences, friends preferences, chat settings, and ban / suspension status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "player",
+                "attributes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d9d34979-65f0-4cf4-b826-91146ae8e42a",
+              "name": "Player attributes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "player",
+                    "attributes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"privileges\": {\n    \"onlineChat\": {\n      \"enabled\": true\n    },\n    \"multiplayerServer\": {\n      \"enabled\": true\n    },\n    \"multiplayerRealms\": {\n      \"enabled\": true\n    },\n    \"telemetry\": {\n      \"enabled\": true\n    }\n  },\n  \"profanityFilterPreferences\": {\n    \"profanityFilterOn\": true\n  },\n  \"friendsPreferences\": {\n    \"allowFriendRequests\": true\n  },\n  \"banStatus\": {\n    \"bannedScopes\": {\n      \"key_0\": 6555,\n      \"key_1\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "468f42b4-3f4e-4a37-8767-089a280eb746",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "player",
+                    "attributes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0f9d5080-2b2f-4ec5-86e0-e6ddc960d54d",
+          "name": "Update Player Attributes",
+          "request": {
+            "name": "Update Player Attributes",
+            "description": {
+              "content": "Update the player's profanity filter and friends preferences.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "player",
+                "attributes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"profanityFilterPreferences\": {\n    \"profanityFilterOn\": \"<boolean>\"\n  },\n  \"friendsPreferences\": {\n    \"allowFriendRequests\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "06e0248f-17f9-4943-8f97-820276391895",
+              "name": "Updated attributes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "player",
+                    "attributes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profanityFilterPreferences\": {\n    \"profanityFilterOn\": true\n  },\n  \"friendsPreferences\": {\n    \"allowFriendRequests\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"privileges\": {\n    \"onlineChat\": {\n      \"enabled\": true\n    },\n    \"multiplayerServer\": {\n      \"enabled\": true\n    },\n    \"multiplayerRealms\": {\n      \"enabled\": true\n    },\n    \"telemetry\": {\n      \"enabled\": true\n    }\n  },\n  \"profanityFilterPreferences\": {\n    \"profanityFilterOn\": true\n  },\n  \"friendsPreferences\": {\n    \"allowFriendRequests\": true\n  },\n  \"banStatus\": {\n    \"bannedScopes\": {\n      \"key_0\": 4251,\n      \"key_1\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3839e582-23c4-4dfd-93a2-c1cd0124300c",
+              "name": "Invalid attribute payload.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "player",
+                    "attributes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profanityFilterPreferences\": {\n    \"profanityFilterOn\": true\n  },\n  \"friendsPreferences\": {\n    \"allowFriendRequests\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "95a35cc2-dfcb-4aae-a185-b0cf3af1b6ba",
+      "name": "Blocklist",
+      "description": {
+        "content": "Player privacy blocklist",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "160a5f6d-83c6-463c-bf7c-144402751819",
+          "name": "Get Blocklist",
+          "request": {
+            "name": "Get Blocklist",
+            "description": {
+              "content": "Return the authenticated player's UUID-keyed blocklist.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "privacy",
+                "blocklist"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fb358dc6-897a-43e1-987c-c20302a02bde",
+              "name": "Blocklist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "privacy",
+                    "blocklist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"blockedProfiles\": [\n    \"853c80ef3c3749fdaa49938b674adae6\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70c7ab10-9547-49cf-aa88-efd989c8ef9d",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "privacy",
+                    "blocklist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "9499f755-6953-495d-8347-67e281a4a21e",
+      "name": "Friends",
+      "description": {
+        "content": "Friends graph (list, add, remove)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9d9845cf-ba33-4c5c-8f6c-ea316fcb5c8e",
+          "name": "Get Friends",
+          "request": {
+            "name": "Get Friends",
+            "description": {
+              "content": "Return the authenticated player's friends list plus incoming and outgoing friend requests. Supports If-None-Match for ETag caching.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "friends"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Conditional ETag — return 304 if unchanged.",
+                "key": "If-None-Match",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "10159331-63b6-43ea-a10d-3be757c960d5",
+              "name": "Friends list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Conditional ETag — return 304 if unchanged.",
+                    "key": "If-None-Match",
+                    "value": "\"a1b2c3\""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"friends\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"incomingRequests\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"outgoingRequests\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"empty\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08c95345-d246-4621-acc2-4898eab5d1db",
+              "name": "Not modified — supplied ETag still current.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Conditional ETag — return 304 if unchanged.",
+                    "key": "If-None-Match",
+                    "value": "\"a1b2c3\""
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Modified",
+              "code": 304,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6734b388-7ff4-443e-a84b-6e5f31372b62",
+          "name": "Update Friends",
+          "request": {
+            "name": "Update Friends",
+            "description": {
+              "content": "Add or remove a friend by profile name or UUID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "friends"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"updateType\": \"<string>\",\n  \"profileName\": \"<string>\",\n  \"profileId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cda39f03-9aa8-450c-b438-f55e7bbea3c7",
+              "name": "Updated friends list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updateType\": \"ADD\",\n  \"profileName\": \"Dinnerbone\",\n  \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"friends\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"incomingRequests\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"outgoingRequests\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"empty\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "50a9fcb2-eb1d-4a15-a9b2-ae5b225715b1",
+              "name": "Constraint violation (self-add, blocked, missing, etc.).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updateType\": \"ADD\",\n  \"profileName\": \"Dinnerbone\",\n  \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c5c3618-9a90-4071-966b-ef19432fd67b",
+              "name": "Player has friends disabled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updateType\": \"ADD\",\n  \"profileName\": \"Dinnerbone\",\n  \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "280cc952-06f3-4911-b976-29e71b7e25cf",
+      "name": "Presence",
+      "description": {
+        "content": "Online / playing presence reporting",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "91e8e166-31d4-41be-ad97-c2841bb5021e",
+          "name": "Report Presence",
+          "request": {
+            "name": "Report Presence",
+            "description": {
+              "content": "Publish the player's online / playing presence. Returns the current presence of every online friend.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "presence"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<string>\",\n  \"joinInfo\": {\n    \"key_0\": 9619.42549750178\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2d0f8dd5-250c-441c-bf29-0cc32b60c893",
+              "name": "Friends' presence snapshot.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "presence"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"PLAYING_SERVER\",\n  \"joinInfo\": {\n    \"key_0\": 8371,\n    \"key_1\": true,\n    \"key_2\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"status\": \"PLAYING_SERVER\",\n    \"lastUpdated\": \"2026-05-30T12:00:00Z\"\n  },\n  {\n    \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"status\": \"PLAYING_SERVER\",\n    \"lastUpdated\": \"2026-05-30T12:00:00Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f10da43-7b3c-4481-8761-561cb72a20a9",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "presence"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"PLAYING_SERVER\",\n  \"joinInfo\": {\n    \"key_0\": 8371,\n    \"key_1\": true,\n    \"key_2\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "d14a21e7-e60d-4d3f-9a29-59a116fb4657",
+      "name": "Keys",
+      "description": {
+        "content": "Signature keypairs and Mojang public keys",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5d339665-1f3c-4a49-bb6e-4eaca28925be",
+          "name": "Get Player Certificates",
+          "request": {
+            "name": "Get Player Certificates",
+            "description": {
+              "content": "Issue an RSA keypair plus Mojang signatures for use in signing the player's outbound chat. Keys rotate roughly every 48 hours.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "player",
+                "certificates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8eda12bc-079f-4440-8955-3417c5d3e428",
+              "name": "Player keypair and signature material.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "player",
+                    "certificates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"keyPair\": {\n    \"privateKey\": \"-----BEGIN RSA PRIVATE KEY-----...\",\n    \"publicKey\": \"-----BEGIN RSA PUBLIC KEY-----...\"\n  },\n  \"publicKeySignature\": \"a1b2c3...\",\n  \"publicKeySignatureV2\": \"a1b2c3...\",\n  \"expiresAt\": \"2026-06-01T00:00:00Z\",\n  \"refreshedAfter\": \"2026-05-31T12:00:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f70b756-dd69-40b5-b317-6c58b8a20153",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "player",
+                    "certificates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "781b087d-22ed-46f0-95c0-22eba52269b5",
+          "name": "Get Mojang Public Keys",
+          "request": {
+            "name": "Get Mojang Public Keys",
+            "description": {
+              "content": "Return the current Mojang public keys used to verify profile property signatures, player chat-signing certificates, and authentication artefacts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "publickeys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "41b0ea48-8bb5-4797-82d0-a4ee152d75a9",
+              "name": "Public-key bundle.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publickeys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"profilePropertyKeys\": [\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    },\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    }\n  ],\n  \"playerCertificateKeys\": [\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    },\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    }\n  ],\n  \"authenticationKeys\": [\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    },\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "922c5372-1390-4757-9dbe-78168878090f",
+      "name": "Entitlements",
+      "description": {
+        "content": "Account ownership and entitlement checks",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3eb15fad-d5a1-4b6b-adb9-0be1a66d9828",
+          "name": "Get Minecraft Entitlements",
+          "request": {
+            "name": "Get Minecraft Entitlements",
+            "description": {
+              "content": "Return the authenticated account's Minecraft store entitlements (Minecraft Java, Minecraft Bedrock, character creator items, product owner status, etc.).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entitlements",
+                "mcstore"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "af8a06e1-fb7b-498a-8534-4cb3818365f3",
+              "name": "Entitlements list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    "mcstore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"name\": \"product_minecraft\",\n      \"source\": \"PURCHASE\",\n      \"signature\": \"a1b2c3...\"\n    },\n    {\n      \"name\": \"product_minecraft\",\n      \"source\": \"PURCHASE\",\n      \"signature\": \"a1b2c3...\"\n    }\n  ],\n  \"signature\": \"eyJraWQiOiJhYmMxMjMi...\",\n  \"keyId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8cec1a92-7230-4942-a3e4-b19600af1683",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    "mcstore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "05ef7cbc-c268-4ff2-8b24-52e28c667837",
+    "name": "Minecraft Services API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,817 @@
+{
+  "item": [
+    {
+      "id": "679c2f7c-a682-4063-867a-34c3d5450dff",
+      "name": "Textures",
+      "description": {
+        "content": "Player skin and cape texture lookup",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "79a9df18-0ecd-4634-8bb4-b38ff9199dce",
+          "name": "Get Session Profile (Skin and Cape)",
+          "request": {
+            "name": "Get Session Profile (Skin and Cape)",
+            "description": {
+              "content": "Returns the player's session profile including the Base64-encoded textures property holding skin and cape URLs. Pass unsigned=false to receive a signed payload that includes Mojang's RSA signature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "session",
+                "minecraft",
+                "profile",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "unsigned",
+                  "value": "<boolean>",
+                  "description": "Set to false to include the Mojang signature on each property. When omitted, properties are returned without signature."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "355ac27b-3660-47cb-8447-13213faa67c4",
+              "name": "Session profile with textures property.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "profile",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "unsigned",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"properties\": [\n    {\n      \"name\": \"textures\",\n      \"value\": \"ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9\",\n      \"signature\": \"a1b2c3d4...==\"\n    },\n    {\n      \"name\": \"textures\",\n      \"value\": \"ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9\",\n      \"signature\": \"a1b2c3d4...==\"\n    }\n  ],\n  \"profileActions\": [\n    \"FORCED_NAME_CHANGE\",\n    \"FORCED_NAME_CHANGE\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "07fb186b-ae3f-430b-aba0-c26b0e72dfde",
+              "name": "UUID has no matching profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "profile",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "unsigned",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f28e4f10-d10f-4b1d-a3a7-4fe661ba508e",
+              "name": "UUID parameter is not a valid Minecraft UUID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "profile",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "unsigned",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"ForbiddenOperationException\",\n  \"errorMessage\": \"Invalid token.\",\n  \"cause\": \"UserMigratedException\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a369d0f3-e23f-42d2-97cb-6f598da4fd87",
+              "name": "Rate limit exceeded (per-IP).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "profile",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "unsigned",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"ForbiddenOperationException\",\n  \"errorMessage\": \"Invalid token.\",\n  \"cause\": \"UserMigratedException\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "0c52fe05-34d7-40d0-91bc-1978dce9b7b2",
+      "name": "Session",
+      "description": {
+        "content": "Login-handshake session verification",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "37d705b0-2183-415e-9dd6-f15ef1bbc98b",
+          "name": "Has Joined Verification (Server-Side)",
+          "request": {
+            "name": "Has Joined Verification (Server-Side)",
+            "description": {
+              "content": "Called by a Minecraft server during the login handshake to verify that the client claiming to be `username` has authenticated against Mojang for the supplied `serverId` (a SHA-1 hash of the server's shared secret and public key). Returns the player's full session profile on success.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "session",
+                "minecraft",
+                "hasJoined"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "username",
+                  "value": "<string>",
+                  "description": "(Required) Username sent by the connecting client."
+                },
+                {
+                  "disabled": false,
+                  "key": "serverId",
+                  "value": "<string>",
+                  "description": "(Required) SHA-1 server hash computed during the handshake."
+                },
+                {
+                  "disabled": false,
+                  "key": "ip",
+                  "value": "<string>",
+                  "description": "Optional IP of the connecting client for stricter checks."
+                },
+                {
+                  "disabled": false,
+                  "key": "prevent_proxy",
+                  "value": "<boolean>",
+                  "description": "When true, fails verification if the client appears proxied."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a00291c3-eee5-4034-a350-cff0261649a0",
+              "name": "Player authenticated; returns the session profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "hasJoined"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "username",
+                      "value": "jeb_"
+                    },
+                    {
+                      "key": "serverId",
+                      "value": "e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b"
+                    },
+                    {
+                      "key": "ip",
+                      "value": "203.0.113.42"
+                    },
+                    {
+                      "key": "prevent_proxy",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"properties\": [\n    {\n      \"name\": \"textures\",\n      \"value\": \"ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9\",\n      \"signature\": \"a1b2c3d4...==\"\n    },\n    {\n      \"name\": \"textures\",\n      \"value\": \"ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9\",\n      \"signature\": \"a1b2c3d4...==\"\n    }\n  ],\n  \"profileActions\": [\n    \"FORCED_NAME_CHANGE\",\n    \"FORCED_NAME_CHANGE\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f113c516-048c-46c7-bad9-c9ec9c2e151c",
+              "name": "Verification failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "hasJoined"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "username",
+                      "value": "jeb_"
+                    },
+                    {
+                      "key": "serverId",
+                      "value": "e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b"
+                    },
+                    {
+                      "key": "ip",
+                      "value": "203.0.113.42"
+                    },
+                    {
+                      "key": "prevent_proxy",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "623e76c6-79de-4e8c-9021-0a6565dcad98",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "hasJoined"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "username",
+                      "value": "jeb_"
+                    },
+                    {
+                      "key": "serverId",
+                      "value": "e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b"
+                    },
+                    {
+                      "key": "ip",
+                      "value": "203.0.113.42"
+                    },
+                    {
+                      "key": "prevent_proxy",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"ForbiddenOperationException\",\n  \"errorMessage\": \"Invalid token.\",\n  \"cause\": \"UserMigratedException\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f73cc80c-09ea-44e1-b005-c1c6141b0f29",
+          "name": "Join Session (Client-Side)",
+          "request": {
+            "name": "Join Session (Client-Side)",
+            "description": {
+              "content": "Called by the Minecraft client during the login handshake to register the session with Mojang before the server's hasJoined check. The request body carries the player's Minecraft access token, profile UUID, and the SHA-1 server hash.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "session",
+                "minecraft",
+                "join"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accessToken\": \"<string>\",\n  \"selectedProfile\": \"<string>\",\n  \"serverId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a7a37409-8d10-4c60-ae04-23f8037058ad",
+              "name": "Join successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "join"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accessToken\": \"eyJraWQiOiJhYmMxMjMi...\",\n  \"selectedProfile\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"serverId\": \"e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a41419d4-9be6-4bf8-ad35-68593ffd4014",
+              "name": "Invalid request body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "join"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accessToken\": \"eyJraWQiOiJhYmMxMjMi...\",\n  \"selectedProfile\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"serverId\": \"e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"ForbiddenOperationException\",\n  \"errorMessage\": \"Invalid token.\",\n  \"cause\": \"UserMigratedException\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8ffa12c-5593-4771-a98b-f2830f089a75",
+              "name": "Access token invalid or revoked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "join"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accessToken\": \"eyJraWQiOiJhYmMxMjMi...\",\n  \"selectedProfile\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"serverId\": \"e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"ForbiddenOperationException\",\n  \"errorMessage\": \"Invalid token.\",\n  \"cause\": \"UserMigratedException\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c23bcd59-4b52-4e91-b597-ddfcc920de09",
+              "name": "Rate limit exceeded (6 joins per 30 seconds per account).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "join"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accessToken\": \"eyJraWQiOiJhYmMxMjMi...\",\n  \"selectedProfile\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"serverId\": \"e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"ForbiddenOperationException\",\n  \"errorMessage\": \"Invalid token.\",\n  \"cause\": \"UserMigratedException\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "b8c1926c-5b3b-4da8-a7c9-6abac89db44b",
+      "name": "Server",
+      "description": {
+        "content": "Server-policy artifacts (blocked servers)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "59367c13-7450-4206-ab0c-2f413d409d3c",
+          "name": "Get Blocked Servers",
+          "request": {
+            "name": "Get Blocked Servers",
+            "description": {
+              "content": "Returns a newline-delimited plain-text list of SHA-1 hashes representing servers Mojang has blocked under the EULA. Clients hash the server address (and parent domains / wildcards) and check against this list.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blockedservers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2058ae90-9f55-4bac-a584-e5be645a156a",
+              "name": "Newline-delimited list of SHA-1 hashes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blockedservers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "6f2520307bbcd07a526a4267d28a73a4f88f9b0a\n7c1f8f5fd5b18c7ce5a4a6a5c8d6e1b0a4b8c9d2\n",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sessionserver.mojang.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5fdf901d-05c1-4c2b-9761-7be84d9fd373",
+    "name": "Mojang Session Server",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Mojang's Yggdrasil session server (sessionserver.mojang.com) used in the Minecraft Java Edition login handshake. Exposes the canonical skin and cape texture lookup keyed by UUID, the client-side /join and server-side /hasJoined verification calls, and the SHA-1 blocked-server hash list.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

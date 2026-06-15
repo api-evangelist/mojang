@@ -1,0 +1,459 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Minecraft Services API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Login With Xbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/authentication/login_with_xbox",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Exchange an XSTS identity token for a Minecraft Bearer access token. First step after completing the Xbox Live authentication chain."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Identity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Lookup Profile by Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/minecraft/profile/lookup/name/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "jeb_",
+                "type": "path",
+                "description": "Case-insensitive Minecraft username."
+              }
+            ]
+          },
+          "docs": "Modern equivalent of the legacy api.mojang.com username-to-UUID lookup."
+        },
+        {
+          "info": {
+            "name": "Lookup Profile by UUID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/minecraft/profile/lookup/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "853c80ef3c3749fdaa49938b674adae6",
+                "type": "path",
+                "description": "Player UUID (hyphenated or unhyphenated)."
+              }
+            ]
+          },
+          "docs": "Resolve a Minecraft username from a player UUID."
+        },
+        {
+          "info": {
+            "name": "Lookup Profiles Bulk by Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/minecraft/profile/lookup/bulk/byname",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resolve up to ten usernames to profiles in a single request."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Profile",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Authenticated Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/minecraft/profile",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the signed-in player's own profile including UUID, name, owned skins, and owned capes."
+        },
+        {
+          "info": {
+            "name": "Get Name Change Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/minecraft/profile/namechange",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the player's name-change cooldown state — last-change date, creation date, and whether a change is currently allowed."
+        },
+        {
+          "info": {
+            "name": "Check Name Availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/minecraft/profile/name/:name/available",
+            "params": [
+              {
+                "name": "name",
+                "value": "NewName123",
+                "type": "path",
+                "description": "Candidate username."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Check whether a desired username is available, duplicate, or otherwise not allowed. Rate-limited to roughly 20 requests per five minutes per account."
+        },
+        {
+          "info": {
+            "name": "Change Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.minecraftservices.com/minecraft/profile/name/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "NewName123",
+                "type": "path",
+                "description": "New username."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Change the authenticated player's username."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Skins",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Change Skin",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/minecraft/profile/skins",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the player's active skin. Accepts either a URL pointing to the skin image (JSON body) or a multipart upload of the image file."
+        },
+        {
+          "info": {
+            "name": "Reset Skin",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.minecraftservices.com/minecraft/profile/skins/active",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset the player's skin to the default Minecraft skin (Steve / Alex)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Capes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Show Cape",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.minecraftservices.com/minecraft/profile/capes/active",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set a cape (by UUID) as the player's active cape."
+        },
+        {
+          "info": {
+            "name": "Hide Cape",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.minecraftservices.com/minecraft/profile/capes/active",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Hide the player's currently active cape."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Attributes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Player Attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/player/attributes",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the player's account attributes: privileges, profanity filter preferences, friends preferences, chat settings, and ban / suspension status."
+        },
+        {
+          "info": {
+            "name": "Update Player Attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/player/attributes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the player's profanity filter and friends preferences."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Blocklist",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Blocklist",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/privacy/blocklist",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the authenticated player's UUID-keyed blocklist."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Friends",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Friends",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/friends",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": "\"a1b2c3\""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the authenticated player's friends list plus incoming and outgoing friend requests. Supports If-None-Match for ETag caching."
+        },
+        {
+          "info": {
+            "name": "Update Friends",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.minecraftservices.com/friends",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add or remove a friend by profile name or UUID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Presence",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Report Presence",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/presence",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Publish the player's online / playing presence. Returns the current presence of every online friend."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Player Certificates",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/player/certificates",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Issue an RSA keypair plus Mojang signatures for use in signing the player's outbound chat. Keys rotate roughly every 48 hours."
+        },
+        {
+          "info": {
+            "name": "Get Mojang Public Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/publickeys"
+          },
+          "docs": "Return the current Mojang public keys used to verify profile property signatures, player chat-signing certificates, and authentication artefacts."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Entitlements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Minecraft Entitlements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/entitlements/mcstore",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the authenticated account's Minecraft store entitlements (Minecraft Java, Minecraft Bedrock, character creator items, product owner status, etc.)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

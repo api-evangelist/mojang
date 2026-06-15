@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Mojang Session Server",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Textures",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Session Profile (Skin and Cape)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sessionserver.mojang.com/session/minecraft/profile/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "853c80ef3c3749fdaa49938b674adae6",
+                "type": "path",
+                "description": "Player UUID (hyphenated or unhyphenated)."
+              },
+              {
+                "name": "unsigned",
+                "value": "false",
+                "type": "query",
+                "description": "Set to false to include the Mojang signature on each property. When omitted, properties are returned without signature."
+              }
+            ]
+          },
+          "docs": "Returns the player's session profile including the Base64-encoded textures property holding skin and cape URLs. Pass unsigned=false to receive a signed payload that includes Mojang's RSA signature."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Session",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Has Joined Verification (Server-Side)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sessionserver.mojang.com/session/minecraft/hasJoined",
+            "params": [
+              {
+                "name": "username",
+                "value": "jeb_",
+                "type": "query",
+                "description": "Username sent by the connecting client."
+              },
+              {
+                "name": "serverId",
+                "value": "e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b",
+                "type": "query",
+                "description": "SHA-1 server hash computed during the handshake."
+              },
+              {
+                "name": "ip",
+                "value": "203.0.113.42",
+                "type": "query",
+                "description": "Optional IP of the connecting client for stricter checks."
+              },
+              {
+                "name": "prevent_proxy",
+                "value": "false",
+                "type": "query",
+                "description": "When true, fails verification if the client appears proxied."
+              }
+            ]
+          },
+          "docs": "Called by a Minecraft server during the login handshake to verify that the client claiming to be `username` has authenticated against Mojang for the supplied `serverId` (a SHA-1 hash of the server's shared secret and public key). Returns the player's full session profile on success."
+        },
+        {
+          "info": {
+            "name": "Join Session (Client-Side)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sessionserver.mojang.com/session/minecraft/join",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Called by the Minecraft client during the login handshake to register the session with Mojang before the server's hasJoined check. The request body carries the player's Minecraft access token, profile UUID, and the SHA-1 server hash."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Server",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Blocked Servers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sessionserver.mojang.com/blockedservers"
+          },
+          "docs": "Returns a newline-delimited plain-text list of SHA-1 hashes representing servers Mojang has blocked under the EULA. Clients hash the server address (and parent domains / wildcards) and check against this list."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
