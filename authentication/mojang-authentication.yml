@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/mojang-minecraft-services-openapi.yml, openapi/mojang-session-server-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization:
+    Bearer {token}`.'
+  sources:
+  - openapi/mojang-minecraft-services-openapi.yml
+  - openapi/mojang-session-server-openapi.yml
