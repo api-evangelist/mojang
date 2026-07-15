@@ -84,6 +84,8 @@ apis:
       - type: OpenAPI
         url: openapi/mojang-minecraft-services-openapi.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/mojang-agentic-access.yml
   - type: DomainSecurity
     url: security/mojang-domain-security.yml
   - type: Authentication
