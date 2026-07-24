@@ -1,0 +1,291 @@
+openapi: 3.0.3
+info:
+  title: Minecraft Services Attributes Identity API
+  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  version: 1.0.0
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+- url: https://api.minecraftservices.com
+  description: Microsoft / Minecraft Services API (production)
+security: []
+tags:
+- name: Identity
+  description: Player UUID and username lookup
+paths:
+  /minecraft/profile/lookup/name/{username}:
+    get:
+      operationId: lookupProfileByName
+      summary: Lookup Profile by Name
+      description: Modern equivalent of the legacy api.mojang.com username-to-UUID lookup.
+      tags:
+      - Identity
+      parameters:
+      - name: username
+        in: path
+        required: true
+        description: Case-insensitive Minecraft username.
+        example: jeb_
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Profile match.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '404':
+          description: Username not currently in use.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /minecraft/profile/lookup/{uuid}:
+    get:
+      operationId: lookupProfileByUuid
+      summary: Lookup Profile by UUID
+      description: Resolve a Minecraft username from a player UUID.
+      tags:
+      - Identity
+      parameters:
+      - name: uuid
+        in: path
+        required: true
+        description: Player UUID (hyphenated or unhyphenated).
+        example: 853c80ef3c3749fdaa49938b674adae6
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F-]{32,36}$
+      responses:
+        '200':
+          description: Profile match.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '404':
+          description: UUID has no matching profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /minecraft/profile/lookup/bulk/byname:
+    post:
+      operationId: lookupProfilesBulkByName
+      summary: Lookup Profiles Bulk by Name
+      description: Resolve up to ten usernames to profiles in a single request.
+      tags:
+      - Identity
+      requestBody:
+        required: true
+        description: JSON array of up to ten usernames.
+        content:
+          application/json:
+            schema:
+              type: array
+              minItems: 1
+              maxItems: 10
+              items:
+                type: string
+              example:
+              - jeb_
+              - Dinnerbone
+              - Notch
+      responses:
+        '200':
+          description: Resolved profiles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        '400':
+          description: Empty array or more than ten usernames.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /users/profiles/minecraft/{username}:
+    get:
+      operationId: getProfileByUsername
+      summary: Get Profile by Username
+      description: Look up a Minecraft player's UUID and profile metadata by their case-insensitive username. Returns 204 / 404 when the username is not currently in use by any account.
+      tags:
+      - Identity
+      parameters:
+      - name: username
+        in: path
+        required: true
+        description: Case-insensitive Minecraft username.
+        example: jeb_
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Profile found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile_2'
+        '204':
+          description: No profile matched the requested username.
+        '400':
+          description: Invalid username supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_2'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_2'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /profiles/minecraft:
+    post:
+      operationId: getProfilesByUsernamesBulk
+      summary: Get Profiles by Usernames (Bulk)
+      description: Resolve a list of up to ten Minecraft usernames to their profiles in a single request. Names with no matching account are omitted from the response array.
+      tags:
+      - Identity
+      requestBody:
+        required: true
+        description: JSON array of up to ten usernames.
+        content:
+          application/json:
+            schema:
+              type: array
+              minItems: 1
+              maxItems: 10
+              items:
+                type: string
+              example:
+              - jeb_
+              - Dinnerbone
+              - Notch
+      responses:
+        '200':
+          description: Resolved profiles for the supplied usernames.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile_2'
+        '400':
+          description: Empty array or more than ten usernames supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_2'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_2'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Profile:
+      type: object
+      description: A Minecraft player profile (id / name pair).
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username.
+          example: jeb_
+    Profile_2:
+      type: object
+      description: A Minecraft player profile (id / name pair).
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username (case-preserving).
+          example: jeb_
+        legacy:
+          type: boolean
+          description: True if the account has not yet been migrated to Mojang.
+          example: false
+        demo:
+          type: boolean
+          description: True if the account is a free demo account.
+          example: false
+    Error_2:
+      type: object
+      description: Standard Mojang error envelope.
+      properties:
+        error:
+          type: string
+          description: Error class name.
+          example: IllegalArgumentException
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+          example: Path /users/profiles/minecraft/ is invalid.
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'

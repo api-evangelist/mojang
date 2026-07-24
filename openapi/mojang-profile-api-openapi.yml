@@ -1,0 +1,437 @@
+openapi: 3.0.3
+info:
+  title: Minecraft Services Attributes Profile API
+  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  version: 1.0.0
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+- url: https://api.minecraftservices.com
+  description: Microsoft / Minecraft Services API (production)
+security: []
+tags:
+- name: Profile
+  description: Authenticated profile and name management
+paths:
+  /minecraft/profile:
+    get:
+      operationId: getAuthenticatedProfile
+      summary: Get Authenticated Profile
+      description: Return the signed-in player's own profile including UUID, name, owned skins, and owned capes.
+      tags:
+      - Profile
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Authenticated profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticatedProfile'
+        '401':
+          description: Missing or invalid access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /minecraft/profile/namechange:
+    get:
+      operationId: getNameChangeInfo
+      summary: Get Name Change Info
+      description: Returns the player's name-change cooldown state — last-change date, creation date, and whether a change is currently allowed.
+      tags:
+      - Profile
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Name-change information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameChangeInfo'
+        '401':
+          description: Missing or invalid access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /minecraft/profile/name/{name}/available:
+    get:
+      operationId: checkNameAvailability
+      summary: Check Name Availability
+      description: Check whether a desired username is available, duplicate, or otherwise not allowed. Rate-limited to roughly 20 requests per five minutes per account.
+      tags:
+      - Profile
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Candidate username.
+        example: NewName123
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Availability response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAvailability'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /minecraft/profile/name/{name}:
+    put:
+      operationId: changeName
+      summary: Change Name
+      description: Change the authenticated player's username.
+      tags:
+      - Profile
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: New username.
+        example: NewName123
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Updated profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticatedProfile'
+        '400':
+          description: Invalid name supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Name already taken or change not currently allowed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /user/profiles/{uuid}/names:
+    get:
+      operationId: getNameHistory
+      summary: Get Name History (Deprecated)
+      description: Returns the full name-change history for the player identified by UUID. Deprecated and disabled by Mojang on 13 September 2022 — the endpoint now returns 410 Gone for all callers. Documented for historical reference and archival research.
+      tags:
+      - Profile
+      deprecated: true
+      parameters:
+      - name: uuid
+        in: path
+        required: true
+        description: Player UUID (with or without hyphens).
+        example: 853c80ef3c3749fdaa49938b674adae6
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F-]{32,36}$
+      responses:
+        '200':
+          description: Historical response; no longer issued.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NameChange'
+        '410':
+          description: Endpoint disabled by Mojang.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_2'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orders/statistics:
+    post:
+      operationId: getSaleStatistics
+      summary: Get Sale Statistics
+      description: Returns aggregate sale and revenue statistics across one or more Mojang product SKUs (Minecraft, Minecraft Realms, Minecraft Bedrock, Cobalt, etc.). Public, unauthenticated.
+      tags:
+      - Profile
+      requestBody:
+        required: true
+        description: SKU filter.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaleStatisticsRequest'
+      responses:
+        '200':
+          description: Aggregate sale statistics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaleStatistics'
+        '400':
+          description: Invalid metric key supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_2'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    NameAvailability:
+      type: object
+      description: Response from the name-availability check.
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          enum:
+          - AVAILABLE
+          - DUPLICATE
+          - NOT_ALLOWED
+          example: AVAILABLE
+    NameChange:
+      type: object
+      description: A historical name-change entry (deprecated endpoint).
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Player username at the time of the change.
+          example: jeb_
+        changedToAt:
+          type: integer
+          format: int64
+          description: Unix epoch milliseconds at which the player changed to this name. Absent for the original account name.
+          example: 1417597263000
+    SaleStatistics:
+      type: object
+      description: Aggregate sale figures.
+      properties:
+        total:
+          type: integer
+          description: Total units sold across the requested SKUs.
+          example: 41000000
+        last24h:
+          type: integer
+          description: Units sold in the last 24 hours.
+          example: 75000
+        saleVelocityPerSeconds:
+          type: number
+          format: float
+          description: Recent average sales per second.
+          example: 0.85
+    SaleStatisticsRequest:
+      type: object
+      description: Filter for the /orders/statistics request.
+      required:
+      - metricKeys
+      properties:
+        metricKeys:
+          type: array
+          description: SKUs to aggregate.
+          items:
+            type: string
+            enum:
+            - item_sold_minecraft
+            - prepaid_card_redeemed_minecraft
+            - item_sold_cobalt
+            - item_sold_scrolls
+            - item_sold_dungeons
+          example:
+          - item_sold_minecraft
+          - prepaid_card_redeemed_minecraft
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    NameChangeInfo:
+      type: object
+      description: Name-change cooldown information.
+      properties:
+        changedAt:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp of the most recent name change.
+          example: '2025-04-12T18:30:00Z'
+        createdAt:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp of the player profile's creation.
+          example: '2014-11-19T12:42:43Z'
+        nameChangeAllowed:
+          type: boolean
+          description: True if a name change is currently allowed.
+          example: true
+    Cape:
+      type: object
+      description: A cape owned by the authenticated player.
+      required:
+      - id
+      - state
+      - url
+      properties:
+        id:
+          type: string
+          description: Cape UUID.
+          example: 1981aad373fa9754
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          example: ACTIVE
+        url:
+          type: string
+          format: uri
+          description: Cape texture URL.
+          example: https://textures.minecraft.net/texture/cape123...
+        alias:
+          type: string
+          description: Cape display name.
+          example: Migrator
+    AuthenticatedProfile:
+      type: object
+      description: The authenticated player's own profile with skins and capes.
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current username.
+          example: jeb_
+        skins:
+          type: array
+          description: All skins owned by the player; one is marked ACTIVE.
+          items:
+            $ref: '#/components/schemas/Skin'
+        capes:
+          type: array
+          description: All capes owned by the player; one may be marked ACTIVE.
+          items:
+            $ref: '#/components/schemas/Cape'
+        profileActions:
+          type: array
+          description: Sanctions in effect on the profile (e.g. FORCED_NAME_CHANGE).
+          items:
+            type: string
+          example: []
+    Skin:
+      type: object
+      description: A skin owned by the authenticated player.
+      required:
+      - id
+      - state
+      - url
+      - variant
+      properties:
+        id:
+          type: string
+          description: Skin UUID.
+          example: cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          example: ACTIVE
+        url:
+          type: string
+          format: uri
+          description: Texture URL.
+          example: https://textures.minecraft.net/texture/abc123...
+        textureKey:
+          type: string
+          description: Texture content hash.
+          example: abc123def456...
+        variant:
+          type: string
+          enum:
+          - CLASSIC
+          - SLIM
+          example: CLASSIC
+        alias:
+          type: string
+          description: Skin alias / nickname.
+          example: Steve
+    Error_2:
+      type: object
+      description: Standard Mojang error envelope.
+      properties:
+        error:
+          type: string
+          description: Error class name.
+          example: IllegalArgumentException
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+          example: Path /users/profiles/minecraft/ is invalid.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'

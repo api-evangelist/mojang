@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: Minecraft Services Attributes Blocklist API
+  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  version: 1.0.0
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+- url: https://api.minecraftservices.com
+  description: Microsoft / Minecraft Services API (production)
+security: []
+tags:
+- name: Blocklist
+  description: Player privacy blocklist
+paths:
+  /privacy/blocklist:
+    get:
+      operationId: getBlocklist
+      summary: Get Blocklist
+      description: Return the authenticated player's UUID-keyed blocklist.
+      tags:
+      - Blocklist
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Blocklist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blocklist'
+        '401':
+          description: Missing or invalid access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Blocklist:
+      type: object
+      description: Player privacy blocklist.
+      properties:
+        blockedProfiles:
+          type: array
+          description: UUIDs of blocked players.
+          items:
+            type: string
+          example:
+          - 853c80ef3c3749fdaa49938b674adae6
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'

@@ -1,0 +1,125 @@
+openapi: 3.0.3
+info:
+  title: Minecraft Services Attributes Authentication API
+  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  version: 1.0.0
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+- url: https://api.minecraftservices.com
+  description: Microsoft / Minecraft Services API (production)
+security: []
+tags:
+- name: Authentication
+  description: Exchange Xbox Live tokens for Minecraft access tokens
+paths:
+  /authentication/login_with_xbox:
+    post:
+      operationId: loginWithXbox
+      summary: Login With Xbox
+      description: Exchange an XSTS identity token for a Minecraft Bearer access token. First step after completing the Xbox Live authentication chain.
+      tags:
+      - Authentication
+      requestBody:
+        required: true
+        description: XSTS identity token wrapped in Mojang's expected envelope.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/XboxLoginRequest'
+      responses:
+        '200':
+          description: Minecraft access token issued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MinecraftAccessToken'
+        '401':
+          description: Identity token rejected.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    MinecraftAccessToken:
+      type: object
+      description: Successful response from /authentication/login_with_xbox.
+      required:
+      - access_token
+      properties:
+        username:
+          type: string
+          description: Internal Mojang account UUID (different from the player UUID).
+          example: 0c11b18a48e94c8d8d8c8f2b3a4e1234
+        roles:
+          type: array
+          description: Account roles array (typically empty for player accounts).
+          items:
+            type: string
+          example: []
+        access_token:
+          type: string
+          description: Minecraft Bearer access token.
+          example: eyJraWQiOiJhYmMxMjMi...
+        token_type:
+          type: string
+          description: Token type (always `Bearer`).
+          example: Bearer
+        expires_in:
+          type: integer
+          description: Token lifetime in seconds.
+          example: 86400
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    XboxLoginRequest:
+      type: object
+      description: Body for /authentication/login_with_xbox.
+      required:
+      - identityToken
+      properties:
+        identityToken:
+          type: string
+          description: XSTS identity token formatted as `XBL3.0 x={userhash};{token}`.
+          example: XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs...
+        ensureLegacyEnabled:
+          type: boolean
+          description: When true, ensures legacy Mojang accounts can also log in.
+          example: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'

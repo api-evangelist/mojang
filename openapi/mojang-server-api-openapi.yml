@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: Minecraft Services Attributes Server API
+  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  version: 1.0.0
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+- url: https://api.minecraftservices.com
+  description: Microsoft / Minecraft Services API (production)
+security: []
+tags:
+- name: Server
+  description: Server-policy artifacts (blocked servers)
+paths:
+  /blockedservers:
+    get:
+      operationId: getBlockedServers
+      summary: Get Blocked Servers
+      description: Returns a newline-delimited plain-text list of SHA-1 hashes representing servers Mojang has blocked under the EULA. Clients hash the server address (and parent domains / wildcards) and check against this list.
+      tags:
+      - Server
+      responses:
+        '200':
+          description: Newline-delimited list of SHA-1 hashes.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '6f2520307bbcd07a526a4267d28a73a4f88f9b0a
+
+                  7c1f8f5fd5b18c7ce5a4a6a5c8d6e1b0a4b8c9d2
+
+                  '
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'

@@ -1,0 +1,190 @@
+openapi: 3.0.3
+info:
+  title: Minecraft Services Attributes Friends API
+  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  version: 1.0.0
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+- url: https://api.minecraftservices.com
+  description: Microsoft / Minecraft Services API (production)
+security: []
+tags:
+- name: Friends
+  description: Friends graph (list, add, remove)
+paths:
+  /friends:
+    get:
+      operationId: getFriends
+      summary: Get Friends
+      description: Return the authenticated player's friends list plus incoming and outgoing friend requests. Supports If-None-Match for ETag caching.
+      tags:
+      - Friends
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: If-None-Match
+        in: header
+        required: false
+        description: Conditional ETag — return 304 if unchanged.
+        example: '"a1b2c3"'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Friends list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendsList'
+        '304':
+          description: Not modified — supplied ETag still current.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateFriends
+      summary: Update Friends
+      description: Add or remove a friend by profile name or UUID.
+      tags:
+      - Friends
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        description: Friend update payload.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendUpdateRequest'
+      responses:
+        '200':
+          description: Updated friends list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendsList'
+        '400':
+          description: Constraint violation (self-add, blocked, missing, etc.).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Player has friends disabled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    FriendUpdateRequest:
+      type: object
+      description: Body for PUT /friends.
+      required:
+      - updateType
+      properties:
+        profileName:
+          type: string
+          description: Friend's username (mutually exclusive with profileId).
+          example: Dinnerbone
+        profileId:
+          type: string
+          description: Friend's UUID (mutually exclusive with profileName).
+          example: 853c80ef3c3749fdaa49938b674adae6
+        updateType:
+          type: string
+          enum:
+          - ADD
+          - REMOVE
+          example: ADD
+    FriendsList:
+      type: object
+      description: Friends and pending friend requests for the authenticated player.
+      properties:
+        friends:
+          type: array
+          description: Confirmed friends.
+          items:
+            $ref: '#/components/schemas/Friend'
+        incomingRequests:
+          type: array
+          description: Pending inbound friend requests.
+          items:
+            $ref: '#/components/schemas/Friend'
+        outgoingRequests:
+          type: array
+          description: Pending outbound friend requests.
+          items:
+            $ref: '#/components/schemas/Friend'
+        empty:
+          type: boolean
+          description: Convenience flag — true if no friends or requests.
+          example: false
+    Friend:
+      type: object
+      description: A friend or pending friend.
+      required:
+      - profile
+      properties:
+        profile:
+          $ref: '#/components/schemas/Profile'
+        addedAt:
+          type: string
+          format: date-time
+          description: When the friendship was established.
+          example: '2025-04-12T18:30:00Z'
+    Profile:
+      type: object
+      description: A Minecraft player profile (id / name pair).
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username.
+          example: jeb_
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'

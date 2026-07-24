@@ -1,0 +1,113 @@
+openapi: 3.0.3
+info:
+  title: Minecraft Services Attributes Entitlements API
+  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  version: 1.0.0
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+- url: https://api.minecraftservices.com
+  description: Microsoft / Minecraft Services API (production)
+security: []
+tags:
+- name: Entitlements
+  description: Account ownership and entitlement checks
+paths:
+  /entitlements/mcstore:
+    get:
+      operationId: getMinecraftEntitlements
+      summary: Get Minecraft Entitlements
+      description: Return the authenticated account's Minecraft store entitlements (Minecraft Java, Minecraft Bedrock, character creator items, product owner status, etc.).
+      tags:
+      - Entitlements
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Entitlements list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entitlements'
+        '401':
+          description: Missing or invalid access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Entitlements:
+      type: object
+      description: Account entitlements for Minecraft store items.
+      properties:
+        items:
+          type: array
+          description: Owned entitlement items.
+          items:
+            $ref: '#/components/schemas/EntitlementItem'
+        signature:
+          type: string
+          description: Mojang signature over the items array.
+          example: eyJraWQiOiJhYmMxMjMi...
+        keyId:
+          type: string
+          description: Key identifier used for the signature.
+          example: 1
+    EntitlementItem:
+      type: object
+      description: A single Minecraft entitlement item.
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Entitlement name (e.g. product_minecraft, game_minecraft).
+          example: product_minecraft
+        source:
+          type: string
+          description: How the entitlement was granted (PURCHASE, GIFT, MS_STORE).
+          example: PURCHASE
+        signature:
+          type: string
+          description: Mojang signature for this item.
+          example: a1b2c3...
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'

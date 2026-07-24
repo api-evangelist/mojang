@@ -1,0 +1,181 @@
+openapi: 3.0.3
+info:
+  title: Minecraft Services Attributes API
+  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  version: 1.0.0
+  contact:
+    name: Mojang Studios
+    url: https://www.minecraft.net
+  license:
+    name: Mojang Brand and Asset Usage Guidelines
+    url: https://www.minecraft.net/en-us/usage-guidelines
+  x-generated-from: documentation
+  x-last-validated: '2026-05-30'
+servers:
+- url: https://api.minecraftservices.com
+  description: Microsoft / Minecraft Services API (production)
+security: []
+tags:
+- name: Attributes
+  description: Profanity filter, friends, chat preferences
+paths:
+  /player/attributes:
+    get:
+      operationId: getPlayerAttributes
+      summary: Get Player Attributes
+      description: 'Returns the player''s account attributes: privileges, profanity filter preferences, friends preferences, chat settings, and ban / suspension status.'
+      tags:
+      - Attributes
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Player attributes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerAttributes'
+        '401':
+          description: Missing or invalid access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: updatePlayerAttributes
+      summary: Update Player Attributes
+      description: Update the player's profanity filter and friends preferences.
+      tags:
+      - Attributes
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        description: Patch payload (only changed sections need be supplied).
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerAttributesUpdate'
+      responses:
+        '200':
+          description: Updated attributes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerAttributes'
+        '400':
+          description: Invalid attribute payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    BanStatus:
+      type: object
+      description: Active ban / suspension status, if any.
+      properties:
+        bannedScopes:
+          type: object
+          additionalProperties: true
+          description: Map of scope -> ban metadata.
+    PlayerAttributes:
+      type: object
+      description: Account-level player attributes.
+      properties:
+        privileges:
+          $ref: '#/components/schemas/PrivilegeMap'
+        profanityFilterPreferences:
+          $ref: '#/components/schemas/ProfanityFilterPreferences'
+        friendsPreferences:
+          $ref: '#/components/schemas/FriendsPreferences'
+        banStatus:
+          $ref: '#/components/schemas/BanStatus'
+    PrivilegeMap:
+      type: object
+      description: Flag map of account privileges.
+      properties:
+        onlineChat:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              example: true
+        multiplayerServer:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              example: true
+        multiplayerRealms:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              example: true
+        telemetry:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              example: true
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    ProfanityFilterPreferences:
+      type: object
+      description: Profanity filter settings.
+      properties:
+        profanityFilterOn:
+          type: boolean
+          description: Master toggle for the profanity filter on inbound chat.
+          example: true
+    FriendsPreferences:
+      type: object
+      description: Friends-graph privacy settings.
+      properties:
+        allowFriendRequests:
+          type: boolean
+          description: Whether other players may send friend requests.
+          example: true
+    PlayerAttributesUpdate:
+      type: object
+      description: Patch payload for updating player attributes.
+      properties:
+        profanityFilterPreferences:
+          $ref: '#/components/schemas/ProfanityFilterPreferences'
+        friendsPreferences:
+          $ref: '#/components/schemas/FriendsPreferences'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'
