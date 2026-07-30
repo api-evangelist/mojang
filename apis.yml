@@ -9,6 +9,18 @@ description: >-
   read endpoints are public and unauthenticated; player-account endpoints require a Bearer Minecraft access token
   obtained via the Xbox Live / XSTS authentication chain.
 url: https://minecraft.wiki/w/Mojang_API
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 image: https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/menu/menu-buy--reversed.gif
 specificationVersion: '0.20'
 created: '2026-05-28'
@@ -27,62 +39,174 @@ tags:
   - Session
   - Public APIs
 apis:
-  - name: Mojang Public API
-    description: >-
-      Legacy public Mojang API (api.mojang.com) covering username-to-UUID lookup, batch UUID resolution, and historical
-      profile endpoints. Most operations are being migrated to api.minecraftservices.com but remain live for backward
-      compatibility.
-    humanURL: https://minecraft.wiki/w/Mojang_API
-    baseURL: https://api.mojang.com
-    tags:
-      - Identity
-      - Player Profiles
-      - Public
-    properties:
-      - type: Documentation
-        url: https://minecraft.wiki/w/Mojang_API
-      - type: OpenAPI
-        url: openapi/mojang-public-api-openapi.yml
-  - name: Mojang Session Server
-    description: >-
-      Mojang's Yggdrasil session server (sessionserver.mojang.com) used during the Minecraft login handshake. Provides
-      the canonical skin and cape texture lookup keyed by player UUID, the server-side hasJoined verification used by
-      Minecraft servers, the join endpoint used by clients, and the blocked-servers SHA-1 hash list.
-    humanURL: https://minecraft.wiki/w/Mojang_API
-    baseURL: https://sessionserver.mojang.com
-    tags:
-      - Session
-      - Authentication
-      - Textures
-      - Server
-    properties:
-      - type: Documentation
-        url: https://minecraft.wiki/w/Mojang_API
-      - type: OpenAPI
-        url: openapi/mojang-session-server-openapi.yml
-  - name: Minecraft Services API
-    description: >-
-      Modern Microsoft-managed Minecraft Services API (api.minecraftservices.com) covering authenticated player profile
-      management, name change, skin and cape management, player attributes (chat / friends / profanity filter),
-      blocklist, friends graph, presence reporting, signature keypair issuance, public Mojang keys, and entitlement /
-      ownership checks. Requires a Minecraft Bearer access token obtained via the Xbox Live authentication chain for
-      player-scoped endpoints.
-    humanURL: https://minecraft.wiki/w/Mojang_API
-    baseURL: https://api.minecraftservices.com
-    tags:
-      - Identity
-      - Player Profiles
-      - Friends
-      - Presence
-      - Skins
-      - Capes
-      - Entitlements
-      - Authenticated
-    properties:
-      - type: Documentation
-        url: https://minecraft.wiki/w/Mojang_API
-      - type: OpenAPI
-        url: openapi/mojang-minecraft-services-openapi.yml
+- aid: mojang:mojang-attributes-api
+  name: Mojang Attributes API
+  description: Profanity filter, friends, chat preferences
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Attributes
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-attributes-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-authentication-api
+  name: Mojang Authentication API
+  description: Exchange Xbox Live tokens for Minecraft access tokens
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-blocklist-api
+  name: Mojang Blocklist API
+  description: Player privacy blocklist
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Blocklist
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-blocklist-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-capes-api
+  name: Mojang Capes API
+  description: Cape selection and visibility
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Capes
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-capes-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-entitlements-api
+  name: Mojang Entitlements API
+  description: Account ownership and entitlement checks
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Entitlements
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-entitlements-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-friends-api
+  name: Mojang Friends API
+  description: Friends graph (list, add, remove)
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Friends
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-friends-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-identity-api
+  name: Mojang Identity API
+  description: Player UUID and username lookup
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Identity
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-identity-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-keys-api
+  name: Mojang Keys API
+  description: Signature keypairs and Mojang public keys
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-keys-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-presence-api
+  name: Mojang Presence API
+  description: Online / playing presence reporting
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Presence
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-presence-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-profile-api
+  name: Mojang Profile API
+  description: Authenticated profile and name management
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Profile
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-profile-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-server-api
+  name: Mojang Server API
+  description: Server-policy artifacts (blocked servers)
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Server
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-server-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-session-api
+  name: Mojang Session API
+  description: Login-handshake session verification
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Session
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-session-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-skins-api
+  name: Mojang Skins API
+  description: Skin selection, upload, and reset
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Skins
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-skins-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
+- aid: mojang:mojang-textures-api
+  name: Mojang Textures API
+  description: Player skin and cape texture lookup
+  humanURL: https://minecraft.wiki/w/Mojang_API
+  baseURL: https://api.mojang.com
+  tags:
+  - Textures
+  properties:
+  - type: OpenAPI
+    url: openapi/mojang-textures-api-openapi.yml
+  - type: Documentation
+    url: https://minecraft.wiki/w/Mojang_API
 common:
   - type: AgenticAccess
     url: agentic-access/mojang-agentic-access.yml
