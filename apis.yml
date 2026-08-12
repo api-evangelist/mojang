@@ -208,6 +208,13 @@ apis:
   - type: Documentation
     url: https://minecraft.wiki/w/Mojang_API
 common:
+  - type: IssueTracker
+    url: https://github.com/Mojang/brigadier/issues
+  - type: Releases
+    url: https://github.com/Mojang/brigadier/releases
+  - type: License
+    name: MIT
+    url: https://github.com/Mojang/brigadier/blob/master/LICENSE
   - type: AgenticAccess
     url: agentic-access/mojang-agentic-access.yml
   - type: DomainSecurity
