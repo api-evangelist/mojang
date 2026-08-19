@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Minecraft Services Attributes Skins API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Skins",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Change Skin",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/minecraft/profile/skins",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the player's active skin. Accepts either a URL pointing to the skin image (JSON body) or a multipart upload of the image file."
+        },
+        {
+          "info": {
+            "name": "Reset Skin",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.minecraftservices.com/minecraft/profile/skins/active",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset the player's skin to the default Minecraft skin (Steve / Alex)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

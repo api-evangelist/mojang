@@ -1,0 +1,164 @@
+{
+  "item": [
+    {
+      "id": "590dfa20-e367-4bbf-ab11-6e6a3c696ff4",
+      "name": "Entitlements",
+      "description": {
+        "content": "Account ownership and entitlement checks",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1a9790c2-50fe-4507-be88-b60255a65320",
+          "name": "Get Minecraft Entitlements",
+          "request": {
+            "name": "Get Minecraft Entitlements",
+            "description": {
+              "content": "Return the authenticated account's Minecraft store entitlements (Minecraft Java, Minecraft Bedrock, character creator items, product owner status, etc.).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entitlements",
+                "mcstore"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ae9b2632-03c0-4b1d-8cc4-49a36e3053c8",
+              "name": "Entitlements list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    "mcstore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"name\": \"product_minecraft\",\n      \"source\": \"PURCHASE\",\n      \"signature\": \"a1b2c3...\"\n    },\n    {\n      \"name\": \"product_minecraft\",\n      \"source\": \"PURCHASE\",\n      \"signature\": \"a1b2c3...\"\n    }\n  ],\n  \"signature\": \"eyJraWQiOiJhYmMxMjMi...\",\n  \"keyId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "036ce426-01db-49ff-897c-f753b3ca7a0b",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    "mcstore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "58622370-1fa4-4bf3-a107-ab5ed1cccb2f",
+    "name": "Minecraft Services Attributes Entitlements API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "item": [
+    {
+      "id": "d847f84a-ef27-4518-a22e-3b8dad07ac6d",
+      "name": "Authentication",
+      "description": {
+        "content": "Exchange Xbox Live tokens for Minecraft access tokens",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "78d42b8b-5036-4ecf-befe-c2944ece1e4a",
+          "name": "Login With Xbox",
+          "request": {
+            "name": "Login With Xbox",
+            "description": {
+              "content": "Exchange an XSTS identity token for a Minecraft Bearer access token. First step after completing the Xbox Live authentication chain.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "authentication",
+                "login_with_xbox"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identityToken\": \"<string>\",\n  \"ensureLegacyEnabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fc5683e9-fccc-412d-ad4e-01e848ca0b85",
+              "name": "Minecraft access token issued.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authentication",
+                    "login_with_xbox"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityToken\": \"XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs...\",\n  \"ensureLegacyEnabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"eyJraWQiOiJhYmMxMjMi...\",\n  \"username\": \"0c11b18a48e94c8d8d8c8f2b3a4e1234\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 86400\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "46ee87be-eb72-49e8-ba93-44b81afaf16b",
+              "name": "Identity token rejected.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authentication",
+                    "login_with_xbox"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityToken\": \"XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs...\",\n  \"ensureLegacyEnabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6e4fb0ed-faca-4604-bc6f-9ab63b74665c",
+    "name": "Minecraft Services Attributes Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

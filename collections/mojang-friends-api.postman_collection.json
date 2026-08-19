@@ -1,0 +1,384 @@
+{
+  "item": [
+    {
+      "id": "73c1ba80-deb4-4d6f-a5df-2d3064c4e3a5",
+      "name": "Friends",
+      "description": {
+        "content": "Friends graph (list, add, remove)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "09460186-ebdf-49a0-be5a-5d110390261b",
+          "name": "Get Friends",
+          "request": {
+            "name": "Get Friends",
+            "description": {
+              "content": "Return the authenticated player's friends list plus incoming and outgoing friend requests. Supports If-None-Match for ETag caching.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "friends"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Conditional ETag — return 304 if unchanged.",
+                "key": "If-None-Match",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c1a41faf-6e3f-4877-9c0d-878554c72dcb",
+              "name": "Friends list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Conditional ETag — return 304 if unchanged.",
+                    "key": "If-None-Match",
+                    "value": "\"a1b2c3\""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"friends\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"incomingRequests\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"outgoingRequests\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"empty\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7a24ad3-73ca-4d78-8911-769176e4f903",
+              "name": "Not modified — supplied ETag still current.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Conditional ETag — return 304 if unchanged.",
+                    "key": "If-None-Match",
+                    "value": "\"a1b2c3\""
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Modified",
+              "code": 304,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08ecb1a5-69d0-49bf-be63-09b7963e0dde",
+          "name": "Update Friends",
+          "request": {
+            "name": "Update Friends",
+            "description": {
+              "content": "Add or remove a friend by profile name or UUID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "friends"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"updateType\": \"<string>\",\n  \"profileName\": \"<string>\",\n  \"profileId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8336f106-075e-46fe-8210-591fb994807d",
+              "name": "Updated friends list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updateType\": \"ADD\",\n  \"profileName\": \"Dinnerbone\",\n  \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"friends\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"incomingRequests\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"outgoingRequests\": [\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    },\n    {\n      \"profile\": {\n        \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n        \"name\": \"jeb_\"\n      },\n      \"addedAt\": \"2025-04-12T18:30:00Z\"\n    }\n  ],\n  \"empty\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09419e99-a3e7-4eba-af84-16ca8aec7371",
+              "name": "Constraint violation (self-add, blocked, missing, etc.).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updateType\": \"ADD\",\n  \"profileName\": \"Dinnerbone\",\n  \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff85d466-85fe-45b3-809e-302f8ad23475",
+              "name": "Player has friends disabled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "friends"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updateType\": \"ADD\",\n  \"profileName\": \"Dinnerbone\",\n  \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "119e929b-3838-4d47-94d0-6a92cda77600",
+    "name": "Minecraft Services Attributes Friends API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

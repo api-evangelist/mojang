@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Minecraft Services Attributes Keys API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Player Certificates",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/player/certificates",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Issue an RSA keypair plus Mojang signatures for use in signing the player's outbound chat. Keys rotate roughly every 48 hours."
+        },
+        {
+          "info": {
+            "name": "Get Mojang Public Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/publickeys"
+          },
+          "docs": "Return the current Mojang public keys used to verify profile property signatures, player chat-signing certificates, and authentication artefacts."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

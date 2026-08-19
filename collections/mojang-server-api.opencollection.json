@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Minecraft Services Attributes Server API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Server",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Blocked Servers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/blockedservers"
+          },
+          "docs": "Returns a newline-delimited plain-text list of SHA-1 hashes representing servers Mojang has blocked under the EULA. Clients hash the server address (and parent domains / wildcards) and check against this list."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

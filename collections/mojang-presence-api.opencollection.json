@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Minecraft Services Attributes Presence API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Presence",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Report Presence",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/presence",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Publish the player's online / playing presence. Returns the current presence of every online friend."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

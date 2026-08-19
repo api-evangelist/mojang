@@ -1,0 +1,234 @@
+{
+  "item": [
+    {
+      "id": "a49ef729-ef44-499f-ae34-e8e3a1ab5dd1",
+      "name": "Keys",
+      "description": {
+        "content": "Signature keypairs and Mojang public keys",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "22bb77dc-227e-4710-b696-21f25c30d6fc",
+          "name": "Get Player Certificates",
+          "request": {
+            "name": "Get Player Certificates",
+            "description": {
+              "content": "Issue an RSA keypair plus Mojang signatures for use in signing the player's outbound chat. Keys rotate roughly every 48 hours.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "player",
+                "certificates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "94c9324d-fc0a-4035-8f95-46390e7c4a1d",
+              "name": "Player keypair and signature material.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "player",
+                    "certificates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"keyPair\": {\n    \"privateKey\": \"-----BEGIN RSA PRIVATE KEY-----...\",\n    \"publicKey\": \"-----BEGIN RSA PUBLIC KEY-----...\"\n  },\n  \"publicKeySignature\": \"a1b2c3...\",\n  \"publicKeySignatureV2\": \"a1b2c3...\",\n  \"expiresAt\": \"2026-06-01T00:00:00Z\",\n  \"refreshedAfter\": \"2026-05-31T12:00:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4da86cf0-dff4-49f0-bcdb-7f2e65af31aa",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "player",
+                    "certificates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8c03699f-8140-424d-8033-4c7c95b60a05",
+          "name": "Get Mojang Public Keys",
+          "request": {
+            "name": "Get Mojang Public Keys",
+            "description": {
+              "content": "Return the current Mojang public keys used to verify profile property signatures, player chat-signing certificates, and authentication artefacts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "publickeys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9227c2ea-dbde-454f-ade7-af67fdfa62b2",
+              "name": "Public-key bundle.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publickeys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"profilePropertyKeys\": [\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    },\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    }\n  ],\n  \"playerCertificateKeys\": [\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    },\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    }\n  ],\n  \"authenticationKeys\": [\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    },\n    {\n      \"publicKey\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "efcb84cf-de6b-437b-bcd3-d35e844773ad",
+    "name": "Minecraft Services Attributes Keys API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "item": [
+    {
+      "id": "d7e3d5a3-dc09-422d-b16a-c10fdbbbc9d7",
+      "name": "Server",
+      "description": {
+        "content": "Server-policy artifacts (blocked servers)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "77329e27-8d8b-489b-be62-57b5c1fe14d0",
+          "name": "Get Blocked Servers",
+          "request": {
+            "name": "Get Blocked Servers",
+            "description": {
+              "content": "Returns a newline-delimited plain-text list of SHA-1 hashes representing servers Mojang has blocked under the EULA. Clients hash the server address (and parent domains / wildcards) and check against this list.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blockedservers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e2c8895e-616d-4ba2-a0d0-a764b64baf8f",
+              "name": "Newline-delimited list of SHA-1 hashes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blockedservers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "6f2520307bbcd07a526a4267d28a73a4f88f9b0a\n7c1f8f5fd5b18c7ce5a4a6a5c8d6e1b0a4b8c9d2\n",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9cfcc0f2-5e35-4bc1-8e3b-93e1545079c0",
+    "name": "Minecraft Services Attributes Server API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

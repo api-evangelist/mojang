@@ -1,0 +1,190 @@
+{
+  "item": [
+    {
+      "id": "bf84906d-478e-40aa-8a11-849c559ccb02",
+      "name": "Presence",
+      "description": {
+        "content": "Online / playing presence reporting",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a037418e-5e4a-44ac-bb1d-e44db18ae0d9",
+          "name": "Report Presence",
+          "request": {
+            "name": "Report Presence",
+            "description": {
+              "content": "Publish the player's online / playing presence. Returns the current presence of every online friend.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "presence"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<string>\",\n  \"joinInfo\": {\n    \"key_0\": 6805.271799522782\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bbd9b652-30ef-4c6f-b657-3c36ac9e6954",
+              "name": "Friends' presence snapshot.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "presence"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"PLAYING_SERVER\",\n  \"joinInfo\": {\n    \"key_0\": true,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"status\": \"PLAYING_SERVER\",\n    \"lastUpdated\": \"2026-05-30T12:00:00Z\"\n  },\n  {\n    \"profileId\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"status\": \"PLAYING_SERVER\",\n    \"lastUpdated\": \"2026-05-30T12:00:00Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "faf7df4d-e744-43a7-867e-fa1bd427584e",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "presence"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"PLAYING_SERVER\",\n  \"joinInfo\": {\n    \"key_0\": true,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5166e6bf-59d4-4603-beb6-626559189453",
+    "name": "Minecraft Services Attributes Presence API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

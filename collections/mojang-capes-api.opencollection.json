@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Minecraft Services Attributes Capes API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Capes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Show Cape",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.minecraftservices.com/minecraft/profile/capes/active",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set a cape (by UUID) as the player's active cape."
+        },
+        {
+          "info": {
+            "name": "Hide Cape",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.minecraftservices.com/minecraft/profile/capes/active",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Hide the player's currently active cape."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

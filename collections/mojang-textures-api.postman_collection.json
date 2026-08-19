@@ -1,0 +1,283 @@
+{
+  "item": [
+    {
+      "id": "97f4fe11-4eed-4d50-a97d-9213af5d1d30",
+      "name": "Textures",
+      "description": {
+        "content": "Player skin and cape texture lookup",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3afb47ce-c056-46ae-9371-aee26ac7f290",
+          "name": "Get Session Profile (Skin and Cape)",
+          "request": {
+            "name": "Get Session Profile (Skin and Cape)",
+            "description": {
+              "content": "Returns the player's session profile including the Base64-encoded textures property holding skin and cape URLs. Pass unsigned=false to receive a signed payload that includes Mojang's RSA signature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "session",
+                "minecraft",
+                "profile",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "unsigned",
+                  "value": "<boolean>",
+                  "description": "Set to false to include the Mojang signature on each property. When omitted, properties are returned without signature."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1fddfc96-668c-4b47-80f7-bdc7cbf7fd75",
+              "name": "Session profile with textures property.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "profile",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "unsigned",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"properties\": [\n    {\n      \"name\": \"textures\",\n      \"value\": \"ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9\",\n      \"signature\": \"a1b2c3d4...==\"\n    },\n    {\n      \"name\": \"textures\",\n      \"value\": \"ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9\",\n      \"signature\": \"a1b2c3d4...==\"\n    }\n  ],\n  \"profileActions\": [\n    \"FORCED_NAME_CHANGE\",\n    \"FORCED_NAME_CHANGE\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd3541c4-ded9-4c0b-924d-e6a7be5a6c79",
+              "name": "UUID has no matching profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "profile",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "unsigned",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "94ad19ae-f7d7-4d4c-b87e-c3f42877caa0",
+              "name": "UUID parameter is not a valid Minecraft UUID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "profile",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "unsigned",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"ForbiddenOperationException\",\n  \"errorMessage\": \"Invalid token.\",\n  \"cause\": \"UserMigratedException\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f58d7ac1-938d-4280-8597-78f5f13f80ce",
+              "name": "Rate limit exceeded (per-IP).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    "minecraft",
+                    "profile",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "unsigned",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"ForbiddenOperationException\",\n  \"errorMessage\": \"Invalid token.\",\n  \"cause\": \"UserMigratedException\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "eff36b38-7d8d-493d-a98b-51b6768dd92d",
+    "name": "Minecraft Services Attributes Textures API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

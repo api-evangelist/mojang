@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Minecraft Services Attributes Friends API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Friends",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Friends",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/friends",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": "\"a1b2c3\""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the authenticated player's friends list plus incoming and outgoing friend requests. Supports If-None-Match for ETag caching."
+        },
+        {
+          "info": {
+            "name": "Update Friends",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.minecraftservices.com/friends",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add or remove a friend by profile name or UUID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

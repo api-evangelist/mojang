@@ -1,0 +1,862 @@
+{
+  "item": [
+    {
+      "id": "506c606f-3d9c-4d25-ac2b-a1cd041087b9",
+      "name": "Identity",
+      "description": {
+        "content": "Player UUID and username lookup",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "84fcce69-b70a-45d5-98c0-ea4a67013fd9",
+          "name": "Lookup Profile by Name",
+          "request": {
+            "name": "Lookup Profile by Name",
+            "description": {
+              "content": "Modern equivalent of the legacy api.mojang.com username-to-UUID lookup.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "lookup",
+                "name",
+                ":username"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) Case-insensitive Minecraft username."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b06ff7b2-f1e0-4a42-87bf-120f23c719f6",
+              "name": "Profile match.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    "name",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Case-insensitive Minecraft username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d87b703-504a-4052-8e85-546ab6715551",
+              "name": "Username not currently in use.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    "name",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Case-insensitive Minecraft username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1dce64d9-87b1-4c90-82d4-b31e3ae7dd3e",
+          "name": "Lookup Profile by UUID",
+          "request": {
+            "name": "Lookup Profile by UUID",
+            "description": {
+              "content": "Resolve a Minecraft username from a player UUID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "lookup",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bcc8f22a-025b-4d1a-b262-7de2b84d3b87",
+              "name": "Profile match.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f65bba6e-dfe3-4f91-8294-1835f381a65d",
+              "name": "UUID has no matching profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) Player UUID (hyphenated or unhyphenated)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "53e6c832-de64-4151-aeb4-51af884ed941",
+          "name": "Lookup Profiles Bulk by Name",
+          "request": {
+            "name": "Lookup Profiles Bulk by Name",
+            "description": {
+              "content": "Resolve up to ten usernames to profiles in a single request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "lookup",
+                "bulk",
+                "byname"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0047a37d-befe-4d54-ad12-184259a574b5",
+              "name": "Resolved profiles.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    "bulk",
+                    "byname"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"jeb_\",\n  \"Dinnerbone\",\n  \"Notch\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"name\": \"jeb_\"\n  },\n  {\n    \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"name\": \"jeb_\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0bfef61d-deab-4b8c-b19f-2975fa6221ea",
+              "name": "Empty array or more than ten usernames.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "lookup",
+                    "bulk",
+                    "byname"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"jeb_\",\n  \"Dinnerbone\",\n  \"Notch\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "55d4016b-78b3-4984-a049-c45e89c8aff8",
+          "name": "Get Profile by Username",
+          "request": {
+            "name": "Get Profile by Username",
+            "description": {
+              "content": "Look up a Minecraft player's UUID and profile metadata by their case-insensitive username. Returns 204 / 404 when the username is not currently in use by any account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                "profiles",
+                "minecraft",
+                ":username"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) Case-insensitive Minecraft username."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bbb06881-d0d7-4e51-9912-92494bd35f2b",
+              "name": "Profile found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    "profiles",
+                    "minecraft",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Case-insensitive Minecraft username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"legacy\": false,\n  \"demo\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1c3d195a-0105-4900-bf8e-21e44aac9b87",
+              "name": "No profile matched the requested username.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    "profiles",
+                    "minecraft",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Case-insensitive Minecraft username."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a785fdf6-5374-4194-80e6-fa7906293d2d",
+              "name": "Invalid username supplied.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    "profiles",
+                    "minecraft",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Case-insensitive Minecraft username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"IllegalArgumentException\",\n  \"errorMessage\": \"Path /users/profiles/minecraft/ is invalid.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2941894-b6de-4de7-ba77-7f60dc813d7d",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    "profiles",
+                    "minecraft",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Case-insensitive Minecraft username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"IllegalArgumentException\",\n  \"errorMessage\": \"Path /users/profiles/minecraft/ is invalid.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "50a8aa62-6c3c-43d9-9f0f-681882e79984",
+          "name": "Get Profiles by Usernames (Bulk)",
+          "request": {
+            "name": "Get Profiles by Usernames (Bulk)",
+            "description": {
+              "content": "Resolve a list of up to ten Minecraft usernames to their profiles in a single request. Names with no matching account are omitted from the response array.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "profiles",
+                "minecraft"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1ae98bb0-9ec7-40d4-98f7-b7838d8344b2",
+              "name": "Resolved profiles for the supplied usernames.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "profiles",
+                    "minecraft"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"jeb_\",\n  \"Dinnerbone\",\n  \"Notch\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"name\": \"jeb_\",\n    \"legacy\": false,\n    \"demo\": false\n  },\n  {\n    \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n    \"name\": \"jeb_\",\n    \"legacy\": false,\n    \"demo\": false\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "07fd9a87-df44-4d90-94b7-f602373349a5",
+              "name": "Empty array or more than ten usernames supplied.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "profiles",
+                    "minecraft"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"jeb_\",\n  \"Dinnerbone\",\n  \"Notch\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"IllegalArgumentException\",\n  \"errorMessage\": \"Path /users/profiles/minecraft/ is invalid.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b4d62c3-3dcf-431e-832c-622703911c32",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "profiles",
+                    "minecraft"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"jeb_\",\n  \"Dinnerbone\",\n  \"Notch\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"IllegalArgumentException\",\n  \"errorMessage\": \"Path /users/profiles/minecraft/ is invalid.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6b80c426-7dd0-4f9a-b859-1e47645bb3f2",
+    "name": "Minecraft Services Attributes Identity API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}

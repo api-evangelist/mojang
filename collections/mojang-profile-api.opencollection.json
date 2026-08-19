@@ -1,0 +1,128 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Minecraft Services Attributes Profile API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Profile",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Authenticated Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/minecraft/profile",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the signed-in player's own profile including UUID, name, owned skins, and owned capes."
+        },
+        {
+          "info": {
+            "name": "Get Name Change Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/minecraft/profile/namechange",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the player's name-change cooldown state — last-change date, creation date, and whether a change is currently allowed."
+        },
+        {
+          "info": {
+            "name": "Check Name Availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/minecraft/profile/name/:name/available",
+            "params": [
+              {
+                "name": "name",
+                "value": "NewName123",
+                "type": "path",
+                "description": "Candidate username."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Check whether a desired username is available, duplicate, or otherwise not allowed. Rate-limited to roughly 20 requests per five minutes per account."
+        },
+        {
+          "info": {
+            "name": "Change Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.minecraftservices.com/minecraft/profile/name/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "NewName123",
+                "type": "path",
+                "description": "New username."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Change the authenticated player's username."
+        },
+        {
+          "info": {
+            "name": "Get Name History (Deprecated)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/user/profiles/:uuid/names",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "853c80ef3c3749fdaa49938b674adae6",
+                "type": "path",
+                "description": "Player UUID (with or without hyphens)."
+              }
+            ]
+          },
+          "docs": "Returns the full name-change history for the player identified by UUID. Deprecated and disabled by Mojang on 13 September 2022 — the endpoint now returns 410 Gone for all callers. Documented for historical reference and archival research."
+        },
+        {
+          "info": {
+            "name": "Get Sale Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.minecraftservices.com/orders/statistics",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns aggregate sale and revenue statistics across one or more Mojang product SKUs (Minecraft, Minecraft Realms, Minecraft Bedrock, Cobalt, etc.). Public, unauthenticated."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

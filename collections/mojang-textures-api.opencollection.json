@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Minecraft Services Attributes Textures API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Textures",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Session Profile (Skin and Cape)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.minecraftservices.com/session/minecraft/profile/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "853c80ef3c3749fdaa49938b674adae6",
+                "type": "path",
+                "description": "Player UUID (hyphenated or unhyphenated)."
+              },
+              {
+                "name": "unsigned",
+                "value": "false",
+                "type": "query",
+                "description": "Set to false to include the Mojang signature on each property. When omitted, properties are returned without signature."
+              }
+            ]
+          },
+          "docs": "Returns the player's session profile including the Base64-encoded textures property holding skin and cape URLs. Pass unsigned=false to receive a signed payload that includes Mojang's RSA signature."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

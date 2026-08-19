@@ -1,0 +1,436 @@
+{
+  "item": [
+    {
+      "id": "6edbe62f-fd50-4523-a47d-01b9241c1d39",
+      "name": "Skins",
+      "description": {
+        "content": "Skin selection, upload, and reset",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f0511053-2ea3-4edd-bae0-860b8cc2f47a",
+          "name": "Change Skin",
+          "request": {
+            "name": "Change Skin",
+            "description": {
+              "content": "Set the player's active skin. Accepts either a URL pointing to the skin image (JSON body) or a multipart upload of the image file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "skins"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "variant",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required)  (This can only be one of classic,slim)"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) PNG skin image upload."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a42f2a7d-49d5-47ec-907c-085e296d1fbf",
+              "name": "Updated profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of classic,slim)",
+                        "type": "text/plain"
+                      },
+                      "key": "variant",
+                      "value": "classic",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) PNG skin image upload.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"skins\": [\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    },\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    }\n  ],\n  \"capes\": [\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    },\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c71fd505-3b55-440d-b178-aac091abb6a0",
+              "name": "Invalid skin payload.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of classic,slim)",
+                        "type": "text/plain"
+                      },
+                      "key": "variant",
+                      "value": "classic",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) PNG skin image upload.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0cbb5a0-4ae9-4de7-94fa-2c0fbce1b536",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of classic,slim)",
+                        "type": "text/plain"
+                      },
+                      "key": "variant",
+                      "value": "classic",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) PNG skin image upload.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "688d51a2-a723-4ea3-a355-bdb6b1318550",
+          "name": "Reset Skin",
+          "request": {
+            "name": "Reset Skin",
+            "description": {
+              "content": "Reset the player's skin to the default Minecraft skin (Steve / Alex).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minecraft",
+                "profile",
+                "skins",
+                "active"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3d69dbcb-cda3-49da-bf78-88d57d8cb777",
+              "name": "Updated profile.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"853c80ef3c3749fdaa49938b674adae6\",\n  \"name\": \"jeb_\",\n  \"skins\": [\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    },\n    {\n      \"id\": \"cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/abc123...\",\n      \"variant\": \"CLASSIC\",\n      \"textureKey\": \"abc123def456...\",\n      \"alias\": \"Steve\"\n    }\n  ],\n  \"capes\": [\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    },\n    {\n      \"id\": \"1981aad373fa9754\",\n      \"state\": \"ACTIVE\",\n      \"url\": \"https://textures.minecraft.net/texture/cape123...\",\n      \"alias\": \"Migrator\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aab065db-ae1f-4622-ad4b-c5928aa678ba",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minecraft",
+                    "profile",
+                    "skins",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/minecraft/profile/lookup/name/zzzzzzzzzzzzzz\",\n  \"errorType\": \"NOT_FOUND\",\n  \"error\": \"NOT_FOUND\",\n  \"errorMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\",\n  \"developerMessage\": \"Couldn't find any profile with name zzzzzzzzzzzzzz\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.minecraftservices.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0a0e6183-0669-4552-ade7-44c047c3fedb",
+    "name": "Minecraft Services Attributes Skins API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.\n\nContact Support:\n Name: Mojang Studios",
+      "type": "text/plain"
+    }
+  }
+}
