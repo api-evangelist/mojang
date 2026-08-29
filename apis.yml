@@ -9,6 +9,19 @@ description: >-
   read endpoints are public and unauthenticated; player-account endpoints require a Bearer Minecraft access token
   obtained via the Xbox Live / XSTS authentication chain.
 url: https://minecraft.wiki/w/Mojang_API
+deliveryModel:
+  model: self-hosted
+  license: MIT
+  open_source: true
+  commercial: false
+  callable_host: true
+  label: Self-hosted open source · you run it yourself
+  confidence: high
+  source:
+  - license
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
