@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Minecraft Services Attributes Skins API
+  title: Minecraft Services Skins API
   description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
   version: 1.0.0
   contact:
@@ -125,6 +125,75 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    Skin:
+      type: object
+      description: A skin owned by the authenticated player.
+      required:
+      - id
+      - state
+      - url
+      - variant
+      properties:
+        id:
+          type: string
+          description: Skin UUID.
+          example: cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          example: ACTIVE
+        url:
+          type: string
+          format: uri
+          description: Texture URL.
+          example: https://textures.minecraft.net/texture/abc123...
+        textureKey:
+          type: string
+          description: Texture content hash.
+          example: abc123def456...
+        variant:
+          type: string
+          enum:
+          - CLASSIC
+          - SLIM
+          example: CLASSIC
+        alias:
+          type: string
+          description: Skin alias / nickname.
+          example: Steve
+    AuthenticatedProfile:
+      type: object
+      description: The authenticated player's own profile with skins and capes.
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current username.
+          example: jeb_
+        skins:
+          type: array
+          description: All skins owned by the player; one is marked ACTIVE.
+          items:
+            $ref: '#/components/schemas/Skin'
+        capes:
+          type: array
+          description: All capes owned by the player; one may be marked ACTIVE.
+          items:
+            $ref: '#/components/schemas/Cape'
+        profileActions:
+          type: array
+          description: Sanctions in effect on the profile (e.g. FORCED_NAME_CHANGE).
+          items:
+            type: string
+          example: []
     Cape:
       type: object
       description: A cape owned by the authenticated player.
@@ -170,75 +239,6 @@ components:
           format: uri
           description: Public URL of the PNG skin image.
           example: https://example.com/skins/my-skin.png
-    AuthenticatedProfile:
-      type: object
-      description: The authenticated player's own profile with skins and capes.
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Player UUID without hyphens.
-          example: 853c80ef3c3749fdaa49938b674adae6
-        name:
-          type: string
-          description: Current username.
-          example: jeb_
-        skins:
-          type: array
-          description: All skins owned by the player; one is marked ACTIVE.
-          items:
-            $ref: '#/components/schemas/Skin'
-        capes:
-          type: array
-          description: All capes owned by the player; one may be marked ACTIVE.
-          items:
-            $ref: '#/components/schemas/Cape'
-        profileActions:
-          type: array
-          description: Sanctions in effect on the profile (e.g. FORCED_NAME_CHANGE).
-          items:
-            type: string
-          example: []
-    Skin:
-      type: object
-      description: A skin owned by the authenticated player.
-      required:
-      - id
-      - state
-      - url
-      - variant
-      properties:
-        id:
-          type: string
-          description: Skin UUID.
-          example: cd9a82a0-0b9c-4f10-8c2a-1b1f87b2af80
-        state:
-          type: string
-          enum:
-          - ACTIVE
-          - INACTIVE
-          example: ACTIVE
-        url:
-          type: string
-          format: uri
-          description: Texture URL.
-          example: https://textures.minecraft.net/texture/abc123...
-        textureKey:
-          type: string
-          description: Texture content hash.
-          example: abc123def456...
-        variant:
-          type: string
-          enum:
-          - CLASSIC
-          - SLIM
-          example: CLASSIC
-        alias:
-          type: string
-          description: Skin alias / nickname.
-          example: Steve
   securitySchemes:
     bearerAuth:
       type: http

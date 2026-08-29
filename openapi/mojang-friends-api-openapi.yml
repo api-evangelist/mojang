@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Minecraft Services Attributes Friends API
+  title: Minecraft Services Friends API
   description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
   version: 1.0.0
   contact:
@@ -111,6 +111,21 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    Profile:
+      type: object
+      description: A Minecraft player profile (id / name pair).
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username.
+          example: jeb_
     FriendUpdateRequest:
       type: object
       description: Body for PUT /friends.
@@ -167,21 +182,6 @@ components:
           format: date-time
           description: When the friendship was established.
           example: '2025-04-12T18:30:00Z'
-    Profile:
-      type: object
-      description: A Minecraft player profile (id / name pair).
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Player UUID without hyphens.
-          example: 853c80ef3c3749fdaa49938b674adae6
-        name:
-          type: string
-          description: Current player username.
-          example: jeb_
   securitySchemes:
     bearerAuth:
       type: http

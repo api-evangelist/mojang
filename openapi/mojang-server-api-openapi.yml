@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Minecraft Services Attributes Server API
-  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  title: Mojang Session Server API
+  description: Mojang's Yggdrasil session server (sessionserver.mojang.com) used in the Minecraft Java Edition login handshake. Exposes the canonical skin and cape texture lookup keyed by UUID, the client-side /join and server-side /hasJoined verification calls, and the SHA-1 blocked-server hash list.
   version: 1.0.0
   contact:
     name: Mojang Studios
@@ -12,8 +12,8 @@ info:
   x-generated-from: documentation
   x-last-validated: '2026-05-30'
 servers:
-- url: https://api.minecraftservices.com
-  description: Microsoft / Minecraft Services API (production)
+- url: https://sessionserver.mojang.com
+  description: Mojang Yggdrasil session server (production)
 security: []
 tags:
 - name: Server
@@ -47,4 +47,4 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'
+      description: Minecraft access token (used in /join request body, not as a header).

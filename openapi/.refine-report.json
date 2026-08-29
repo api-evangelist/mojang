@@ -1,20 +1,9 @@
 {
   "provider": "mojang",
   "sources": [
-    "mojang-attributes-api-openapi.yml",
-    "mojang-authentication-api-openapi.yml",
-    "mojang-blocklist-api-openapi.yml",
-    "mojang-capes-api-openapi.yml",
-    "mojang-entitlements-api-openapi.yml",
-    "mojang-friends-api-openapi.yml",
-    "mojang-identity-api-openapi.yml",
-    "mojang-keys-api-openapi.yml",
-    "mojang-presence-api-openapi.yml",
-    "mojang-profile-api-openapi.yml",
-    "mojang-server-api-openapi.yml",
-    "mojang-session-api-openapi.yml",
-    "mojang-skins-api-openapi.yml",
-    "mojang-textures-api-openapi.yml"
+    "_original/mojang-minecraft-services-openapi.yml",
+    "_original/mojang-public-api-openapi.yml",
+    "_original/mojang-session-server-openapi.yml"
   ],
   "outputs": [
     "mojang-attributes-api-openapi.yml",
@@ -27,14 +16,36 @@
     "mojang-keys-api-openapi.yml",
     "mojang-presence-api-openapi.yml",
     "mojang-profile-api-openapi.yml",
+    "mojang-skins-api-openapi.yml",
     "mojang-server-api-openapi.yml",
     "mojang-session-api-openapi.yml",
-    "mojang-skins-api-openapi.yml",
     "mojang-textures-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "mojang-minecraft-services-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "mojang-public-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "mojang-session-server-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "tag 'Identity' spans 2 source specs (mojang-minecraft-services-openapi.yml, mojang-public-api-openapi.yml): per-path servers applied",
+    "tag 'Profile' spans 2 source specs (mojang-minecraft-services-openapi.yml, mojang-public-api-openapi.yml): per-path servers applied"
+  ],
+  "skipped": [
+    "mojang-attributes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-blocklist-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-capes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-entitlements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-friends-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-identity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-presence-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-profile-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-server-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-session-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-skins-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mojang-textures-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

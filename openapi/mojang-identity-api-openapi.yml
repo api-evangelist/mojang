@@ -1,7 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Minecraft Services Attributes Identity API
-  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  title: Mojang Identity API
   version: 1.0.0
   contact:
     name: Mojang Studios
@@ -11,9 +10,12 @@ info:
     url: https://www.minecraft.net/en-us/usage-guidelines
   x-generated-from: documentation
   x-last-validated: '2026-05-30'
+  description: 'Operations tagged Identity across 2 of this provider''s published API definitions: mojang-minecraft-services-openapi.yml, mojang-public-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.minecraftservices.com
   description: Microsoft / Minecraft Services API (production)
+- url: https://api.mojang.com
+  description: Mojang public API (production)
 security: []
 tags:
 - name: Identity
@@ -50,6 +52,9 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+    servers:
+    - url: https://api.minecraftservices.com
+      description: Microsoft / Minecraft Services API (production)
   /minecraft/profile/lookup/{uuid}:
     get:
       operationId: lookupProfileByUuid
@@ -82,6 +87,9 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+    servers:
+    - url: https://api.minecraftservices.com
+      description: Microsoft / Minecraft Services API (production)
   /minecraft/profile/lookup/bulk/byname:
     post:
       operationId: lookupProfilesBulkByName
@@ -122,6 +130,9 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+    servers:
+    - url: https://api.minecraftservices.com
+      description: Microsoft / Minecraft Services API (production)
   /users/profiles/minecraft/{username}:
     get:
       operationId: getProfileByUsername
@@ -161,6 +172,9 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+    servers:
+    - url: https://api.mojang.com
+      description: Mojang public API (production)
   /profiles/minecraft:
     post:
       operationId: getProfilesByUsernamesBulk
@@ -207,58 +221,11 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+    servers:
+    - url: https://api.mojang.com
+      description: Mojang public API (production)
 components:
   schemas:
-    Profile:
-      type: object
-      description: A Minecraft player profile (id / name pair).
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Player UUID without hyphens.
-          example: 853c80ef3c3749fdaa49938b674adae6
-        name:
-          type: string
-          description: Current player username.
-          example: jeb_
-    Profile_2:
-      type: object
-      description: A Minecraft player profile (id / name pair).
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Player UUID without hyphens.
-          example: 853c80ef3c3749fdaa49938b674adae6
-        name:
-          type: string
-          description: Current player username (case-preserving).
-          example: jeb_
-        legacy:
-          type: boolean
-          description: True if the account has not yet been migrated to Mojang.
-          example: false
-        demo:
-          type: boolean
-          description: True if the account is a free demo account.
-          example: false
-    Error_2:
-      type: object
-      description: Standard Mojang error envelope.
-      properties:
-        error:
-          type: string
-          description: Error class name.
-          example: IllegalArgumentException
-        errorMessage:
-          type: string
-          description: Human-readable error description.
-          example: Path /users/profiles/minecraft/ is invalid.
     Error:
       type: object
       description: Standard Minecraft Services error envelope.
@@ -283,9 +250,62 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    Profile:
+      type: object
+      description: A Minecraft player profile (id / name pair).
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username.
+          example: jeb_
+    Error_2:
+      type: object
+      description: Standard Mojang error envelope.
+      properties:
+        error:
+          type: string
+          description: Error class name.
+          example: IllegalArgumentException
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+          example: Path /users/profiles/minecraft/ is invalid.
+    Profile_2:
+      type: object
+      description: A Minecraft player profile (id / name pair).
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username (case-preserving).
+          example: jeb_
+        legacy:
+          type: boolean
+          description: True if the account has not yet been migrated to Mojang.
+          example: false
+        demo:
+          type: boolean
+          description: True if the account is a free demo account.
+          example: false
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
       description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'
+x-refined-from:
+- mojang-minecraft-services-openapi.yml
+- mojang-public-api-openapi.yml

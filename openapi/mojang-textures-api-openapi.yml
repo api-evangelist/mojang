@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Minecraft Services Attributes Textures API
-  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  title: Mojang Session Server Textures API
+  description: Mojang's Yggdrasil session server (sessionserver.mojang.com) used in the Minecraft Java Edition login handshake. Exposes the canonical skin and cape texture lookup keyed by UUID, the client-side /join and server-side /hasJoined verification calls, and the SHA-1 blocked-server hash list.
   version: 1.0.0
   contact:
     name: Mojang Studios
@@ -12,8 +12,8 @@ info:
   x-generated-from: documentation
   x-last-validated: '2026-05-30'
 servers:
-- url: https://api.minecraftservices.com
-  description: Microsoft / Minecraft Services API (production)
+- url: https://sessionserver.mojang.com
+  description: Mojang Yggdrasil session server (production)
 security: []
 tags:
 - name: Textures
@@ -68,6 +68,41 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Error:
+      type: object
+      description: Standard Mojang error envelope.
+      properties:
+        error:
+          type: string
+          description: Error class name.
+          example: ForbiddenOperationException
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+          example: Invalid token.
+        cause:
+          type: string
+          description: Optional cause classification.
+          example: UserMigratedException
+    SessionProperty:
+      type: object
+      description: A single signed session-profile property (e.g. textures).
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: Property name (typically `textures`).
+          example: textures
+        value:
+          type: string
+          description: Base64-encoded JSON payload (skin / cape URLs and metadata).
+          example: ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9
+        signature:
+          type: string
+          description: Mojang RSA signature of `value`. Present only when the request included `unsigned=false`.
+          example: a1b2c3d4...==
     SessionProfile:
       type: object
       description: A signed session profile with textures and metadata properties.
@@ -95,44 +130,9 @@ components:
           items:
             type: string
             example: FORCED_NAME_CHANGE
-    SessionProperty:
-      type: object
-      description: A single signed session-profile property (e.g. textures).
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: Property name (typically `textures`).
-          example: textures
-        value:
-          type: string
-          description: Base64-encoded JSON payload (skin / cape URLs and metadata).
-          example: ewogICJ0aW1lc3RhbXAiIDogMTcwMDAwMDAwMDAwMCwKICAicHJvZmlsZUlkIiA6IC4uLgp9
-        signature:
-          type: string
-          description: Mojang RSA signature of `value`. Present only when the request included `unsigned=false`.
-          example: a1b2c3d4...==
-    Error:
-      type: object
-      description: Standard Mojang error envelope.
-      properties:
-        error:
-          type: string
-          description: Error class name.
-          example: ForbiddenOperationException
-        errorMessage:
-          type: string
-          description: Human-readable error description.
-          example: Invalid token.
-        cause:
-          type: string
-          description: Optional cause classification.
-          example: UserMigratedException
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: 'Minecraft access token issued by /authentication/login_with_xbox. Used as `Authorization: Bearer {token}`.'
+      description: Minecraft access token (used in /join request body, not as a header).
