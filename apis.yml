@@ -1,5 +1,6 @@
 aid: mojang
 name: Mojang
+x-parent: microsoft-xbox
 description: >-
   Mojang Studios is the developer of Minecraft. The Mojang / Minecraft Services API surface covers Minecraft player
   identity (UUID and profile lookup), skins and capes, name history and name change, server session verification,
