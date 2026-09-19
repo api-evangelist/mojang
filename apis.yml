@@ -51,6 +51,14 @@ tags:
   - Gaming
   - Identity
   - Player Profiles
+  - Sessions
+  - Public APIs
+tags_raw:
+  - Games And Comics
+  - Minecraft
+  - Gaming
+  - Identity
+  - Player Profiles
   - Session
   - Public APIs
 apis:
@@ -168,6 +176,8 @@ apis:
   humanURL: https://minecraft.wiki/w/Mojang_API
   baseURL: https://api.mojang.com
   tags:
+  - Profiles
+  tags_raw:
   - Profile
   properties:
   - type: OpenAPI
@@ -180,6 +190,8 @@ apis:
   humanURL: https://minecraft.wiki/w/Mojang_API
   baseURL: https://api.mojang.com
   tags:
+  - Servers
+  tags_raw:
   - Server
   properties:
   - type: OpenAPI
@@ -192,6 +204,8 @@ apis:
   humanURL: https://minecraft.wiki/w/Mojang_API
   baseURL: https://api.mojang.com
   tags:
+  - Sessions
+  tags_raw:
   - Session
   properties:
   - type: OpenAPI
