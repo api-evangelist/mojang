@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Minecraft Services Entitlements API
-  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com). Covers authenticated player profile management, name change, skin and cape management, player attributes (chat, friends, profanity filter), privacy blocklist, friends graph, presence reporting, signature keypair issuance, public-key publication for chat signature verification, and player entitlement / ownership checks. Most endpoints require a Minecraft Bearer access token obtained via the Xbox Live -> XSTS -> Minecraft authentication chain.
+  description: Microsoft-managed Minecraft Services API (api.minecraftservices.com).
   version: 1.0.0
   contact:
     name: Mojang Studios
@@ -64,6 +64,23 @@ components:
           type: string
           description: Mojang signature for this item.
           example: a1b2c3...
+    Entitlements:
+      type: object
+      description: Account entitlements for Minecraft store items.
+      properties:
+        items:
+          type: array
+          description: Owned entitlement items.
+          items:
+            $ref: '#/components/schemas/EntitlementItem'
+        signature:
+          type: string
+          description: Mojang signature over the items array.
+          example: eyJraWQiOiJhYmMxMjMi...
+        keyId:
+          type: string
+          description: Key identifier used for the signature.
+          example: 1
     Error:
       type: object
       description: Standard Minecraft Services error envelope.
@@ -88,23 +105,6 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
-    Entitlements:
-      type: object
-      description: Account entitlements for Minecraft store items.
-      properties:
-        items:
-          type: array
-          description: Owned entitlement items.
-          items:
-            $ref: '#/components/schemas/EntitlementItem'
-        signature:
-          type: string
-          description: Mojang signature over the items array.
-          example: eyJraWQiOiJhYmMxMjMi...
-        keyId:
-          type: string
-          description: Key identifier used for the signature.
-          example: 1
   securitySchemes:
     bearerAuth:
       type: http

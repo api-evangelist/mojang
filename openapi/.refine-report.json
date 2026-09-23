@@ -1,9 +1,9 @@
 {
   "provider": "mojang",
   "sources": [
-    "_original/mojang-minecraft-services-openapi.yml",
-    "_original/mojang-public-api-openapi.yml",
-    "_original/mojang-session-server-openapi.yml"
+    "_ae-authored/mojang-minecraft-services-openapi.yml",
+    "_ae-authored/mojang-public-api-openapi.yml",
+    "_ae-authored/mojang-session-server-openapi.yml"
   ],
   "outputs": [
     "mojang-attributes-api-openapi.yml",
@@ -25,12 +25,13 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "mojang-minecraft-services-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "mojang-public-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "mojang-session-server-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "tag 'Identity' spans 2 source specs (mojang-minecraft-services-openapi.yml, mojang-public-api-openapi.yml): per-path servers applied",
-    "tag 'Profile' spans 2 source specs (mojang-minecraft-services-openapi.yml, mojang-public-api-openapi.yml): per-path servers applied"
+    "tag 'Profile' spans 2 source specs (mojang-minecraft-services-openapi.yml, mojang-public-api-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "mojang-attributes-api-openapi.yml: previously refined output, superseded by openapi/_original/",

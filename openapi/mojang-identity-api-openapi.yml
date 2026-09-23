@@ -226,6 +226,21 @@ paths:
       description: Mojang public API (production)
 components:
   schemas:
+    Profile:
+      type: object
+      description: A Minecraft player profile (id / name pair).
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username.
+          example: jeb_
     Error:
       type: object
       description: Standard Minecraft Services error envelope.
@@ -250,33 +265,6 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
-    Profile:
-      type: object
-      description: A Minecraft player profile (id / name pair).
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Player UUID without hyphens.
-          example: 853c80ef3c3749fdaa49938b674adae6
-        name:
-          type: string
-          description: Current player username.
-          example: jeb_
-    Error_2:
-      type: object
-      description: Standard Mojang error envelope.
-      properties:
-        error:
-          type: string
-          description: Error class name.
-          example: IllegalArgumentException
-        errorMessage:
-          type: string
-          description: Human-readable error description.
-          example: Path /users/profiles/minecraft/ is invalid.
     Profile_2:
       type: object
       description: A Minecraft player profile (id / name pair).
@@ -300,6 +288,18 @@ components:
           type: boolean
           description: True if the account is a free demo account.
           example: false
+    Error_2:
+      type: object
+      description: Standard Mojang error envelope.
+      properties:
+        error:
+          type: string
+          description: Error class name.
+          example: IllegalArgumentException
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+          example: Path /users/profiles/minecraft/ is invalid.
   securitySchemes:
     bearerAuth:
       type: http
