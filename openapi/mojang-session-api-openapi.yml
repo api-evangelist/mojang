@@ -113,6 +113,22 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Error:
+      type: object
+      description: Standard Mojang error envelope.
+      properties:
+        error:
+          type: string
+          description: Error class name.
+          example: ForbiddenOperationException
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+          example: Invalid token.
+        cause:
+          type: string
+          description: Optional cause classification.
+          example: UserMigratedException
     SessionProperty:
       type: object
       description: A single signed session-profile property (e.g. textures).
@@ -132,26 +148,6 @@ components:
           type: string
           description: Mojang RSA signature of `value`. Present only when the request included `unsigned=false`.
           example: a1b2c3d4...==
-    JoinRequest:
-      type: object
-      description: Body of the client-side /join call.
-      required:
-      - accessToken
-      - selectedProfile
-      - serverId
-      properties:
-        accessToken:
-          type: string
-          description: Minecraft Bearer access token for the player.
-          example: eyJraWQiOiJhYmMxMjMi...
-        selectedProfile:
-          type: string
-          description: Player UUID without hyphens.
-          example: 853c80ef3c3749fdaa49938b674adae6
-        serverId:
-          type: string
-          description: SHA-1 hash computed by the client during the handshake.
-          example: e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b
     SessionProfile:
       type: object
       description: A signed session profile with textures and metadata properties.
@@ -179,22 +175,26 @@ components:
           items:
             type: string
             example: FORCED_NAME_CHANGE
-    Error:
+    JoinRequest:
       type: object
-      description: Standard Mojang error envelope.
+      description: Body of the client-side /join call.
+      required:
+      - accessToken
+      - selectedProfile
+      - serverId
       properties:
-        error:
+        accessToken:
           type: string
-          description: Error class name.
-          example: ForbiddenOperationException
-        errorMessage:
+          description: Minecraft Bearer access token for the player.
+          example: eyJraWQiOiJhYmMxMjMi...
+        selectedProfile:
           type: string
-          description: Human-readable error description.
-          example: Invalid token.
-        cause:
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        serverId:
           type: string
-          description: Optional cause classification.
-          example: UserMigratedException
+          description: SHA-1 hash computed by the client during the handshake.
+          example: e6e0fce6f3a8b7afa3b9eb0a0d3a8e9a4e8c8e1b
   securitySchemes:
     bearerAuth:
       type: http

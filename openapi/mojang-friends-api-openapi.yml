@@ -87,77 +87,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    FriendsList:
-      type: object
-      description: Friends and pending friend requests for the authenticated player.
-      properties:
-        friends:
-          type: array
-          description: Confirmed friends.
-          items:
-            $ref: '#/components/schemas/Friend'
-        incomingRequests:
-          type: array
-          description: Pending inbound friend requests.
-          items:
-            $ref: '#/components/schemas/Friend'
-        outgoingRequests:
-          type: array
-          description: Pending outbound friend requests.
-          items:
-            $ref: '#/components/schemas/Friend'
-        empty:
-          type: boolean
-          description: Convenience flag — true if no friends or requests.
-          example: false
-    FriendUpdateRequest:
-      type: object
-      description: Body for PUT /friends.
-      required:
-      - updateType
-      properties:
-        profileName:
-          type: string
-          description: Friend's username (mutually exclusive with profileId).
-          example: Dinnerbone
-        profileId:
-          type: string
-          description: Friend's UUID (mutually exclusive with profileName).
-          example: 853c80ef3c3749fdaa49938b674adae6
-        updateType:
-          type: string
-          enum:
-          - ADD
-          - REMOVE
-          example: ADD
-    Friend:
-      type: object
-      description: A friend or pending friend.
-      required:
-      - profile
-      properties:
-        profile:
-          $ref: '#/components/schemas/Profile'
-        addedAt:
-          type: string
-          format: date-time
-          description: When the friendship was established.
-          example: '2025-04-12T18:30:00Z'
-    Profile:
-      type: object
-      description: A Minecraft player profile (id / name pair).
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Player UUID without hyphens.
-          example: 853c80ef3c3749fdaa49938b674adae6
-        name:
-          type: string
-          description: Current player username.
-          example: jeb_
     Error:
       type: object
       description: Standard Minecraft Services error envelope.
@@ -182,6 +111,77 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    Friend:
+      type: object
+      description: A friend or pending friend.
+      required:
+      - profile
+      properties:
+        profile:
+          $ref: '#/components/schemas/Profile'
+        addedAt:
+          type: string
+          format: date-time
+          description: When the friendship was established.
+          example: '2025-04-12T18:30:00Z'
+    FriendsList:
+      type: object
+      description: Friends and pending friend requests for the authenticated player.
+      properties:
+        friends:
+          type: array
+          description: Confirmed friends.
+          items:
+            $ref: '#/components/schemas/Friend'
+        incomingRequests:
+          type: array
+          description: Pending inbound friend requests.
+          items:
+            $ref: '#/components/schemas/Friend'
+        outgoingRequests:
+          type: array
+          description: Pending outbound friend requests.
+          items:
+            $ref: '#/components/schemas/Friend'
+        empty:
+          type: boolean
+          description: Convenience flag — true if no friends or requests.
+          example: false
+    Profile:
+      type: object
+      description: A Minecraft player profile (id / name pair).
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username.
+          example: jeb_
+    FriendUpdateRequest:
+      type: object
+      description: Body for PUT /friends.
+      required:
+      - updateType
+      properties:
+        profileName:
+          type: string
+          description: Friend's username (mutually exclusive with profileId).
+          example: Dinnerbone
+        profileId:
+          type: string
+          description: Friend's UUID (mutually exclusive with profileName).
+          example: 853c80ef3c3749fdaa49938b674adae6
+        updateType:
+          type: string
+          enum:
+          - ADD
+          - REMOVE
+          example: ADD
   securitySchemes:
     bearerAuth:
       type: http

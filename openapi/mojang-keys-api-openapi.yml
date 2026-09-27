@@ -63,16 +63,25 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    PublicKeyEntry:
+    PublicKeys:
       type: object
-      description: A single Base64-encoded DER public key entry.
-      required:
-      - publicKey
+      description: Mojang public keys for verifying signatures.
       properties:
-        publicKey:
-          type: string
-          description: Base64-encoded DER public key.
-          example: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...
+        profilePropertyKeys:
+          type: array
+          description: Keys used to verify session-profile property signatures.
+          items:
+            $ref: '#/components/schemas/PublicKeyEntry'
+        playerCertificateKeys:
+          type: array
+          description: Keys used to verify player chat-signature certificates.
+          items:
+            $ref: '#/components/schemas/PublicKeyEntry'
+        authenticationKeys:
+          type: array
+          description: Keys used to verify Mojang authentication tokens.
+          items:
+            $ref: '#/components/schemas/PublicKeyEntry'
     PlayerCertificates:
       type: object
       description: Player keypair payload returned by /player/certificates.
@@ -105,25 +114,6 @@ components:
           format: date-time
           description: Earliest time the client should re-request the keypair.
           example: '2026-05-31T12:00:00Z'
-    PublicKeys:
-      type: object
-      description: Mojang public keys for verifying signatures.
-      properties:
-        profilePropertyKeys:
-          type: array
-          description: Keys used to verify session-profile property signatures.
-          items:
-            $ref: '#/components/schemas/PublicKeyEntry'
-        playerCertificateKeys:
-          type: array
-          description: Keys used to verify player chat-signature certificates.
-          items:
-            $ref: '#/components/schemas/PublicKeyEntry'
-        authenticationKeys:
-          type: array
-          description: Keys used to verify Mojang authentication tokens.
-          items:
-            $ref: '#/components/schemas/PublicKeyEntry'
     Error:
       type: object
       description: Standard Minecraft Services error envelope.
@@ -148,6 +138,16 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    PublicKeyEntry:
+      type: object
+      description: A single Base64-encoded DER public key entry.
+      required:
+      - publicKey
+      properties:
+        publicKey:
+          type: string
+          description: Base64-encoded DER public key.
+          example: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...
   securitySchemes:
     bearerAuth:
       type: http

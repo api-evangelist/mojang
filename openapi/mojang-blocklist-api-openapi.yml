@@ -46,17 +46,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Blocklist:
-      type: object
-      description: Player privacy blocklist.
-      properties:
-        blockedProfiles:
-          type: array
-          description: UUIDs of blocked players.
-          items:
-            type: string
-          example:
-          - 853c80ef3c3749fdaa49938b674adae6
     Error:
       type: object
       description: Standard Minecraft Services error envelope.
@@ -81,6 +70,17 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    Blocklist:
+      type: object
+      description: Player privacy blocklist.
+      properties:
+        blockedProfiles:
+          type: array
+          description: UUIDs of blocked players.
+          items:
+            type: string
+          example:
+          - 853c80ef3c3749fdaa49938b674adae6
   securitySchemes:
     bearerAuth:
       type: http

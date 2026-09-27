@@ -79,20 +79,6 @@ components:
           type: integer
           description: Token lifetime in seconds.
           example: 86400
-    XboxLoginRequest:
-      type: object
-      description: Body for /authentication/login_with_xbox.
-      required:
-      - identityToken
-      properties:
-        identityToken:
-          type: string
-          description: XSTS identity token formatted as `XBL3.0 x={userhash};{token}`.
-          example: XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs...
-        ensureLegacyEnabled:
-          type: boolean
-          description: When true, ensures legacy Mojang accounts can also log in.
-          example: true
     Error:
       type: object
       description: Standard Minecraft Services error envelope.
@@ -117,6 +103,20 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    XboxLoginRequest:
+      type: object
+      description: Body for /authentication/login_with_xbox.
+      required:
+      - identityToken
+      properties:
+        identityToken:
+          type: string
+          description: XSTS identity token formatted as `XBL3.0 x={userhash};{token}`.
+          example: XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs...
+        ensureLegacyEnabled:
+          type: boolean
+          description: When true, ensures legacy Mojang accounts can also log in.
+          example: true
   securitySchemes:
     bearerAuth:
       type: http
