@@ -234,30 +234,24 @@ paths:
       description: Mojang public API (production)
 components:
   schemas:
-    Error:
+    NameChangeInfo:
       type: object
-      description: Standard Minecraft Services error envelope.
+      description: Name-change cooldown information.
       properties:
-        path:
+        changedAt:
           type: string
-          description: Request path that produced the error.
-          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
-        errorType:
+          format: date-time
+          description: ISO 8601 timestamp of the most recent name change.
+          example: '2025-04-12T18:30:00Z'
+        createdAt:
           type: string
-          description: Mojang error class.
-          example: NOT_FOUND
-        error:
-          type: string
-          description: Short error name.
-          example: NOT_FOUND
-        errorMessage:
-          type: string
-          description: Human-readable description.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
-        developerMessage:
-          type: string
-          description: Optional developer-facing message.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+          format: date-time
+          description: ISO 8601 timestamp of the player profile's creation.
+          example: '2014-11-19T12:42:43Z'
+        nameChangeAllowed:
+          type: boolean
+          description: True if a name change is currently allowed.
+          example: true
     Skin:
       type: object
       description: A skin owned by the authenticated player.
@@ -296,6 +290,46 @@ components:
           type: string
           description: Skin alias / nickname.
           example: Steve
+    Cape:
+      type: object
+      description: A cape owned by the authenticated player.
+      required:
+      - id
+      - state
+      - url
+      properties:
+        id:
+          type: string
+          description: Cape UUID.
+          example: 1981aad373fa9754
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          example: ACTIVE
+        url:
+          type: string
+          format: uri
+          description: Cape texture URL.
+          example: https://textures.minecraft.net/texture/cape123...
+        alias:
+          type: string
+          description: Cape display name.
+          example: Migrator
+    NameAvailability:
+      type: object
+      description: Response from the name-availability check.
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          enum:
+          - AVAILABLE
+          - DUPLICATE
+          - NOT_ALLOWED
+          example: AVAILABLE
     AuthenticatedProfile:
       type: object
       description: The authenticated player's own profile with skins and capes.
@@ -327,64 +361,57 @@ components:
           items:
             type: string
           example: []
-    NameAvailability:
+    Error:
       type: object
-      description: Response from the name-availability check.
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    NameChange:
+      type: object
+      description: A historical name-change entry (deprecated endpoint).
       required:
-      - status
+      - name
       properties:
-        status:
+        name:
           type: string
-          enum:
-          - AVAILABLE
-          - DUPLICATE
-          - NOT_ALLOWED
-          example: AVAILABLE
-    NameChangeInfo:
+          description: Player username at the time of the change.
+          example: jeb_
+        changedToAt:
+          type: integer
+          format: int64
+          description: Unix epoch milliseconds at which the player changed to this name. Absent for the original account name.
+          example: 1417597263000
+    Error_2:
       type: object
-      description: Name-change cooldown information.
+      description: Standard Mojang error envelope.
       properties:
-        changedAt:
+        error:
           type: string
-          format: date-time
-          description: ISO 8601 timestamp of the most recent name change.
-          example: '2025-04-12T18:30:00Z'
-        createdAt:
+          description: Error class name.
+          example: IllegalArgumentException
+        errorMessage:
           type: string
-          format: date-time
-          description: ISO 8601 timestamp of the player profile's creation.
-          example: '2014-11-19T12:42:43Z'
-        nameChangeAllowed:
-          type: boolean
-          description: True if a name change is currently allowed.
-          example: true
-    Cape:
-      type: object
-      description: A cape owned by the authenticated player.
-      required:
-      - id
-      - state
-      - url
-      properties:
-        id:
-          type: string
-          description: Cape UUID.
-          example: 1981aad373fa9754
-        state:
-          type: string
-          enum:
-          - ACTIVE
-          - INACTIVE
-          example: ACTIVE
-        url:
-          type: string
-          format: uri
-          description: Cape texture URL.
-          example: https://textures.minecraft.net/texture/cape123...
-        alias:
-          type: string
-          description: Cape display name.
-          example: Migrator
+          description: Human-readable error description.
+          example: Path /users/profiles/minecraft/ is invalid.
     SaleStatistics:
       type: object
       description: Aggregate sale figures.
@@ -402,18 +429,6 @@ components:
           format: float
           description: Recent average sales per second.
           example: 0.85
-    Error_2:
-      type: object
-      description: Standard Mojang error envelope.
-      properties:
-        error:
-          type: string
-          description: Error class name.
-          example: IllegalArgumentException
-        errorMessage:
-          type: string
-          description: Human-readable error description.
-          example: Path /users/profiles/minecraft/ is invalid.
     SaleStatisticsRequest:
       type: object
       description: Filter for the /orders/statistics request.
@@ -434,21 +449,6 @@ components:
           example:
           - item_sold_minecraft
           - prepaid_card_redeemed_minecraft
-    NameChange:
-      type: object
-      description: A historical name-change entry (deprecated endpoint).
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Player username at the time of the change.
-          example: jeb_
-        changedToAt:
-          type: integer
-          format: int64
-          description: Unix epoch milliseconds at which the player changed to this name. Absent for the original account name.
-          example: 1417597263000
   securitySchemes:
     bearerAuth:
       type: http

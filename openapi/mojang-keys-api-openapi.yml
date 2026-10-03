@@ -63,6 +63,40 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    PublicKeyEntry:
+      type: object
+      description: A single Base64-encoded DER public key entry.
+      required:
+      - publicKey
+      properties:
+        publicKey:
+          type: string
+          description: Base64-encoded DER public key.
+          example: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
     PublicKeys:
       type: object
       description: Mojang public keys for verifying signatures.
@@ -114,40 +148,6 @@ components:
           format: date-time
           description: Earliest time the client should re-request the keypair.
           example: '2026-05-31T12:00:00Z'
-    Error:
-      type: object
-      description: Standard Minecraft Services error envelope.
-      properties:
-        path:
-          type: string
-          description: Request path that produced the error.
-          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
-        errorType:
-          type: string
-          description: Mojang error class.
-          example: NOT_FOUND
-        error:
-          type: string
-          description: Short error name.
-          example: NOT_FOUND
-        errorMessage:
-          type: string
-          description: Human-readable description.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
-        developerMessage:
-          type: string
-          description: Optional developer-facing message.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
-    PublicKeyEntry:
-      type: object
-      description: A single Base64-encoded DER public key entry.
-      required:
-      - publicKey
-      properties:
-        publicKey:
-          type: string
-          description: Base64-encoded DER public key.
-          example: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...
   securitySchemes:
     bearerAuth:
       type: http

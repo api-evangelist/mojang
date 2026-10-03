@@ -55,6 +55,28 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    PresenceEntry:
+      type: object
+      description: A friend's current presence.
+      properties:
+        profileId:
+          type: string
+          description: Friend UUID.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        status:
+          type: string
+          enum:
+          - OFFLINE
+          - ONLINE
+          - PLAYING_OFFLINE
+          - PLAYING_HOSTED_SERVER
+          - PLAYING_REALMS
+          - PLAYING_SERVER
+          example: PLAYING_SERVER
+        lastUpdated:
+          type: string
+          format: date-time
+          example: '2026-05-30T12:00:00Z'
     PresenceReport:
       type: object
       description: Body for POST /presence.
@@ -99,28 +121,6 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
-    PresenceEntry:
-      type: object
-      description: A friend's current presence.
-      properties:
-        profileId:
-          type: string
-          description: Friend UUID.
-          example: 853c80ef3c3749fdaa49938b674adae6
-        status:
-          type: string
-          enum:
-          - OFFLINE
-          - ONLINE
-          - PLAYING_OFFLINE
-          - PLAYING_HOSTED_SERVER
-          - PLAYING_REALMS
-          - PLAYING_SERVER
-          example: PLAYING_SERVER
-        lastUpdated:
-          type: string
-          format: date-time
-          example: '2026-05-30T12:00:00Z'
   securitySchemes:
     bearerAuth:
       type: http

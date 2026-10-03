@@ -77,74 +77,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    FriendsPreferences:
-      type: object
-      description: Friends-graph privacy settings.
-      properties:
-        allowFriendRequests:
-          type: boolean
-          description: Whether other players may send friend requests.
-          example: true
-    ProfanityFilterPreferences:
-      type: object
-      description: Profanity filter settings.
-      properties:
-        profanityFilterOn:
-          type: boolean
-          description: Master toggle for the profanity filter on inbound chat.
-          example: true
-    PlayerAttributesUpdate:
-      type: object
-      description: Patch payload for updating player attributes.
-      properties:
-        profanityFilterPreferences:
-          $ref: '#/components/schemas/ProfanityFilterPreferences'
-        friendsPreferences:
-          $ref: '#/components/schemas/FriendsPreferences'
-    Error:
-      type: object
-      description: Standard Minecraft Services error envelope.
-      properties:
-        path:
-          type: string
-          description: Request path that produced the error.
-          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
-        errorType:
-          type: string
-          description: Mojang error class.
-          example: NOT_FOUND
-        error:
-          type: string
-          description: Short error name.
-          example: NOT_FOUND
-        errorMessage:
-          type: string
-          description: Human-readable description.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
-        developerMessage:
-          type: string
-          description: Optional developer-facing message.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
-    PlayerAttributes:
-      type: object
-      description: Account-level player attributes.
-      properties:
-        privileges:
-          $ref: '#/components/schemas/PrivilegeMap'
-        profanityFilterPreferences:
-          $ref: '#/components/schemas/ProfanityFilterPreferences'
-        friendsPreferences:
-          $ref: '#/components/schemas/FriendsPreferences'
-        banStatus:
-          $ref: '#/components/schemas/BanStatus'
-    BanStatus:
-      type: object
-      description: Active ban / suspension status, if any.
-      properties:
-        bannedScopes:
-          type: object
-          additionalProperties: true
-          description: Map of scope -> ban metadata.
     PrivilegeMap:
       type: object
       description: Flag map of account privileges.
@@ -173,6 +105,74 @@ components:
             enabled:
               type: boolean
               example: true
+    FriendsPreferences:
+      type: object
+      description: Friends-graph privacy settings.
+      properties:
+        allowFriendRequests:
+          type: boolean
+          description: Whether other players may send friend requests.
+          example: true
+    ProfanityFilterPreferences:
+      type: object
+      description: Profanity filter settings.
+      properties:
+        profanityFilterOn:
+          type: boolean
+          description: Master toggle for the profanity filter on inbound chat.
+          example: true
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    BanStatus:
+      type: object
+      description: Active ban / suspension status, if any.
+      properties:
+        bannedScopes:
+          type: object
+          additionalProperties: true
+          description: Map of scope -> ban metadata.
+    PlayerAttributes:
+      type: object
+      description: Account-level player attributes.
+      properties:
+        privileges:
+          $ref: '#/components/schemas/PrivilegeMap'
+        profanityFilterPreferences:
+          $ref: '#/components/schemas/ProfanityFilterPreferences'
+        friendsPreferences:
+          $ref: '#/components/schemas/FriendsPreferences'
+        banStatus:
+          $ref: '#/components/schemas/BanStatus'
+    PlayerAttributesUpdate:
+      type: object
+      description: Patch payload for updating player attributes.
+      properties:
+        profanityFilterPreferences:
+          $ref: '#/components/schemas/ProfanityFilterPreferences'
+        friendsPreferences:
+          $ref: '#/components/schemas/FriendsPreferences'
   securitySchemes:
     bearerAuth:
       type: http

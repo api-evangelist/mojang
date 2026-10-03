@@ -101,48 +101,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ChangeSkinRequest:
-      type: object
-      description: JSON body for the URL-based skin-change call.
-      required:
-      - variant
-      - url
-      properties:
-        variant:
-          type: string
-          enum:
-          - classic
-          - slim
-          example: classic
-        url:
-          type: string
-          format: uri
-          description: Public URL of the PNG skin image.
-          example: https://example.com/skins/my-skin.png
-    Error:
-      type: object
-      description: Standard Minecraft Services error envelope.
-      properties:
-        path:
-          type: string
-          description: Request path that produced the error.
-          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
-        errorType:
-          type: string
-          description: Mojang error class.
-          example: NOT_FOUND
-        error:
-          type: string
-          description: Short error name.
-          example: NOT_FOUND
-        errorMessage:
-          type: string
-          description: Human-readable description.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
-        developerMessage:
-          type: string
-          description: Optional developer-facing message.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
     Skin:
       type: object
       description: A skin owned by the authenticated player.
@@ -181,6 +139,33 @@ components:
           type: string
           description: Skin alias / nickname.
           example: Steve
+    Cape:
+      type: object
+      description: A cape owned by the authenticated player.
+      required:
+      - id
+      - state
+      - url
+      properties:
+        id:
+          type: string
+          description: Cape UUID.
+          example: 1981aad373fa9754
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          example: ACTIVE
+        url:
+          type: string
+          format: uri
+          description: Cape texture URL.
+          example: https://textures.minecraft.net/texture/cape123...
+        alias:
+          type: string
+          description: Cape display name.
+          example: Migrator
     AuthenticatedProfile:
       type: object
       description: The authenticated player's own profile with skins and capes.
@@ -212,33 +197,48 @@ components:
           items:
             type: string
           example: []
-    Cape:
+    Error:
       type: object
-      description: A cape owned by the authenticated player.
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    ChangeSkinRequest:
+      type: object
+      description: JSON body for the URL-based skin-change call.
       required:
-      - id
-      - state
+      - variant
       - url
       properties:
-        id:
-          type: string
-          description: Cape UUID.
-          example: 1981aad373fa9754
-        state:
+        variant:
           type: string
           enum:
-          - ACTIVE
-          - INACTIVE
-          example: ACTIVE
+          - classic
+          - slim
+          example: classic
         url:
           type: string
           format: uri
-          description: Cape texture URL.
-          example: https://textures.minecraft.net/texture/cape123...
-        alias:
-          type: string
-          description: Cape display name.
-          example: Migrator
+          description: Public URL of the PNG skin image.
+          example: https://example.com/skins/my-skin.png
   securitySchemes:
     bearerAuth:
       type: http
