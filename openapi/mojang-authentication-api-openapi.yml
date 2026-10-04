@@ -51,44 +51,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    XboxLoginRequest:
-      type: object
-      description: Body for /authentication/login_with_xbox.
-      required:
-      - identityToken
-      properties:
-        identityToken:
-          type: string
-          description: XSTS identity token formatted as `XBL3.0 x={userhash};{token}`.
-          example: XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs...
-        ensureLegacyEnabled:
-          type: boolean
-          description: When true, ensures legacy Mojang accounts can also log in.
-          example: true
-    Error:
-      type: object
-      description: Standard Minecraft Services error envelope.
-      properties:
-        path:
-          type: string
-          description: Request path that produced the error.
-          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
-        errorType:
-          type: string
-          description: Mojang error class.
-          example: NOT_FOUND
-        error:
-          type: string
-          description: Short error name.
-          example: NOT_FOUND
-        errorMessage:
-          type: string
-          description: Human-readable description.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
-        developerMessage:
-          type: string
-          description: Optional developer-facing message.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
     MinecraftAccessToken:
       type: object
       description: Successful response from /authentication/login_with_xbox.
@@ -117,6 +79,44 @@ components:
           type: integer
           description: Token lifetime in seconds.
           example: 86400
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+    XboxLoginRequest:
+      type: object
+      description: Body for /authentication/login_with_xbox.
+      required:
+      - identityToken
+      properties:
+        identityToken:
+          type: string
+          description: XSTS identity token formatted as `XBL3.0 x={userhash};{token}`.
+          example: XBL3.0 x=2535465465465465;eyJhbGciOiJSUzI1NiIs...
+        ensureLegacyEnabled:
+          type: boolean
+          description: When true, ensures legacy Mojang accounts can also log in.
+          example: true
   securitySchemes:
     bearerAuth:
       type: http

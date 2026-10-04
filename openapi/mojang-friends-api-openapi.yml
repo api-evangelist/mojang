@@ -87,19 +87,21 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Friend:
+    Profile:
       type: object
-      description: A friend or pending friend.
+      description: A Minecraft player profile (id / name pair).
       required:
-      - profile
+      - id
+      - name
       properties:
-        profile:
-          $ref: '#/components/schemas/Profile'
-        addedAt:
+        id:
           type: string
-          format: date-time
-          description: When the friendship was established.
-          example: '2025-04-12T18:30:00Z'
+          description: Player UUID without hyphens.
+          example: 853c80ef3c3749fdaa49938b674adae6
+        name:
+          type: string
+          description: Current player username.
+          example: jeb_
     FriendUpdateRequest:
       type: object
       description: Body for PUT /friends.
@@ -144,21 +146,6 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
-    Profile:
-      type: object
-      description: A Minecraft player profile (id / name pair).
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Player UUID without hyphens.
-          example: 853c80ef3c3749fdaa49938b674adae6
-        name:
-          type: string
-          description: Current player username.
-          example: jeb_
     FriendsList:
       type: object
       description: Friends and pending friend requests for the authenticated player.
@@ -182,6 +169,19 @@ components:
           type: boolean
           description: Convenience flag — true if no friends or requests.
           example: false
+    Friend:
+      type: object
+      description: A friend or pending friend.
+      required:
+      - profile
+      properties:
+        profile:
+          $ref: '#/components/schemas/Profile'
+        addedAt:
+          type: string
+          format: date-time
+          description: When the friendship was established.
+          example: '2025-04-12T18:30:00Z'
   securitySchemes:
     bearerAuth:
       type: http

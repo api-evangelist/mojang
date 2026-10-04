@@ -46,6 +46,30 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Error:
+      type: object
+      description: Standard Minecraft Services error envelope.
+      properties:
+        path:
+          type: string
+          description: Request path that produced the error.
+          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
+        errorType:
+          type: string
+          description: Mojang error class.
+          example: NOT_FOUND
+        error:
+          type: string
+          description: Short error name.
+          example: NOT_FOUND
+        errorMessage:
+          type: string
+          description: Human-readable description.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
+        developerMessage:
+          type: string
+          description: Optional developer-facing message.
+          example: Couldn't find any profile with name zzzzzzzzzzzzzz
     EntitlementItem:
       type: object
       description: A single Minecraft entitlement item.
@@ -81,30 +105,6 @@ components:
           type: string
           description: Key identifier used for the signature.
           example: 1
-    Error:
-      type: object
-      description: Standard Minecraft Services error envelope.
-      properties:
-        path:
-          type: string
-          description: Request path that produced the error.
-          example: /minecraft/profile/lookup/name/zzzzzzzzzzzzzz
-        errorType:
-          type: string
-          description: Mojang error class.
-          example: NOT_FOUND
-        error:
-          type: string
-          description: Short error name.
-          example: NOT_FOUND
-        errorMessage:
-          type: string
-          description: Human-readable description.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
-        developerMessage:
-          type: string
-          description: Optional developer-facing message.
-          example: Couldn't find any profile with name zzzzzzzzzzzzzz
   securitySchemes:
     bearerAuth:
       type: http

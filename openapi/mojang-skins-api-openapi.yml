@@ -101,6 +101,33 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Cape:
+      type: object
+      description: A cape owned by the authenticated player.
+      required:
+      - id
+      - state
+      - url
+      properties:
+        id:
+          type: string
+          description: Cape UUID.
+          example: 1981aad373fa9754
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          example: ACTIVE
+        url:
+          type: string
+          format: uri
+          description: Cape texture URL.
+          example: https://textures.minecraft.net/texture/cape123...
+        alias:
+          type: string
+          description: Cape display name.
+          example: Migrator
     Skin:
       type: object
       description: A skin owned by the authenticated player.
@@ -139,33 +166,6 @@ components:
           type: string
           description: Skin alias / nickname.
           example: Steve
-    Cape:
-      type: object
-      description: A cape owned by the authenticated player.
-      required:
-      - id
-      - state
-      - url
-      properties:
-        id:
-          type: string
-          description: Cape UUID.
-          example: 1981aad373fa9754
-        state:
-          type: string
-          enum:
-          - ACTIVE
-          - INACTIVE
-          example: ACTIVE
-        url:
-          type: string
-          format: uri
-          description: Cape texture URL.
-          example: https://textures.minecraft.net/texture/cape123...
-        alias:
-          type: string
-          description: Cape display name.
-          example: Migrator
     AuthenticatedProfile:
       type: object
       description: The authenticated player's own profile with skins and capes.

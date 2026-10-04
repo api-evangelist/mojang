@@ -63,16 +63,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    PublicKeyEntry:
-      type: object
-      description: A single Base64-encoded DER public key entry.
-      required:
-      - publicKey
-      properties:
-        publicKey:
-          type: string
-          description: Base64-encoded DER public key.
-          example: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...
     Error:
       type: object
       description: Standard Minecraft Services error envelope.
@@ -116,6 +106,16 @@ components:
           description: Keys used to verify Mojang authentication tokens.
           items:
             $ref: '#/components/schemas/PublicKeyEntry'
+    PublicKeyEntry:
+      type: object
+      description: A single Base64-encoded DER public key entry.
+      required:
+      - publicKey
+      properties:
+        publicKey:
+          type: string
+          description: Base64-encoded DER public key.
+          example: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC...
     PlayerCertificates:
       type: object
       description: Player keypair payload returned by /player/certificates.

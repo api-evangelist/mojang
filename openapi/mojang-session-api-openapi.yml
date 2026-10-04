@@ -113,6 +113,22 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Error:
+      type: object
+      description: Standard Mojang error envelope.
+      properties:
+        error:
+          type: string
+          description: Error class name.
+          example: ForbiddenOperationException
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+          example: Invalid token.
+        cause:
+          type: string
+          description: Optional cause classification.
+          example: UserMigratedException
     JoinRequest:
       type: object
       description: Body of the client-side /join call.
@@ -152,22 +168,6 @@ components:
           type: string
           description: Mojang RSA signature of `value`. Present only when the request included `unsigned=false`.
           example: a1b2c3d4...==
-    Error:
-      type: object
-      description: Standard Mojang error envelope.
-      properties:
-        error:
-          type: string
-          description: Error class name.
-          example: ForbiddenOperationException
-        errorMessage:
-          type: string
-          description: Human-readable error description.
-          example: Invalid token.
-        cause:
-          type: string
-          description: Optional cause classification.
-          example: UserMigratedException
     SessionProfile:
       type: object
       description: A signed session profile with textures and metadata properties.
