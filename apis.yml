@@ -46,21 +46,21 @@ x-type: company
 x-tier: 2
 x-tier-reason: enriched-from-public-documentation
 tags:
-  - Games And Comics
   - Minecraft
   - Gaming
   - Identity
   - Player Profiles
   - Sessions
   - Public APIs
+  - Video Games
 tags_raw:
-  - Games And Comics
   - Minecraft
   - Gaming
   - Identity
   - Player Profiles
   - Session
   - Public APIs
+  - Video Games
 apis:
 - aid: mojang:mojang-attributes-api
   name: Mojang Attributes API
@@ -382,3 +382,5 @@ solutions:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-tags-removed:
+- Games And Comics
