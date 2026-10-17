@@ -101,33 +101,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Cape:
-      type: object
-      description: A cape owned by the authenticated player.
-      required:
-      - id
-      - state
-      - url
-      properties:
-        id:
-          type: string
-          description: Cape UUID.
-          example: 1981aad373fa9754
-        state:
-          type: string
-          enum:
-          - ACTIVE
-          - INACTIVE
-          example: ACTIVE
-        url:
-          type: string
-          format: uri
-          description: Cape texture URL.
-          example: https://textures.minecraft.net/texture/cape123...
-        alias:
-          type: string
-          description: Cape display name.
-          example: Migrator
     Skin:
       type: object
       description: A skin owned by the authenticated player.
@@ -197,6 +170,51 @@ components:
           items:
             type: string
           example: []
+    Cape:
+      type: object
+      description: A cape owned by the authenticated player.
+      required:
+      - id
+      - state
+      - url
+      properties:
+        id:
+          type: string
+          description: Cape UUID.
+          example: 1981aad373fa9754
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          example: ACTIVE
+        url:
+          type: string
+          format: uri
+          description: Cape texture URL.
+          example: https://textures.minecraft.net/texture/cape123...
+        alias:
+          type: string
+          description: Cape display name.
+          example: Migrator
+    ChangeSkinRequest:
+      type: object
+      description: JSON body for the URL-based skin-change call.
+      required:
+      - variant
+      - url
+      properties:
+        variant:
+          type: string
+          enum:
+          - classic
+          - slim
+          example: classic
+        url:
+          type: string
+          format: uri
+          description: Public URL of the PNG skin image.
+          example: https://example.com/skins/my-skin.png
     Error:
       type: object
       description: Standard Minecraft Services error envelope.
@@ -221,24 +239,6 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
-    ChangeSkinRequest:
-      type: object
-      description: JSON body for the URL-based skin-change call.
-      required:
-      - variant
-      - url
-      properties:
-        variant:
-          type: string
-          enum:
-          - classic
-          - slim
-          example: classic
-        url:
-          type: string
-          format: uri
-          description: Public URL of the PNG skin image.
-          example: https://example.com/skins/my-skin.png
   securitySchemes:
     bearerAuth:
       type: http

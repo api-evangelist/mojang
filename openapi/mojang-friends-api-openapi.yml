@@ -102,6 +102,42 @@ components:
           type: string
           description: Current player username.
           example: jeb_
+    Friend:
+      type: object
+      description: A friend or pending friend.
+      required:
+      - profile
+      properties:
+        profile:
+          $ref: '#/components/schemas/Profile'
+        addedAt:
+          type: string
+          format: date-time
+          description: When the friendship was established.
+          example: '2025-04-12T18:30:00Z'
+    FriendsList:
+      type: object
+      description: Friends and pending friend requests for the authenticated player.
+      properties:
+        friends:
+          type: array
+          description: Confirmed friends.
+          items:
+            $ref: '#/components/schemas/Friend'
+        incomingRequests:
+          type: array
+          description: Pending inbound friend requests.
+          items:
+            $ref: '#/components/schemas/Friend'
+        outgoingRequests:
+          type: array
+          description: Pending outbound friend requests.
+          items:
+            $ref: '#/components/schemas/Friend'
+        empty:
+          type: boolean
+          description: Convenience flag — true if no friends or requests.
+          example: false
     FriendUpdateRequest:
       type: object
       description: Body for PUT /friends.
@@ -146,42 +182,6 @@ components:
           type: string
           description: Optional developer-facing message.
           example: Couldn't find any profile with name zzzzzzzzzzzzzz
-    FriendsList:
-      type: object
-      description: Friends and pending friend requests for the authenticated player.
-      properties:
-        friends:
-          type: array
-          description: Confirmed friends.
-          items:
-            $ref: '#/components/schemas/Friend'
-        incomingRequests:
-          type: array
-          description: Pending inbound friend requests.
-          items:
-            $ref: '#/components/schemas/Friend'
-        outgoingRequests:
-          type: array
-          description: Pending outbound friend requests.
-          items:
-            $ref: '#/components/schemas/Friend'
-        empty:
-          type: boolean
-          description: Convenience flag — true if no friends or requests.
-          example: false
-    Friend:
-      type: object
-      description: A friend or pending friend.
-      required:
-      - profile
-      properties:
-        profile:
-          $ref: '#/components/schemas/Profile'
-        addedAt:
-          type: string
-          format: date-time
-          description: When the friendship was established.
-          example: '2025-04-12T18:30:00Z'
   securitySchemes:
     bearerAuth:
       type: http

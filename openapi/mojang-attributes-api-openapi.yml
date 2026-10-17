@@ -77,14 +77,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    FriendsPreferences:
-      type: object
-      description: Friends-graph privacy settings.
-      properties:
-        allowFriendRequests:
-          type: boolean
-          description: Whether other players may send friend requests.
-          example: true
     BanStatus:
       type: object
       description: Active ban / suspension status, if any.
@@ -93,6 +85,14 @@ components:
           type: object
           additionalProperties: true
           description: Map of scope -> ban metadata.
+    ProfanityFilterPreferences:
+      type: object
+      description: Profanity filter settings.
+      properties:
+        profanityFilterOn:
+          type: boolean
+          description: Master toggle for the profanity filter on inbound chat.
+          example: true
     PlayerAttributes:
       type: object
       description: Account-level player attributes.
@@ -165,13 +165,13 @@ components:
             enabled:
               type: boolean
               example: true
-    ProfanityFilterPreferences:
+    FriendsPreferences:
       type: object
-      description: Profanity filter settings.
+      description: Friends-graph privacy settings.
       properties:
-        profanityFilterOn:
+        allowFriendRequests:
           type: boolean
-          description: Master toggle for the profanity filter on inbound chat.
+          description: Whether other players may send friend requests.
           example: true
   securitySchemes:
     bearerAuth:
