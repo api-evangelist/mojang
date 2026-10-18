@@ -92,6 +92,8 @@ apis:
   humanURL: https://minecraft.wiki/w/Mojang_API
   baseURL: https://api.mojang.com
   tags:
+  - Blacklist
+  tags_raw:
   - Blocklist
   properties:
   - type: OpenAPI
